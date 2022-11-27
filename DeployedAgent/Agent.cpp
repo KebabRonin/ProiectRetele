@@ -9,79 +9,83 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <sys/socket.h>
+#include <vector>
+#include "InfoSource.h"
 
 #define AGENT_PORT 2077
-
-char message[205];
-
-struct Rand {
-    static unsigned int my_state;
-    static int rand() {
-        my_state ^= (my_state << 13);
-        my_state ^= (my_state >> 17);
-        my_state ^= (my_state << 5 );
-        return my_state;
-    }
-};
-
-unsigned int Rand::my_state = 12345;
+#define AGENT_CONN_INFO_SIZE 20
 
 int main(int argc, char* argv[]) {
     if(argc < 2) {
         printf("Usage: %s ip\n", argv[0]);
         return 0;
     }
-    // int nr = atoi(argv[1]);
-    // int logfd = open("log.g",O_WRONLY | O_CREAT | O_TRUNC);
-    // if (logfd < 0) return 1;
-    // int i = 0;
-    // while(i < nr) {
-    //     switch(Rand::rand() % 3) {
-    //         case 0 : strcpy(message,"Connection Refused\n\0"); break;
-    //         case 1 : strcpy(message,"Connected 192.168.2.1\n\0"); break;  // generam eventual 2 ip-uri random
-    //         default: strcpy(message,"Security stuff\n\0"); break;
-    //     }
-    //     if (write(logfd,message,strlen(message)) < 0) {
-    //         printf("My, my...\n");
-    //         break;
-    //     }
-    //     ++i;
-    // }
-    // close(logfd);
 
     int sockfd = socket(AF_INET, SOCK_STREAM, 0);
     if( -1 == sockfd ) {
-        perror("darng'it");
+        perror("socket()");
         return 1;
     }
+
     struct sockaddr_in server_sockaddr;
 
     server_sockaddr.sin_family = AF_INET;
     server_sockaddr.sin_addr.s_addr = inet_addr(argv[1]);
     server_sockaddr.sin_port = htons (AGENT_PORT);
 
-    if ( -1 == connect(sockfd, (struct sockaddr*) &server_sockaddr, sizeof(server_sockaddr))) {
-        perror("Error opening socket");
-        return 1;
+    while ( -1 == connect(sockfd, (struct sockaddr*) &server_sockaddr, sizeof(server_sockaddr))) {
+        perror("Couldn't connect to server");
+        sleep(5);
     }
-    //fork()
-    //dup2(1,sockfd);
-    //execlp("tail","tail","-F","/var/log/syslog");
-    int logfd = open("/var/log/syslog",O_RDONLY);
-    if (logfd < 0) {
-        perror(" ");
-        return 1;
-    }
-    lseek(logfd,0,SEEK_END);
+    printf("Connected to server!\n");
+    char conn_info[AGENT_CONN_INFO_SIZE] = "v0.1";
+    send(sockfd, conn_info, strlen(conn_info), 0);
+
+    std::vector<InfoSource*> sources;
+    sources.push_back(createIS("/var/log/syslog", sockfd));
+
+    printf("Added syslog, listening for commands...\n");
+    pause();
+    char command[MSG_MAX_SIZE];
+    char response[MSG_MAX_SIZE];
+
+    fd_set actfds,readfds;
+
+    FD_ZERO(&actfds);
+    FD_SET(sockfd,&actfds);
+
     while(1) {
-        read(logfd,message,200);
-        if (strlen(message) > 0 ) printf("%s\n",message);
-        if (write(sockfd,message,strlen(message)) < 0) {
-            printf("My, my...\n");
-            break;
+        bcopy ((char *) &actfds, (char *) &readfds, sizeof (readfds));
+        bzero(command,sizeof(command));
+        ///!! ar trebui sa fie un sockfd nou, pus cu TCP pe AGENT_TCP_PORT
+        if (select(sockfd+1, &readfds, nullptr, nullptr, nullptr) < 0) {
+            perror("select()");
+            return 3;
         }
-        memset(message,0,200);
+        if (recv(sockfd,command,sizeof(command),0) < 0) {
+            perror("recv()");
+            return 3;
+        }
+        
+        if(strstr(command, "add ") == command) {
+            InfoSource* to_add = createIS(command + 4, sockfd);
+            if( to_add != nullptr ) {
+                sources.push_back(to_add);
+                ///!send to parent the new id
+                strcpy(response,"Success\0");
+            }
+            else {
+                strcpy(response,"Error\0");
+            }
+            if (send(sockfd, response, strlen(response), 0) < 0) {
+                perror("send()");
+                return 3;
+            }
+            
+        }
+        else {
+            printf("Unknown command:%s\n",command);
+        }
     }
-    close(logfd);
     return 0;
 }

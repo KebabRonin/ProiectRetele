@@ -12,7 +12,7 @@
 #include <errno.h>
 #include <sys/socket.h>
 #include <pthread.h>
-#include "common_definitions.h"
+#include "../common_definitions.h"
 
 #define AGENT_CONN_INFO_SIZE 20
 
@@ -72,7 +72,7 @@ void* Agent::fnc_agent_listener(void* p) {
             break;
         }
         else if(strlen(message) > 0) {
-            //printf("%s\n",message);
+            printf("%s\n",message);
             write(logfd,message,strlen(message));
             bzero( message, sizeof(message) );
         }

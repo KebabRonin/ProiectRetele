@@ -1,7 +1,6 @@
 #include <pthread.h>
 #include <errno.h>
-#define MSG_MAX_SIZE 205
-#define MSG_HEADER_SIZE 0
+#include "../common_definitions.h"
 
 class InfoSource {
     pthread_t tid;
@@ -13,8 +12,7 @@ public:
     const char* path;
     const unsigned char id;
     
-};//Factory methods
-//InfoSource daemon for restarting
+};//InfoSource daemon for restarting
 
 unsigned char InfoSource::globalID = 1;
 
@@ -29,10 +27,10 @@ void* fnc_monitor_infosource(void* p) {
     char* message = package + MSG_HEADER_SIZE;
     printf("Reading log...\n");
     while(1) {
-        //!select readfds pentru performanta?
+        ///!select readfds pentru performanta?
         read(logfd,message,MSG_MAX_SIZE);
         if (strlen(message) > 0 ) {
-            //printf("%s\n",message);
+            printf("%s\n",message);
             if (send(sockfd,package,strlen(message),0) < 0) {
                 perror("Sending message\n");
                 break;

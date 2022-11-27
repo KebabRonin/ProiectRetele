@@ -1,4 +1,5 @@
 #define MSG_MAX_SIZE 205
+#define MSG_HEADER_SIZE 0
 #define AGENT_INBOUND_PORT 2077
 #define AGENT_TCP_PORT 2078
 #define CLIENT_PORT 2048
@@ -14,7 +15,7 @@ int init_server_to_port (int port) {
 
     server_sockaddr.sin_family = AF_INET;
     server_sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    server_sockaddr.sin_port = htons (AGENT_INBOUND_PORT);
+    server_sockaddr.sin_port = htons (port);
 
     int on=1;
     setsockopt(server_sockfd,SOL_SOCKET,SO_REUSEADDR,&on,sizeof(on));
