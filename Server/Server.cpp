@@ -13,6 +13,7 @@
 #include <pthread.h>
 
 #include "AgentDispatcher.cpp"
+#include "ClientDispatcher.cpp"
 
 #define LOG_PATH "logs/"
 
@@ -24,13 +25,13 @@ void create_agent_dispatcher(pthread_t *agent_tid) {
     printf("Made Agent dispatcher\n");
 }
 void create_client_dispatcher(pthread_t *client_tid) {
-    //if ( 0 != pthread_create(client_tid, nullptr, fnc_client_dispatcher, nullptr)) {
-    //    perror("Failed to make Client dispatcher");
-    //    exit(1);
-    //}
+    if ( 0 != pthread_create(client_tid, nullptr, fnc_client_dispatcher, nullptr)) {
+        perror("Failed to make Client dispatcher");
+        exit(1);
+    }
     printf("Made Client dispatcher\n");
 }
-void statistics_calc_thread() {
+void daemon_thread() {
     //compute general statistics occasionally?
 }
 
@@ -47,6 +48,8 @@ void init_files() {
 	}
 }
 
+std::vector<struct Agent*> agent_list;
+
 int main() {
     pthread_t agent_tid, client_tid;
 
@@ -54,7 +57,7 @@ int main() {
 
     create_agent_dispatcher (&agent_tid );
     create_client_dispatcher(&client_tid);
-    //statistics_calc_thread();
+    //daemon_thread();
     pause();
     return 0;
 }

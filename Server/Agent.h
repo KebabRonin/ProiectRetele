@@ -16,10 +16,10 @@
 
 #define AGENT_CONN_INFO_SIZE 20
 
-class Agent {
+struct Agent {
     struct sockaddr_in agent_sockaddr;
     int                agent_sockfd  ;
-    pthread_t agent_tid;
+    int agent_pid;
     //enum AgentType {PC, CellTower, Mobile, IOT} type; //subclasses
     char id[10];
     char version[10];
@@ -28,7 +28,7 @@ class Agent {
     //static void* establish(void*);
     void get_conn_info(char*);
     static void* fnc_agent_listener(void*);
-public:
+
     Agent(sockaddr_in*, int*);
 };
 
@@ -103,9 +103,18 @@ Agent::Agent(sockaddr_in* agentsock, int* agentfd) : agent_sockaddr(*agentsock),
     }
     this->get_conn_info(conn_info);
     rand_id(this->id);
-    if( 0 != pthread_create(&agent_tid, nullptr, fnc_agent_listener, this)) {
-        perror("creating pthread");
-        exit(1);
+    switch (agent_pid = fork()) {
+        case -1:
+            perror("fork");
+            exit(1);
+        case 0:
+            fnc_agent_listener(this);
+            printf("Exited child function\n");
+            exit(3);
     }
+    //if( 0 != pthread_create(&agent_tid, nullptr, fnc_agent_listener, this)) {
+    //    perror("creating pthread");
+    //    exit(1);
+    //}
     
 } 

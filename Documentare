@@ -1,0 +1,35 @@
+Client Actions:
+-Vede toti agentii activi
+-Cere sa vada grafic cu nr de mesaje logate pe minut intr-un interval de timp
+-Adauga o statistica de urmarit
+-Reconfigureaza dashboardul propriu
+-Adauga surse noi de date colectate pentru agentii
+-Cere validarea datelor colectate pe server
+
+Server Actions:
+-Proceseaza queries de la clienti
+-Updateaza statistici
+-Accepta Agenti
+
+Agent Actions:
+-collect and send data
+-recieve commands from server
+
+
+
+
+Classes:
+Cl/Sv: 
++Filter interface
+	File
+	Action
+
+Cl/Sv/Ag:
+	Sv:AddAgent()
+		Generate_Key
+		Sent(client,key)
+		Wait_for(agent,key)
+	Cl:AddAgent()
+		Recv(key)
+	Ag:connectServer()
+		
