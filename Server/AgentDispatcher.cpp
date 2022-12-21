@@ -34,25 +34,23 @@ int init_server_to_port (int port) {
 extern std::vector<Agent*> agent_list;
 
 void* fnc_agent_dispatcher(void*) {
+    int server_sockfd = init_server_to_port(AGENT_CONTROL_PORT);
     
-    struct sockaddr_in agent_sockaddr;  bzero( &agent_sockaddr , sizeof(agent_sockaddr ) );
-    
-
-    int server_sockfd = init_server_to_port(AGENT_INBOUND_PORT);
-    
-    socklen_t len = sizeof(agent_sockaddr);
     int agent_sockfd;
+    struct sockaddr_in agent_sockaddr;
+    socklen_t len = sizeof(agent_sockaddr);
+
     while(1) {
+        bzero( &agent_sockaddr , sizeof(agent_sockaddr) );
+
         agent_sockfd = accept(server_sockfd,(struct sockaddr*) &agent_sockaddr, &len);
         if( agent_sockfd < 0) {
-            perror("accepting");
-            pthread_exit(nullptr);
+            perror("accepting agent connection");
+            //pthread_exit(nullptr);
         }
-        printf("Connection established\n");
-        agent_list.push_back(new Agent(&agent_sockaddr, &agent_sockfd));
-        for(auto i : agent_list) {
-            printf("%s\n",i->id);
-        }
+
+        new Agent(&agent_sockaddr, &agent_sockfd);
+        printf("Connection found\n");
     }
     return nullptr;
 }

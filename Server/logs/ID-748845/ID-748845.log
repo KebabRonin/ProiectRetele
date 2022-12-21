@@ -1,0 +1,2 @@
+Dec  4 15:17:45 kebab-B360M-DS3H kernel: [ 4448.344819] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:17:48 kebab-B360M-DS3H kernel: [ 4451.960784] usb 1-2: reset high-speed USB device number 3 using xhci_hcd

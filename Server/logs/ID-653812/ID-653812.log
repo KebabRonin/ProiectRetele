@@ -1,0 +1,28 @@
+Dec  4 15:09:14 kebab-B360M-DS3H kernel: [ 3937.426140] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:09:17 kebab-B360M-DS3H kernel: [ 3941.038186] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:09:21 kebab-B360M-DS3H kernel: [ 3944.654183] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:09:25 kebab-B360M-DS3H kernel: [ 3948.282189] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:09:28 kebab-B360M-DS3H kernel: [ 3951.902182] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:09:32 kebab-B360M-DS3H kernel: [ 3955.518187] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:09:36 kebab-B360M-DS3H kernel: [ 3959.134209] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:09:39 kebab-B360M-DS3H kernel: [ 3962.750226] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:09:42 kebab-B360M-DS3H systemd[1038]: Started VTE child process 8493 launched by gnome-terminal-server process 8372.
+Dec  4 15:09:43 kebab-B360M-DS3H kernel: [ 3966.366259] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:09:46 kebab-B360M-DS3H kernel: [ 3969.982249] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:09:50 kebab-B360M-DS3H kernel: [ 3973.594234] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:09:54 kebab-B360M-DS3H kernel: [ 3977.206279] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:09:57 kebab-B360M-DS3H kernel: [ 3980.822304] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:10:01 kebab-B360M-DS3H kernel: [ 3984.438257] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:10:05 kebab-B360M-DS3H kernel: [ 3988.054318] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:10:08 kebab-B360M-DS3H kernel: [ 3991.670312] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:10:12 kebab-B360M-DS3H kernel: [ 3995.282349] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:10:15 kebab-B360M-DS3H kernel: [ 3998.894311] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:10:19 kebab-B360M-DS3H kernel: [ 4002.510355] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:10:23 kebab-B360M-DS3H kernel: [ 4006.122400] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:10:26 kebab-B360M-DS3H kernel: [ 4009.734411] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:10:30 kebab-B360M-DS3H kernel: [ 4013.350429] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec  4 15:10:33 kebab-B360M-DS3H dbus-daemon[778]: [system] Activating via systemd: service name='org.freedesktop.hostname1' unit='dbus-org.freedesktop.hostname1.service' requested by ':1.126' (uid=1000 pid=8530 comm="gnome-screenshot " label="unconfined")
+Dec  4 15:10:33 kebab-B360M-DS3H systemd[1]: Starting Hostname Service...
+Dec  4 15:10:33 kebab-B360M-DS3H dbus-daemon[778]: [system] Successfully activated service 'org.freedesktop.hostname1'
+Dec  4 15:10:33 kebab-B360M-DS3H systemd[1]: Started Hostname Service.
+Dec  4 15:10:33 kebab-B360M-DS3H kernel: [ 4016.962388] usb 1-2: reset high-speed USB device number 3 using xhci_hcd

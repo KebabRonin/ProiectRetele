@@ -13,7 +13,86 @@
 #include "InfoSource.h"
 
 #define AGENT_PORT 2077
-#define AGENT_CONN_INFO_SIZE 20
+
+pthread_mutex_t my_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+int control_sd, transfer_sd;
+
+void init_control_connection(const char* ip) {
+
+    control_sd = socket(AF_INET, SOCK_STREAM, 0);
+    if( -1 == control_sd ) {
+        perror("socket()");
+        exit(1);
+    }
+
+    struct sockaddr_in server_sockaddr;
+
+    server_sockaddr.sin_family = AF_INET;
+    server_sockaddr.sin_addr.s_addr = inet_addr(ip);
+    server_sockaddr.sin_port = htons (AGENT_CONTROL_PORT);
+
+    while ( -1 == connect(control_sd, (struct sockaddr*) &server_sockaddr, sizeof(server_sockaddr))) {
+        perror("Couldn't connect to server");
+        sleep(5);
+    }
+}
+
+void init_transfer_connection(const char* ip, short int transfer_port) {
+
+    transfer_sd = socket(AF_INET, SOCK_STREAM, 0);
+    if( -1 == transfer_sd ) {
+        perror("socket()");
+        exit(1);
+    }
+
+    struct sockaddr_in server_sockaddr; 
+    bzero(&server_sockaddr, sizeof(server_sockaddr));
+
+    server_sockaddr.sin_family = AF_INET;
+    server_sockaddr.sin_addr.s_addr = inet_addr(ip);
+    server_sockaddr.sin_port = htons (transfer_port);
+
+
+    while ( -1 == connect(transfer_sd, (struct sockaddr*) &server_sockaddr, sizeof(server_sockaddr))) {
+        perror("Couldn't initialise transfer connection to server");
+        sleep(2);
+    }
+}
+
+bool login() {
+    return true;
+}
+
+void init_comms_to_server(const char* ip) {
+
+    init_control_connection(ip);
+
+    if (false == login() ) {
+        printf("Login failed.\n");
+        exit(0);
+    }
+
+    //recieve port for transfer connection
+
+    unsigned short transfer_port;
+
+    if ( 0 >= recv(control_sd, &transfer_port, sizeof(transfer_port), 0) ) {
+        perror("recv");
+        exit(1);
+    }
+
+    //init transfer connection
+    
+    printf("transfer port : %d\n", transfer_port);
+    //transfer_port = ntohs(transfer_port);
+    printf("transfer port : %d\n", transfer_port);
+
+    init_transfer_connection(ip, transfer_port);
+
+    printf("Connected to server!\n");
+}
+
 
 int main(int argc, char* argv[]) {
     if(argc < 2) {
@@ -21,32 +100,15 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    int sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if( -1 == sockfd ) {
-        perror("socket()");
-        return 1;
-    }
+    init_comms_to_server(argv[1]);
 
-    struct sockaddr_in server_sockaddr;
-
-    server_sockaddr.sin_family = AF_INET;
-    server_sockaddr.sin_addr.s_addr = inet_addr(argv[1]);
-    server_sockaddr.sin_port = htons (AGENT_PORT);
-
-    while ( -1 == connect(sockfd, (struct sockaddr*) &server_sockaddr, sizeof(server_sockaddr))) {
-        perror("Couldn't connect to server");
-        sleep(5);
-    }
-    printf("Connected to server!\n");
-    char conn_info[AGENT_CONN_INFO_SIZE] = "v0.1";
-    send(sockfd, conn_info, strlen(conn_info), 0);
-
+    
     std::vector<InfoSource*> sources;
-    sources.push_back(createIS("/var/log/syslog", sockfd));
+    sources.push_back(createIS("/var/log/syslog"));
 
     printf("Added syslog, listening for commands...\n");
     pause();
-    char command[MSG_MAX_SIZE];
+    /*char command[MSG_MAX_SIZE];
     char response[MSG_MAX_SIZE];
 
     fd_set actfds,readfds;
@@ -86,6 +148,6 @@ int main(int argc, char* argv[]) {
         else {
             printf("Unknown command:%s\n",command);
         }
-    }
+    }*/
     return 0;
 }

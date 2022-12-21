@@ -18,7 +18,8 @@
 
 struct Agent {
     struct sockaddr_in agent_sockaddr;
-    int                agent_sockfd  ;
+    int agent_control_sd ;
+    int agent_transfer_sd;
     int agent_pid;
     //enum AgentType {PC, CellTower, Mobile, IOT} type; //subclasses
     char id[10];
@@ -28,9 +29,16 @@ struct Agent {
     //static void* establish(void*);
     void get_conn_info(char*);
     static void* fnc_agent_listener(void*);
+    bool login() {return true;}
+    bool init_transfer_connection();
 
-    Agent(sockaddr_in*, int*);
+    Agent(sockaddr_in* agent_sockaddr, int* agent_transfer_sd);
+
+    friend void* fnc_agent_creator(void*);
 };
+
+#include <vector>
+extern std::vector<Agent*> agent_list;
 
 struct xorRand {
     static unsigned int my_state;
@@ -67,12 +75,12 @@ void* Agent::fnc_agent_listener(void* p) {
     char   message[MSG_MAX_SIZE];
     bzero( message, sizeof(message) );
     while(1) {
-        if(recv(myAgent->agent_sockfd,message,sizeof(message),0) < 0) {
+        if(recv(myAgent->agent_transfer_sd,message,sizeof(message),0) < 0) {
             perror("recv()");
             break;
         }
         else if(strlen(message) > 0) {
-            printf("%s\n",message);
+            //printf("%s\n",message);
             write(logfd,message,strlen(message));
             bzero( message, sizeof(message) );
         }
@@ -95,7 +103,120 @@ void rand_id(char g[]) {
     printf("Generated %s\n",g);
 }
 
-Agent::Agent(sockaddr_in* agentsock, int* agentfd) : agent_sockaddr(*agentsock), agent_sockfd(*agentfd) {
+bool Agent::init_transfer_connection() {
+
+    //create randevous socket
+
+    int agent_transfer_sd_temp = socket(AF_INET, SOCK_STREAM, 0);
+    if ( agent_transfer_sd_temp < 0 ) {
+        perror("creating transfer socket for agent");
+        return false;
+    }
+
+    struct sockaddr_in transfer_sockaddr;
+    transfer_sockaddr.sin_family = AF_INET;
+    transfer_sockaddr.sin_addr.s_addr = htonl(INADDR_ANY);
+    transfer_sockaddr.sin_port = 0;
+
+    if ( 0 > bind(agent_transfer_sd_temp, (struct sockaddr*) &transfer_sockaddr, (socklen_t) sizeof(transfer_sockaddr) ) ) {
+        perror("creating transfer socket for agent");
+        close(agent_transfer_sd_temp);
+        return false;
+    }
+
+    if ( -1 == listen(agent_transfer_sd_temp, 5) ) {
+        perror("Error listening socket");
+        close(agent_transfer_sd_temp);
+        return false;
+    }
+
+    //send port to agent
+
+    struct sockaddr_in randevous; 
+    bzero(&randevous,sizeof(randevous));
+    socklen_t len = sizeof(randevous);
+
+    getsockname(agent_transfer_sd_temp, (struct sockaddr*) &randevous, &len);
+
+    printf("Expecting port: %d\n",randevous.sin_port);
+
+    unsigned short port = htons(randevous.sin_port);
+
+    printf("Expecting port: %d\n",randevous.sin_port);
+
+    if ( 0 > send(agent_control_sd, &port, sizeof(port), 0)) {
+        perror("sending agent control");
+        exit(2);
+    }
+
+    //wait for connection
+
+    struct sockaddr_in ag_temp; 
+    len = sizeof(ag_temp);
+
+    while (1) {
+        
+        bzero(&ag_temp, sizeof(ag_temp));
+
+        agent_transfer_sd = accept(agent_transfer_sd_temp, (struct sockaddr*) &ag_temp, &len);
+        if ( agent_transfer_sd < 0 ) {
+            perror("accepting transfer connection");
+            close(agent_transfer_sd_temp);
+            return false;
+        }
+
+        printf("Myaddr: %d\tHisaddr: %d\n", agent_sockaddr.sin_addr.s_addr, ag_temp.sin_addr.s_addr);
+
+        if(ag_temp.sin_addr.s_addr == agent_sockaddr.sin_addr.s_addr) {
+            printf("Conn accepted\n");
+            break;
+        }
+        else {
+            printf("Unexpected agent connection recieved (expected %d, recieved %d)\n", agent_sockaddr.sin_addr.s_addr, ag_temp.sin_addr.s_addr);
+            close(agent_transfer_sd);
+        }
+
+    }
+    
+    close(agent_transfer_sd_temp);
+    return true;
+}
+
+void* fnc_agent_creator(void* p) {
+    Agent* self = (Agent*) p;
+    pthread_detach(pthread_self());
+    
+    //validate agent
+
+    if ( false == self->login()) {
+        delete self;
+        pthread_exit(nullptr);
+    }
+
+    //init transfer connection
+
+    if ( false == self->init_transfer_connection()) {
+        delete self;
+        pthread_exit(nullptr);
+    }
+
+    //register agent as online
+
+    agent_list.push_back(self);
+
+    printf("Agent online\n");
+    
+    pthread_exit(nullptr);
+}
+
+Agent::Agent(sockaddr_in* agentsock, int* agentfd) : agent_sockaddr(*agentsock), agent_control_sd(*agentfd) {
+    pthread_t temp_tid;
+
+    if( 0 != pthread_create(&temp_tid, nullptr, fnc_agent_creator, this)) {
+       perror("creating pthread");
+       exit(1);
+    }
+    /*
     char conn_info[AGENT_CONN_INFO_SIZE];
     if(recv(agent_sockfd, conn_info,sizeof(conn_info), 0) < 0) {
         perror("recv() conn info");
@@ -111,10 +232,7 @@ Agent::Agent(sockaddr_in* agentsock, int* agentfd) : agent_sockaddr(*agentsock),
             fnc_agent_listener(this);
             printf("Exited child function\n");
             exit(3);
-    }
-    //if( 0 != pthread_create(&agent_tid, nullptr, fnc_agent_listener, this)) {
-    //    perror("creating pthread");
-    //    exit(1);
-    //}
+    }*/
+    
     
 } 
