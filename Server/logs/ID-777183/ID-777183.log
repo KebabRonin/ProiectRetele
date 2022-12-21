@@ -1,6 +1,0 @@
-Dec  4 15:18:46 kebab-B360M-DS3H kernel: [ 4509.913102] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec  4 15:18:50 kebab-B360M-DS3H kernel: [ 4513.529172] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec  4 15:18:51 kebab-B360M-DS3H dbus-daemon[778]: [system] Activating via systemd: service name='org.freedesktop.hostname1' unit='dbus-org.freedesktop.hostname1.service' requested by ':1.132' (uid=1000 pid=9291 comm="gnome-screenshot " label="unconfined")
-Dec  4 15:18:51 kebab-B360M-DS3H systemd[1]: Starting Hostname Service...
-Dec  4 15:18:51 kebab-B360M-DS3H dbus-daemon[778]: [system] Successfully activated service 'org.freedesktop.hostname1'
-Dec  4 15:18:51 kebab-B360M-DS3H systemd[1]: Started Hostname Service.

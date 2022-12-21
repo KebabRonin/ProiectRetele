@@ -29,17 +29,20 @@ void InfoSource::read_entry(int fd, char* message) {
     
     //am citit inainte o parte din urmatorul mesaj
     if ( nullptr != ( p = strchr(message, '\n') ) ) {
+        size_t len =  strlen(p+1);
         strcpy(message, p+1);
+        bzero(message + len, MSG_MAX_SIZE - len);
+        printf("..reduced msg\n");
     }
 
-    int already_read = 0;
+    int already_read = strlen(message);
     int read_now = 0;
 
     //fd_set actfd, readfd;
 
     while( nullptr == ( p = strchr(message, '\n') ) ) {
 
-        read_now = read(fd, message + already_read, MSG_MAX_SIZE - already_read);
+        read_now = read(fd, message + already_read, MSG_MAX_SIZE - already_read - 1);
         
         if (read_now < 0) {
             perror("Reading");
@@ -58,9 +61,9 @@ void InfoSource::read_entry(int fd, char* message) {
         message[already_read] = '\0';
         printf("%d %s..\n",already_read, message);
     }
-    //p[0] = '\0';
-    printf("Final:%s %s\n", p, message);
-    
+    p[0] = '\0';
+    printf("Final:%s\n", message);
+    p[0] = '\n';
     //lseek(fd, SEEK_CUR, -1*strlen(p+1));
     //printf("deleted %ld %s\n",-1*strlen(p+1), p+1);
     
@@ -103,9 +106,9 @@ void* fnc_monitor_infosource(void* p) {
     InfoSource* self = my_arg->self;
     delete (arg*)p;
     
-    char message[2*MSG_MAX_SIZE], parsed_message[MSG_MAX_SIZE];
+    char message[MSG_MAX_SIZE], parsed_message[MSG_MAX_SIZE];
 
-    bzero(message,2*MSG_MAX_SIZE);
+    bzero(message,MSG_MAX_SIZE);
 
     printf("Reading log...\n");
 
@@ -125,6 +128,7 @@ InfoSource::InfoSource(const char* mypath, int logfd) : path(mypath), id(globalI
     p->logfd = logfd; 
     p->self = this;
     fnc_monitor_infosource(p);
+    ///!!
     /*if( 0 != pthread_create(&tid, nullptr, fnc_monitor_infosource, (void*)p)) {
         perror("Failed to make Info Source Monitor");
         exit(1);

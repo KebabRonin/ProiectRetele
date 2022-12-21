@@ -20,7 +20,7 @@ struct Agent {
     struct sockaddr_in agent_sockaddr;
     int agent_control_sd ;
     int agent_transfer_sd;
-    int agent_pid;
+    pthread_t agent_tid;
     //enum AgentType {PC, CellTower, Mobile, IOT} type; //subclasses
     char id[10];
     char version[10];
@@ -82,6 +82,7 @@ void* Agent::fnc_agent_listener(void* p) {
         else if(strlen(message) > 0) {
             //printf("%s\n",message);
             write(logfd,message,strlen(message));
+            write(logfd,"\n",1);
             bzero( message, sizeof(message) );
         }
     }
@@ -200,6 +201,13 @@ void* fnc_agent_creator(void* p) {
         pthread_exit(nullptr);
     }
 
+    //create listener thread
+
+    if( 0 != pthread_create(&self->agent_tid, nullptr, Agent::fnc_agent_listener, self)) {
+       perror("creating pthread");
+       exit(1);
+    }
+
     //register agent as online
 
     agent_list.push_back(self);
@@ -215,24 +223,6 @@ Agent::Agent(sockaddr_in* agentsock, int* agentfd) : agent_sockaddr(*agentsock),
     if( 0 != pthread_create(&temp_tid, nullptr, fnc_agent_creator, this)) {
        perror("creating pthread");
        exit(1);
-    }
-    /*
-    char conn_info[AGENT_CONN_INFO_SIZE];
-    if(recv(agent_sockfd, conn_info,sizeof(conn_info), 0) < 0) {
-        perror("recv() conn info");
-        exit(1);
-    }
-    this->get_conn_info(conn_info);
-    rand_id(this->id);
-    switch (agent_pid = fork()) {
-        case -1:
-            perror("fork");
-            exit(1);
-        case 0:
-            fnc_agent_listener(this);
-            printf("Exited child function\n");
-            exit(3);
-    }*/
-    
+    }    
     
 } 
