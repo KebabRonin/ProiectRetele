@@ -1,0 +1,12 @@
+\d:"DATE" \s:"PC-NAME" NetworkManager[\n:"_"]: <info>  [\n:"nr1".\n:"nr2"] dhcp4 (\s:"INTERFACE"): canceled DHCP transaction
+\d:"DATE" \s:"PC-NAME" NetworkManager[\n:"_"]: <info>  [\n:"nr1".\n:"nr2"] dhcp4 (\s:"INTERFACE"): state changed \s:"OLD-STATE" -> \s:"NEW-STATE"
+\d:"DATE" \s:"PC-NAME" NetworkManager[\n:"_"]: <info>  [\n:"nr1".\n:"nr2"] dhcp4 (\s:"INTERFACE"): option \s:"OPTION" => '\s:"OPTION-VALUE"'
+\d:"DATE" \s:"PC-NAME" NetworkManager[\n:"_"]: <info>  [\n:"nr1".\n:"nr2"] dhcp4 (\s:"INTERFACE"): activation: beginning transaction (timeout in \n:"_" seconds)
+\d:"DATE" \s:"PC-NAME" NetworkManager[\n:"_"]: <info>  [\n:"nr1".\n:"nr2"] device (\s:"INTERFACE"): Activation: starting connection '\s:"CONN-NAME"' (\s:"ID")
+\d:"DATE" \s:"PC-NAME" NetworkManager[\n:"_"]: <info>  [\n:"nr1".\n:"nr2"] device (\s:"INTERFACE"): Activation: successful, device activated.
+\d:"DATE" \s:"PC-NAME" NetworkManager[\n:"_"]: <info>  [\n:"nr1".\n:"nr2"] device (\s:"INTERFACE"): state change: \s:"ORIGINAL-STATE" -> \s:"NEW-STATE" (reason '\s:"REASON"', sys-iface-state: '\s:"IFACE-STATE"')
+\d:"DATE" \s:"PC-NAME" NetworkManager[\n:"_"]: <info>  [\n:"nr1".\n:"nr2"] manager: NetworkManager state is now \s:"STATE"
+
+//default
+
+\d:"DATE" \s:"PC-NAME" \s:"SOURCE": \s:"MESSAGE"

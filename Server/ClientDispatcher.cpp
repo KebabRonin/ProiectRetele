@@ -76,7 +76,7 @@ void* fnc_handle_client(void* p) {
         printf("AGPROP\n");
         for(auto i : agent_list) {
             if(strcmp(i->id, clreq+1) == 0) {
-                sprintf(response,"id:%s\nversion:%s\n",i->id,i->version);
+                sprintf(response,"id:%s\n",i->id);
                 break;
             }
         }

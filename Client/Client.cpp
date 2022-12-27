@@ -13,7 +13,6 @@
 #include <pthread.h>
 #include <sys/wait.h>
 #include "../common_definitions.h"
-#define MSG_MAX_SIZE 205
 
 /*void get_input(char msg[MSG_MAX_SIZE]) {
     while(1) {
@@ -120,5 +119,4 @@ int main(int argc, char* argv[]) {
         default:
             printf("Unsupported widget\n");
     }
-    ///!UDP
 }

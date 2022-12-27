@@ -1,0 +1,174 @@
+Dec 27 21:31:43 kebab-B360M-DS3H kernel: [22329.618298] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 21:31:47 kebab-B360M-DS3H kernel: [22333.238428] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 21:31:50 kebab-B360M-DS3H kernel: [22336.854417] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 21:31:54 kebab-B360M-DS3H kernel: [22340.470443] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.6465] device (enp3s0): state change: activated -> deactivating (reason 'user-requested', sys-iface-state: 'managed')
+Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.6467] manager: NetworkManager state is now DISCONNECTING
+Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.6475] audit: op="device-disconnect" interface="enp3s0" ifindex=2 pid=1420 uid=1000 result="success"
+Dec 27 21:31:54 kebab-B360M-DS3H dbus-daemon[813]: [system] Activating via systemd: service name='org.freedesktop.nm_dispatcher' unit='dbus-org.freedesktop.nm-dispatcher.service' requested by ':1.13' (uid=0 pid=814 comm="/usr/sbin/NetworkManager --no-daemon " label="unconfined")
+Dec 27 21:31:54 kebab-B360M-DS3H systemd[1]: Starting Network Manager Script Dispatcher Service...
+Dec 27 21:31:54 kebab-B360M-DS3H dbus-daemon[813]: [system] Successfully activated service 'org.freedesktop.nm_dispatcher'
+Dec 27 21:31:54 kebab-B360M-DS3H systemd[1]: Started Network Manager Script Dispatcher Service.
+Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.6789] device (enp3s0): state change: deactivating -> disconnected (reason 'user-requested', sys-iface-state: 'managed')
+Dec 27 21:31:54 kebab-B360M-DS3H avahi-daemon[810]: Withdrawing address record for fe80::de82:292:4968:4680 on enp3s0.
+Dec 27 21:31:54 kebab-B360M-DS3H avahi-daemon[810]: Leaving mDNS multicast group on interface enp3s0.IPv6 with address fe80::de82:292:4968:4680.
+Dec 27 21:31:54 kebab-B360M-DS3H avahi-daemon[810]: Interface enp3s0.IPv6 no longer relevant for mDNS.
+Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.7044] dhcp4 (enp3s0): canceled DHCP transaction
+Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.7045] dhcp4 (enp3s0): state changed bound -> done
+Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.7052] dhcp6 (enp3s0): canceled DHCP transaction
+Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.7053] dhcp6 (enp3s0): state changed bound -> done
+Dec 27 21:31:54 kebab-B360M-DS3H avahi-daemon[810]: Withdrawing address record for 192.168.100.15 on enp3s0.
+Dec 27 21:31:54 kebab-B360M-DS3H avahi-daemon[810]: Leaving mDNS multicast group on interface enp3s0.IPv4 with address 192.168.100.15.
+Dec 27 21:31:54 kebab-B360M-DS3H avahi-daemon[810]: Interface enp3s0.IPv4 no longer relevant for mDNS.
+Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.7139] manager: NetworkManager state is now DISCONNECTED
+Dec 27 21:31:54 kebab-B360M-DS3H nm-dispatcher[27745]: run-parts: failed to stat component /etc/network/if-post-down.d/avahi-daemon: No such file or directory
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.3976] device (enp3s0): Activation: starting connection 'Wired connection 1' (b3cca343-ac7d-3b33-9063-83b7b83affdc)
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.3979] audit: op="connection-activate" uuid="b3cca343-ac7d-3b33-9063-83b7b83affdc" name="Wired connection 1" pid=1420 uid=1000 result="success"
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.3982] device (enp3s0): state change: disconnected -> prepare (reason 'none', sys-iface-state: 'managed')
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.3992] manager: NetworkManager state is now CONNECTING
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.3997] device (enp3s0): state change: prepare -> config (reason 'none', sys-iface-state: 'managed')
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.4014] device (enp3s0): state change: config -> ip-config (reason 'none', sys-iface-state: 'managed')
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.4021] dhcp4 (enp3s0): activation: beginning transaction (timeout in 45 seconds)
+Dec 27 21:31:55 kebab-B360M-DS3H avahi-daemon[810]: Joining mDNS multicast group on interface enp3s0.IPv6 with address fe80::de82:292:4968:4680.
+Dec 27 21:31:55 kebab-B360M-DS3H avahi-daemon[810]: New relevant interface enp3s0.IPv6 for mDNS.
+Dec 27 21:31:55 kebab-B360M-DS3H avahi-daemon[810]: Registering new address record for fe80::de82:292:4968:4680 on enp3s0.*.
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5701] dhcp4 (enp3s0): option dhcp_lease_time      => '259200'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5702] dhcp4 (enp3s0): option domain_name_servers  => '192.168.100.1'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5702] dhcp4 (enp3s0): option expiry               => '1672428715'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5702] dhcp4 (enp3s0): option ip_address           => '192.168.100.15'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5702] dhcp4 (enp3s0): option requested_broadcast_address => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5703] dhcp4 (enp3s0): option requested_domain_name => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5703] dhcp4 (enp3s0): option requested_domain_name_servers => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5703] dhcp4 (enp3s0): option requested_domain_search => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5704] dhcp4 (enp3s0): option requested_host_name  => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5704] dhcp4 (enp3s0): option requested_interface_mtu => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H avahi-daemon[810]: Joining mDNS multicast group on interface enp3s0.IPv4 with address 192.168.100.15.
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5704] dhcp4 (enp3s0): option requested_ms_classless_static_routes => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5704] dhcp4 (enp3s0): option requested_nis_domain => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H avahi-daemon[810]: New relevant interface enp3s0.IPv4 for mDNS.
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5705] dhcp4 (enp3s0): option requested_nis_servers => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H avahi-daemon[810]: Registering new address record for 192.168.100.15 on enp3s0.IPv4.
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5705] dhcp4 (enp3s0): option requested_ntp_servers => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5705] dhcp4 (enp3s0): option requested_rfc3442_classless_static_routes => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5705] dhcp4 (enp3s0): option requested_root_path  => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5706] dhcp4 (enp3s0): option requested_routers    => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5706] dhcp4 (enp3s0): option requested_static_routes => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5706] dhcp4 (enp3s0): option requested_subnet_mask => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5706] dhcp4 (enp3s0): option requested_time_offset => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5707] dhcp4 (enp3s0): option requested_wpad       => '1'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5707] dhcp4 (enp3s0): option routers              => '192.168.100.1'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5707] dhcp4 (enp3s0): option subnet_mask          => '255.255.255.0'
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5707] dhcp4 (enp3s0): state changed unknown -> bound
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5746] device (enp3s0): state change: ip-config -> ip-check (reason 'none', sys-iface-state: 'managed')
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5796] device (enp3s0): state change: ip-check -> secondaries (reason 'none', sys-iface-state: 'managed')
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5804] device (enp3s0): state change: secondaries -> activated (reason 'none', sys-iface-state: 'managed')
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5816] manager: NetworkManager state is now CONNECTED_LOCAL
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5847] manager: NetworkManager state is now CONNECTED_SITE
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5854] policy: set 'Wired connection 1' (enp3s0) as default for IPv4 routing and DNS
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5872] device (enp3s0): Activation: successful, device activated.
+Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.7204] manager: NetworkManager state is now CONNECTED_GLOBAL
+Dec 27 21:31:57 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169517.1873] dhcp6 (enp3s0): activation: beginning transaction (timeout in 45 seconds)
+Dec 27 21:31:57 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169517.2132] dhcp6 (enp3s0): state changed unknown -> bound
+Dec 27 21:31:58 kebab-B360M-DS3H kernel: [22344.094492] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 21:34:04 kebab-B360M-DS3H kernel: [22470.791058] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 21:34:08 kebab-B360M-DS3H kernel: [22474.411085] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:32:16 kebab-B360M-DS3H kernel: [25962.137879] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:32:19 kebab-B360M-DS3H kernel: [25965.757889] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:32:23 kebab-B360M-DS3H kernel: [25969.373890] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:32:27 kebab-B360M-DS3H kernel: [25972.993920] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:32:30 kebab-B360M-DS3H kernel: [25976.613899] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:32:34 kebab-B360M-DS3H kernel: [25980.229973] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5407] device (enp3s0): state change: activated -> deactivating (reason 'user-requested', sys-iface-state: 'managed')
+Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5415] manager: NetworkManager state is now DISCONNECTING
+Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5444] audit: op="device-disconnect" interface="enp3s0" ifindex=2 pid=1420 uid=1000 result="success"
+Dec 27 22:32:34 kebab-B360M-DS3H dbus-daemon[813]: [system] Activating via systemd: service name='org.freedesktop.nm_dispatcher' unit='dbus-org.freedesktop.nm-dispatcher.service' requested by ':1.13' (uid=0 pid=814 comm="/usr/sbin/NetworkManager --no-daemon " label="unconfined")
+Dec 27 22:32:34 kebab-B360M-DS3H systemd[1]: Starting Network Manager Script Dispatcher Service...
+Dec 27 22:32:34 kebab-B360M-DS3H dbus-daemon[813]: [system] Successfully activated service 'org.freedesktop.nm_dispatcher'
+Dec 27 22:32:34 kebab-B360M-DS3H systemd[1]: Started Network Manager Script Dispatcher Service.
+Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5783] device (enp3s0): state change: deactivating -> disconnected (reason 'user-requested', sys-iface-state: 'managed')
+Dec 27 22:32:34 kebab-B360M-DS3H avahi-daemon[810]: Withdrawing address record for fe80::de82:292:4968:4680 on enp3s0.
+Dec 27 22:32:34 kebab-B360M-DS3H avahi-daemon[810]: Leaving mDNS multicast group on interface enp3s0.IPv6 with address fe80::de82:292:4968:4680.
+Dec 27 22:32:34 kebab-B360M-DS3H avahi-daemon[810]: Interface enp3s0.IPv6 no longer relevant for mDNS.
+Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5791] dhcp4 (enp3s0): canceled DHCP transaction
+Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5792] dhcp4 (enp3s0): state changed bound -> done
+Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5794] dhcp6 (enp3s0): canceled DHCP transaction
+Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5794] dhcp6 (enp3s0): state changed bound -> done
+Dec 27 22:32:34 kebab-B360M-DS3H avahi-daemon[810]: Withdrawing address record for 192.168.100.15 on enp3s0.
+Dec 27 22:32:34 kebab-B360M-DS3H avahi-daemon[810]: Leaving mDNS multicast group on interface enp3s0.IPv4 with address 192.168.100.15.
+Dec 27 22:32:34 kebab-B360M-DS3H avahi-daemon[810]: Interface enp3s0.IPv4 no longer relevant for mDNS.
+Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5807] manager: NetworkManager state is now DISCONNECTED
+Dec 27 22:32:34 kebab-B360M-DS3H nm-dispatcher[29934]: run-parts: failed to stat component /etc/network/if-post-down.d/avahi-daemon: No such file or directory
+Dec 27 22:32:37 kebab-B360M-DS3H kernel: [25983.845909] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:32:41 kebab-B360M-DS3H kernel: [25987.461979] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:32:44 kebab-B360M-DS3H systemd[1]: systemd-hostnamed.service: Succeeded.
+Dec 27 22:32:45 kebab-B360M-DS3H kernel: [25991.081984] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:32:45 kebab-B360M-DS3H systemd[1]: NetworkManager-dispatcher.service: Succeeded.
+Dec 27 22:32:48 kebab-B360M-DS3H kernel: [25994.698045] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:32:52 kebab-B360M-DS3H kernel: [25998.322052] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:32:55 kebab-B360M-DS3H kernel: [26001.938057] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:32:59 kebab-B360M-DS3H kernel: [26005.554066] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:33:03 kebab-B360M-DS3H kernel: [26009.170109] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:33:06 kebab-B360M-DS3H kernel: [26012.786136] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:33:13 kebab-B360M-DS3H kernel: [26019.410121] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:33:17 kebab-B360M-DS3H kernel: [26023.026144] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:33:20 kebab-B360M-DS3H kernel: [26026.642124] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:33:20 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173200.9173] device (enp3s0): Activation: starting connection 'Wired connection 1' (b3cca343-ac7d-3b33-9063-83b7b83affdc)
+Dec 27 22:33:20 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173200.9176] audit: op="connection-activate" uuid="b3cca343-ac7d-3b33-9063-83b7b83affdc" name="Wired connection 1" pid=1420 uid=1000 result="success"
+Dec 27 22:33:20 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173200.9179] device (enp3s0): state change: disconnected -> prepare (reason 'none', sys-iface-state: 'managed')
+Dec 27 22:33:20 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173200.9188] manager: NetworkManager state is now CONNECTING
+Dec 27 22:33:20 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173200.9193] device (enp3s0): state change: prepare -> config (reason 'none', sys-iface-state: 'managed')
+Dec 27 22:33:20 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173200.9213] device (enp3s0): state change: config -> ip-config (reason 'none', sys-iface-state: 'managed')
+Dec 27 22:33:20 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173200.9219] dhcp4 (enp3s0): activation: beginning transaction (timeout in 45 seconds)
+Dec 27 22:33:20 kebab-B360M-DS3H avahi-daemon[810]: Joining mDNS multicast group on interface enp3s0.IPv6 with address fe80::de82:292:4968:4680.
+Dec 27 22:33:20 kebab-B360M-DS3H avahi-daemon[810]: New relevant interface enp3s0.IPv6 for mDNS.
+Dec 27 22:33:20 kebab-B360M-DS3H avahi-daemon[810]: Registering new address record for fe80::de82:292:4968:4680 on enp3s0.*.
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0216] dhcp4 (enp3s0): option dhcp_lease_time      => '259200'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0216] dhcp4 (enp3s0): option domain_name_servers  => '192.168.100.1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0217] dhcp4 (enp3s0): option expiry               => '1672432400'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0217] dhcp4 (enp3s0): option ip_address           => '192.168.100.15'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0217] dhcp4 (enp3s0): option requested_broadcast_address => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0217] dhcp4 (enp3s0): option requested_domain_name => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0218] dhcp4 (enp3s0): option requested_domain_name_servers => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0218] dhcp4 (enp3s0): option requested_domain_search => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0218] dhcp4 (enp3s0): option requested_host_name  => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0218] dhcp4 (enp3s0): option requested_interface_mtu => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0218] dhcp4 (enp3s0): option requested_ms_classless_static_routes => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0219] dhcp4 (enp3s0): option requested_nis_domain => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0219] dhcp4 (enp3s0): option requested_nis_servers => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0219] dhcp4 (enp3s0): option requested_ntp_servers => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0219] dhcp4 (enp3s0): option requested_rfc3442_classless_static_routes => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0220] dhcp4 (enp3s0): option requested_root_path  => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0220] dhcp4 (enp3s0): option requested_routers    => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0220] dhcp4 (enp3s0): option requested_static_routes => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0220] dhcp4 (enp3s0): option requested_subnet_mask => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0220] dhcp4 (enp3s0): option requested_time_offset => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0221] dhcp4 (enp3s0): option requested_wpad       => '1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0221] dhcp4 (enp3s0): option routers              => '192.168.100.1'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0221] dhcp4 (enp3s0): option subnet_mask          => '255.255.255.0'
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0221] dhcp4 (enp3s0): state changed unknown -> bound
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0248] device (enp3s0): state change: ip-config -> ip-check (reason 'none', sys-iface-state: 'managed')
+Dec 27 22:33:21 kebab-B360M-DS3H avahi-daemon[810]: Joining mDNS multicast group on interface enp3s0.IPv4 with address 192.168.100.15.
+Dec 27 22:33:21 kebab-B360M-DS3H avahi-daemon[810]: New relevant interface enp3s0.IPv4 for mDNS.
+Dec 27 22:33:21 kebab-B360M-DS3H avahi-daemon[810]: Registering new address record for 192.168.100.15 on enp3s0.IPv4.
+Dec 27 22:33:21 kebab-B360M-DS3H dbus-daemon[813]: [system] Activating via systemd: service name='org.freedesktop.nm_dispatcher' unit='dbus-org.freedesktop.nm-dispatcher.service' requested by ':1.13' (uid=0 pid=814 comm="/usr/sbin/NetworkManager --no-daemon " label="unconfined")
+Dec 27 22:33:21 kebab-B360M-DS3H systemd[1]: Starting Network Manager Script Dispatcher Service...
+Dec 27 22:33:21 kebab-B360M-DS3H dbus-daemon[813]: [system] Successfully activated service 'org.freedesktop.nm_dispatcher'
+Dec 27 22:33:21 kebab-B360M-DS3H systemd[1]: Started Network Manager Script Dispatcher Service.
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0607] device (enp3s0): state change: ip-check -> secondaries (reason 'none', sys-iface-state: 'managed')
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0610] device (enp3s0): state change: secondaries -> activated (reason 'none', sys-iface-state: 'managed')
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0615] manager: NetworkManager state is now CONNECTED_LOCAL
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0626] manager: NetworkManager state is now CONNECTED_SITE
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0627] policy: set 'Wired connection 1' (enp3s0) as default for IPv4 routing and DNS
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0636] device (enp3s0): Activation: successful, device activated.
+Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.3928] manager: NetworkManager state is now CONNECTED_GLOBAL
+Dec 27 22:33:23 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173203.1876] dhcp6 (enp3s0): activation: beginning transaction (timeout in 45 seconds)
+Dec 27 22:33:23 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173203.2104] dhcp6 (enp3s0): state changed unknown -> bound
+Dec 27 22:33:27 kebab-B360M-DS3H kernel: [26033.266222] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:33:30 kebab-B360M-DS3H kernel: [26036.882212] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:33:33 kebab-B360M-DS3H systemd[1]: NetworkManager-dispatcher.service: Succeeded.
+Dec 27 22:33:34 kebab-B360M-DS3H kernel: [26040.498213] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:33:38 kebab-B360M-DS3H kernel: [26044.118285] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:33:41 kebab-B360M-DS3H kernel: [26047.742280] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:33:45 kebab-B360M-DS3H kernel: [26051.358308] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:33:49 kebab-B360M-DS3H kernel: [26054.974183] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+Dec 27 22:33:52 kebab-B360M-DS3H kernel: [26058.590342] usb 1-2: reset high-speed USB device number 3 using xhci_hcd

@@ -5,22 +5,26 @@
 extern pthread_mutex_t my_mutex;
 extern int control_sd, transfer_sd;
 
-class InfoSource {
+struct InfoSource {
     pthread_t tid;
+    const char* path;
+    const unsigned char id;
     static unsigned char globalID;
-    InfoSource(const char*, int logfd);
-    ~InfoSource();
-    friend InfoSource* createIS(const char* path);
+
+    int logfd, rulesfd;
+    
     void read_entry(int fd, char* message);
     void parse_entry(char* message, char* parsed_message);
     void send_entry(int sockfd, char* message);
-public:
-    const char* path;
-    const unsigned char id;
-    
-    friend void* fnc_monitor_infosource(void* p);
-};//InfoSource daemon for restarting
+    void unregister();
+
+    InfoSource(const char* path);
+    ~InfoSource();
+};//InfoSource daemon for restarting?
 unsigned char InfoSource::globalID = 'a';
+
+#include <vector>
+extern std::vector<InfoSource*> sources;
 
 struct arg{int logfd; InfoSource* self;};
 
@@ -71,27 +75,32 @@ void InfoSource::read_entry(int fd, char* message) {
 }
 
 void InfoSource::parse_entry(char* message, char* parsed_message) {
-    char* p = strchr(message, '\n');
-    if (p == nullptr) {
-        p = message + strlen(message);
-    }
-    //write(my_parser_prog_sokpairfd, message, strlen(message));
-    //while (..) read(my_parser_prog_sokpairfd, parsed_message);
-    parsed_message[0] = this->id;
-    strncpy(parsed_message+1, message, p - message);
-    printf("parsed\n");
-}
-
-void InfoSource::send_entry(int sockfd, char* message) {
     int len;
     if ( strchr(message, '\n') == nullptr ) {
         len = strlen(message);
     }
     else {
         len = strchr(message, '\n') - message;
-    } 
+    }
+
+    //write(my_parser_prog_sokpairfd, message, strlen(message));
+    //while (..) read(my_parser_prog_sokpairfd, parsed_message);
+
+    bzero(parsed_message, MSG_MAX_SIZE);
+    strcpy(parsed_message,this->path);
+    for ( int i = 0; parsed_message[i] != '\0'; ++i) {
+        if (parsed_message[i] == '/') {
+            parsed_message[i] = '_';
+        }
+    }
+    strcat(parsed_message, "\t"); ///! change \t to \0 in Agent.h too!!!
+    strncat(parsed_message, message, len);
+    printf("parsed\n");
+}
+
+void InfoSource::send_entry(int sockfd, char* message) {
     pthread_mutex_lock(&my_mutex);
-    if (send(sockfd, message, len, 0) < 0) {
+    if (send_varmsg(sockfd, message, strlen(message)) == false) {
         pthread_mutex_unlock(&my_mutex);
         perror("Sending message\n");
         exit(2);
@@ -100,11 +109,18 @@ void InfoSource::send_entry(int sockfd, char* message) {
     printf("sent\n");
 }
 
+void InfoSource::unregister() {
+    int nr_ord = 0;
+    for (auto i : sources) {
+        if ( i == this) {
+            sources.erase(sources.begin() + nr_ord);
+        }
+    }
+    delete this;
+}
+
 void* fnc_monitor_infosource(void* p) {
-    arg* my_arg = (arg*) p;
-    int logfd = my_arg->logfd;
-    InfoSource* self = my_arg->self;
-    delete (arg*)p;
+    InfoSource* self = (InfoSource*) p;
     
     char message[MSG_MAX_SIZE], parsed_message[MSG_MAX_SIZE];
 
@@ -113,54 +129,85 @@ void* fnc_monitor_infosource(void* p) {
     printf("Reading log...\n");
 
     while(1) {
-        self->read_entry(logfd, message);
-        bzero(parsed_message, MSG_MAX_SIZE);
+        self->read_entry(self->logfd, message);
         self->parse_entry(message, parsed_message);
-        self->send_entry(transfer_sd,message); ///!parsed_message!!
+        self->send_entry(transfer_sd,parsed_message);
     }
-    close(logfd);
+    self->unregister();
     return nullptr;
 }
 //pentru sincronizarea cu serverul, ar trebui ca la initializarea unui InfoSource sa se comunice TCP Serverului indexul noului fisier
 //si id ar fi atunci chiar logfd, sa nu se umple tabela cu fd
-InfoSource::InfoSource(const char* mypath, int logfd) : path(mypath), id(globalID++) {
-    arg* p = new arg(); 
-    p->logfd = logfd; 
-    p->self = this;
-    fnc_monitor_infosource(p);
-    ///!!
-    /*if( 0 != pthread_create(&tid, nullptr, fnc_monitor_infosource, (void*)p)) {
+
+void agmsg_ack_new_is(const char id, const char* path) {
+    char ack[MSG_MAX_SIZE]; bzero(ack,sizeof(ack));
+    ack[0] = AGMSG_ACK_NEW_IS;
+    ack[1] = id;
+    size_t len = strlen(path);
+    memcpy(ack + 2, &len, sizeof(len));
+    strcpy(ack+5,path);
+
+    if ( 0 >= send(control_sd, ack, strlen(ack), 0)) {
+        perror("send");
+        exit(2);
+    }
+}
+
+InfoSource::InfoSource(const char* mypath) : path(mypath), id(globalID++) {
+    char name[MSG_MAX_SIZE];
+    sprintf(name, "%s.fmt", path);
+    for ( int i = 0; name[i] != '\0'; ++i) {
+        if (name[i] == '/') {
+            name[i] = '_';
+        }
+    }
+
+    if((rulesfd = open(name, O_RDWR | O_CREAT, 0750)) < 0) {
+        agmsg_ack_new_is(0, "Error: Opening fmt file");
+        close(rulesfd);
+        
+        this->unregister();
+        return;
+    }
+
+    logfd = open(path,O_RDONLY);
+    if (logfd < 0) {
+        perror("Opening InfoSource path");
+        agmsg_ack_new_is(0, "Error: Opening path");
+
+        this->unregister();
+        return;
+    }
+    lseek(logfd,0,SEEK_END);
+
+    if( 0 != pthread_create(&tid, nullptr, fnc_monitor_infosource, (void*)this)) {
         perror("Failed to make Info Source Monitor");
+        this->unregister();
         exit(1);
-    }*/
+    }
+    
+    agmsg_ack_new_is(this->id, this->path);
 }
 
 InfoSource::~InfoSource() {
-    void* retval = 0;
+    void* retval = nullptr;
     int err;
     if( 0 != (err = pthread_tryjoin_np(tid,&retval)) ) {
         if(err == EBUSY) {
             if( 0 != (err = pthread_cancel(tid)) ) {
                 perror("pthread_cancel()");
             }
+            if(  0 != (err = pthread_join(tid, &retval)) ) {
+                perror("pthread_join()");
+            }
         }
         else {
-            perror("pthread_join()");
+            perror("pthread_tryjoin()");
         }
     }
     else {
-        //printf("pthread exited with %d", *(int*)retval);
+        printf("pthread joined\n"/*, *(int*)retval*/);
     }
-}
-
-InfoSource* createIS(const char* path) {
-    int logfd = open(path,O_RDONLY);
-    if (logfd < 0) {
-        perror("Opening InfoSource path");
-        //transmit this to server aswell
-        errno = 0;
-        return nullptr;
-    }
-    lseek(logfd,0,SEEK_END);
-    return new InfoSource(path, logfd);
+    close(rulesfd);
+    close(logfd);
 }

@@ -21,18 +21,15 @@ struct Agent {
     int agent_control_sd ;
     int agent_transfer_sd;
     pthread_t agent_tid;
-    //enum AgentType {PC, CellTower, Mobile, IOT} type; //subclasses
-    char id[10];
-    char version[10];
+    char id[20];
     //char syslog_format[200];
     
-    //static void* establish(void*);
-    void get_conn_info(char*);
     static void* fnc_agent_listener(void*);
-    bool login() {return true;}
+    bool login();
     bool init_transfer_connection();
 
     Agent(sockaddr_in* agent_sockaddr, int* agent_transfer_sd);
+    ~Agent();
 
     friend void* fnc_agent_creator(void*);
 };
@@ -40,68 +37,95 @@ struct Agent {
 #include <vector>
 extern std::vector<Agent*> agent_list;
 
-struct xorRand {
-    static unsigned int my_state;
-    static int rand() {
-        my_state ^= (my_state << 13);
-        my_state ^= (my_state >> 17);
-        my_state ^= (my_state << 5 );
-        return my_state;
-    }
-};
-#include <time.h>
-unsigned int xorRand::my_state = (unsigned int) time(nullptr);
+bool Agent::login() {
+    char conn_info[MSG_MAX_SIZE]; bzero(conn_info, sizeof(conn_info));
 
-void* Agent::fnc_agent_listener(void* p) {
-    Agent* myAgent = (Agent*) p;
-    char log_path[20];
-    sprintf(log_path,"logs/%s",myAgent->id);
+    if ( false == recv_varmsg(agent_control_sd, conn_info)) {
+        return false;
+    }
+
+    printf("%s\n", conn_info);
+
+    char* p = strstr(conn_info, ":");
+    p += 2; //": "
+    bzero(this->id, 20);
+    strncpy(this->id,p,strchr(p,'\n') - p);
+
+    char log_path[50];
+    sprintf(log_path,"logs/%s",this->id);
     if (access(log_path, F_OK) != 0) {
         if(mkdir(log_path,0750) < 0 ) {
             perror("Making path to log");
-            return nullptr;
+            exit(4);
         }
     }
     else if (access(log_path, W_OK | X_OK) < 0) {
         perror("Not enough permissions");
-        return nullptr;
+        exit(4);
     }
-    sprintf(&log_path[strlen(log_path)],"/%s.log", myAgent->id);
-    int logfd = open(log_path,O_WRONLY | O_APPEND | O_CREAT, 0750); //u+rwx g+rx g-w o-rwx
-    if (logfd < 0 && errno != EEXIST) {
-        perror("Opening log");
-        pthread_exit(nullptr);
+
+    strcat(log_path, "/info");
+    printf("\n--\n%s\n", log_path);
+
+    int infofd = open(log_path, O_CREAT | O_TRUNC | O_WRONLY, 0750);
+    
+    if (infofd < 0) {
+        perror("open");
+        exit(4);
     }
+
+    int already_written = 0;
+    while(already_written < strlen(conn_info)) {
+        int wr = write(infofd, conn_info + already_written, strlen(conn_info) - already_written);
+        if (wr <= 0) {
+            perror("write");
+            exit(4);
+        }
+        already_written += wr;
+    }
+    close(infofd);
+    return true;
+}
+
+void* Agent::fnc_agent_listener(void* p) {
+    Agent* myAgent = (Agent*) p;
+    char log_path[100];
+    sprintf(log_path,"logs/%s",myAgent->id);
+    int log_path_base_len = strlen(log_path);
+
+    
+    
     char   message[MSG_MAX_SIZE];
     bzero( message, sizeof(message) );
     while(1) {
-        if(recv(myAgent->agent_transfer_sd,message,sizeof(message),0) < 0) {
-            perror("recv()");
+        if(recv_varmsg(myAgent->agent_transfer_sd,message) == false) {
+            perror("recv_varmsg()");
             break;
         }
         else if(strlen(message) > 0) {
-            //printf("%s\n",message);
-            write(logfd,message,strlen(message));
+            printf("%s;\n",message);
+
+            char* p = strchr(message, '\t'); ///! change \t to \0 in InfoSource.h too!!!
+            *p = '\0';
+
+            sprintf(log_path + log_path_base_len ,"/%s.log", message);
+            printf("%s\n--\n",log_path);
+            int logfd = open(log_path,O_WRONLY | O_APPEND | O_CREAT, 0750); //u+rwx g+rx g-w o-rwx
+            if (logfd < 0) {
+                perror("Opening log");
+                bzero( message, sizeof(message) );
+                continue;
+            }
+
+            write(logfd,p+1,strlen(p+1));
             write(logfd,"\n",1);
+
+            close(logfd);
+
             bzero( message, sizeof(message) );
         }
     }
-    close(logfd);
     return nullptr;
-}
-
-void Agent::get_conn_info(char* conn_info) {
-    strcpy(version,conn_info);
-    printf("version:%s\n",version);
-}
-
-void rand_id(char g[]) {
-    g[0] = 'I', g[1] = 'D', g[2] = '-';
-    for(int i = 3; i < 10 - 1; ++i) {
-        g[i] = '0' + ((unsigned char) xorRand::rand()) %10;
-    }
-    g[10 - 1] = '\0';
-    printf("Generated %s\n",g);
 }
 
 bool Agent::init_transfer_connection() {
@@ -225,4 +249,35 @@ Agent::Agent(sockaddr_in* agentsock, int* agentfd) : agent_sockaddr(*agentsock),
        exit(1);
     }    
     
-} 
+}
+
+Agent::~Agent() {
+    void* retval = nullptr;
+    int err;
+    if( 0 != (err = pthread_tryjoin_np(agent_tid,&retval)) ) {
+        if(err == EBUSY) {
+            if( 0 != (err = pthread_cancel(agent_tid)) ) {
+                perror("pthread_cancel()");
+            }
+            if(  0 != (err = pthread_join(agent_tid, &retval)) ) {
+                perror("pthread_join()");
+            }
+        }
+        else {
+            perror("pthread_tryjoin()");
+        }
+    }
+    else {
+        //printf("pthread exited with %d", *(int*)retval);
+    }
+    close(agent_transfer_sd);
+    close(agent_control_sd);
+    int nr_ordine = 0;
+    for(auto i : agent_list) {
+        if (i == this) {
+        agent_list.erase(agent_list.begin() + nr_ordine);
+        }
+        nr_ordine += 1;
+    }
+}
+    

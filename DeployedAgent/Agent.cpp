@@ -9,6 +9,7 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <sys/socket.h>
+#include <sys/wait.h>
 #include <vector>
 #include "InfoSource.h"
 
@@ -61,6 +62,26 @@ void init_transfer_connection(const char* ip, short int transfer_port) {
 }
 
 bool login() {
+
+    char conn_info[MSG_MAX_SIZE]; bzero(conn_info, sizeof(conn_info));
+
+    int infofd = open("agent.info",O_RDONLY, 0);
+
+    if(infofd < 0) {
+        perror("open");
+        return false;
+    }
+
+    int already_read = 0, rd = 0;
+
+    while (0 < (rd = read(infofd, conn_info + already_read, sizeof(conn_info) - already_read)) ) already_read += rd;
+
+    close(infofd);
+
+    if (false == send_varmsg(control_sd, conn_info, strlen(conn_info))) {
+        printf("Error sending login\n");
+        return false;
+    }
     return true;
 }
 
@@ -77,7 +98,7 @@ void init_comms_to_server(const char* ip) {
 
     unsigned short transfer_port;
 
-    if ( 0 >= recv(control_sd, &transfer_port, sizeof(transfer_port), 0) ) {
+    if ( false == recv_fixed_length(control_sd, (char*)&transfer_port, sizeof(transfer_port)) ) {
         perror("recv");
         exit(1);
     }
@@ -86,13 +107,33 @@ void init_comms_to_server(const char* ip) {
     
     printf("transfer port : %d\n", transfer_port);
     //transfer_port = ntohs(transfer_port);
-    printf("transfer port : %d\n", transfer_port);
+    //printf("transfer port : %d\n", transfer_port);
 
     init_transfer_connection(ip, transfer_port);
 
     printf("Connected to server!\n");
 }
 
+void init_agent_info() {///!XML
+    int infofd = open("agent.info",O_WRONLY | O_CREAT, 0750);
+    int pid;
+    switch(pid = fork()) {
+        case -1:
+            perror("fork");
+            exit(3);
+        case 0 :
+            dup2(infofd, 1);
+            execlp("hostnamectl", "Agent info gatherer", nullptr);
+            perror("execlp");
+            exit(3);
+    }
+
+    waitpid(pid, nullptr, 0);
+    close(infofd);
+
+}
+
+std::vector<InfoSource*> sources;
 
 int main(int argc, char* argv[]) {
     if(argc < 2) {
@@ -100,11 +141,12 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    init_comms_to_server(argv[1]);
+    init_agent_info();
 
+    init_comms_to_server(argv[1]);
     
-    std::vector<InfoSource*> sources;
-    sources.push_back(createIS("/var/log/syslog"));
+    
+    sources.push_back(new InfoSource("/var/log/syslog"));
 
     printf("Added syslog, listening for commands...\n");
     pause();
@@ -129,8 +171,8 @@ int main(int argc, char* argv[]) {
             return 3;
         }
         
-        if(strstr(command, "add ") == command) {
-            InfoSource* to_add = createIS(command + 4, sockfd);
+        if( command[0] == AGMSG_NEW_IS) {
+            InfoSource* to_add = createIS(command + 1, sockfd);
             if( to_add != nullptr ) {
                 sources.push_back(to_add);
                 ///!send to parent the new id
