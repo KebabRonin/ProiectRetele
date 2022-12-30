@@ -1,174 +1,1870 @@
-Dec 27 21:31:43 kebab-B360M-DS3H kernel: [22329.618298] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 21:31:47 kebab-B360M-DS3H kernel: [22333.238428] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 21:31:50 kebab-B360M-DS3H kernel: [22336.854417] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 21:31:54 kebab-B360M-DS3H kernel: [22340.470443] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.6465] device (enp3s0): state change: activated -> deactivating (reason 'user-requested', sys-iface-state: 'managed')
-Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.6467] manager: NetworkManager state is now DISCONNECTING
-Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.6475] audit: op="device-disconnect" interface="enp3s0" ifindex=2 pid=1420 uid=1000 result="success"
-Dec 27 21:31:54 kebab-B360M-DS3H dbus-daemon[813]: [system] Activating via systemd: service name='org.freedesktop.nm_dispatcher' unit='dbus-org.freedesktop.nm-dispatcher.service' requested by ':1.13' (uid=0 pid=814 comm="/usr/sbin/NetworkManager --no-daemon " label="unconfined")
-Dec 27 21:31:54 kebab-B360M-DS3H systemd[1]: Starting Network Manager Script Dispatcher Service...
-Dec 27 21:31:54 kebab-B360M-DS3H dbus-daemon[813]: [system] Successfully activated service 'org.freedesktop.nm_dispatcher'
-Dec 27 21:31:54 kebab-B360M-DS3H systemd[1]: Started Network Manager Script Dispatcher Service.
-Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.6789] device (enp3s0): state change: deactivating -> disconnected (reason 'user-requested', sys-iface-state: 'managed')
-Dec 27 21:31:54 kebab-B360M-DS3H avahi-daemon[810]: Withdrawing address record for fe80::de82:292:4968:4680 on enp3s0.
-Dec 27 21:31:54 kebab-B360M-DS3H avahi-daemon[810]: Leaving mDNS multicast group on interface enp3s0.IPv6 with address fe80::de82:292:4968:4680.
-Dec 27 21:31:54 kebab-B360M-DS3H avahi-daemon[810]: Interface enp3s0.IPv6 no longer relevant for mDNS.
-Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.7044] dhcp4 (enp3s0): canceled DHCP transaction
-Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.7045] dhcp4 (enp3s0): state changed bound -> done
-Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.7052] dhcp6 (enp3s0): canceled DHCP transaction
-Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.7053] dhcp6 (enp3s0): state changed bound -> done
-Dec 27 21:31:54 kebab-B360M-DS3H avahi-daemon[810]: Withdrawing address record for 192.168.100.15 on enp3s0.
-Dec 27 21:31:54 kebab-B360M-DS3H avahi-daemon[810]: Leaving mDNS multicast group on interface enp3s0.IPv4 with address 192.168.100.15.
-Dec 27 21:31:54 kebab-B360M-DS3H avahi-daemon[810]: Interface enp3s0.IPv4 no longer relevant for mDNS.
-Dec 27 21:31:54 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169514.7139] manager: NetworkManager state is now DISCONNECTED
-Dec 27 21:31:54 kebab-B360M-DS3H nm-dispatcher[27745]: run-parts: failed to stat component /etc/network/if-post-down.d/avahi-daemon: No such file or directory
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.3976] device (enp3s0): Activation: starting connection 'Wired connection 1' (b3cca343-ac7d-3b33-9063-83b7b83affdc)
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.3979] audit: op="connection-activate" uuid="b3cca343-ac7d-3b33-9063-83b7b83affdc" name="Wired connection 1" pid=1420 uid=1000 result="success"
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.3982] device (enp3s0): state change: disconnected -> prepare (reason 'none', sys-iface-state: 'managed')
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.3992] manager: NetworkManager state is now CONNECTING
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.3997] device (enp3s0): state change: prepare -> config (reason 'none', sys-iface-state: 'managed')
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.4014] device (enp3s0): state change: config -> ip-config (reason 'none', sys-iface-state: 'managed')
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.4021] dhcp4 (enp3s0): activation: beginning transaction (timeout in 45 seconds)
-Dec 27 21:31:55 kebab-B360M-DS3H avahi-daemon[810]: Joining mDNS multicast group on interface enp3s0.IPv6 with address fe80::de82:292:4968:4680.
-Dec 27 21:31:55 kebab-B360M-DS3H avahi-daemon[810]: New relevant interface enp3s0.IPv6 for mDNS.
-Dec 27 21:31:55 kebab-B360M-DS3H avahi-daemon[810]: Registering new address record for fe80::de82:292:4968:4680 on enp3s0.*.
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5701] dhcp4 (enp3s0): option dhcp_lease_time      => '259200'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5702] dhcp4 (enp3s0): option domain_name_servers  => '192.168.100.1'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5702] dhcp4 (enp3s0): option expiry               => '1672428715'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5702] dhcp4 (enp3s0): option ip_address           => '192.168.100.15'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5702] dhcp4 (enp3s0): option requested_broadcast_address => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5703] dhcp4 (enp3s0): option requested_domain_name => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5703] dhcp4 (enp3s0): option requested_domain_name_servers => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5703] dhcp4 (enp3s0): option requested_domain_search => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5704] dhcp4 (enp3s0): option requested_host_name  => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5704] dhcp4 (enp3s0): option requested_interface_mtu => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H avahi-daemon[810]: Joining mDNS multicast group on interface enp3s0.IPv4 with address 192.168.100.15.
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5704] dhcp4 (enp3s0): option requested_ms_classless_static_routes => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5704] dhcp4 (enp3s0): option requested_nis_domain => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H avahi-daemon[810]: New relevant interface enp3s0.IPv4 for mDNS.
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5705] dhcp4 (enp3s0): option requested_nis_servers => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H avahi-daemon[810]: Registering new address record for 192.168.100.15 on enp3s0.IPv4.
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5705] dhcp4 (enp3s0): option requested_ntp_servers => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5705] dhcp4 (enp3s0): option requested_rfc3442_classless_static_routes => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5705] dhcp4 (enp3s0): option requested_root_path  => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5706] dhcp4 (enp3s0): option requested_routers    => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5706] dhcp4 (enp3s0): option requested_static_routes => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5706] dhcp4 (enp3s0): option requested_subnet_mask => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5706] dhcp4 (enp3s0): option requested_time_offset => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5707] dhcp4 (enp3s0): option requested_wpad       => '1'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5707] dhcp4 (enp3s0): option routers              => '192.168.100.1'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5707] dhcp4 (enp3s0): option subnet_mask          => '255.255.255.0'
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5707] dhcp4 (enp3s0): state changed unknown -> bound
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5746] device (enp3s0): state change: ip-config -> ip-check (reason 'none', sys-iface-state: 'managed')
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5796] device (enp3s0): state change: ip-check -> secondaries (reason 'none', sys-iface-state: 'managed')
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5804] device (enp3s0): state change: secondaries -> activated (reason 'none', sys-iface-state: 'managed')
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5816] manager: NetworkManager state is now CONNECTED_LOCAL
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5847] manager: NetworkManager state is now CONNECTED_SITE
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5854] policy: set 'Wired connection 1' (enp3s0) as default for IPv4 routing and DNS
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.5872] device (enp3s0): Activation: successful, device activated.
-Dec 27 21:31:55 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169515.7204] manager: NetworkManager state is now CONNECTED_GLOBAL
-Dec 27 21:31:57 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169517.1873] dhcp6 (enp3s0): activation: beginning transaction (timeout in 45 seconds)
-Dec 27 21:31:57 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672169517.2132] dhcp6 (enp3s0): state changed unknown -> bound
-Dec 27 21:31:58 kebab-B360M-DS3H kernel: [22344.094492] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 21:34:04 kebab-B360M-DS3H kernel: [22470.791058] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 21:34:08 kebab-B360M-DS3H kernel: [22474.411085] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:32:16 kebab-B360M-DS3H kernel: [25962.137879] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:32:19 kebab-B360M-DS3H kernel: [25965.757889] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:32:23 kebab-B360M-DS3H kernel: [25969.373890] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:32:27 kebab-B360M-DS3H kernel: [25972.993920] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:32:30 kebab-B360M-DS3H kernel: [25976.613899] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:32:34 kebab-B360M-DS3H kernel: [25980.229973] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5407] device (enp3s0): state change: activated -> deactivating (reason 'user-requested', sys-iface-state: 'managed')
-Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5415] manager: NetworkManager state is now DISCONNECTING
-Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5444] audit: op="device-disconnect" interface="enp3s0" ifindex=2 pid=1420 uid=1000 result="success"
-Dec 27 22:32:34 kebab-B360M-DS3H dbus-daemon[813]: [system] Activating via systemd: service name='org.freedesktop.nm_dispatcher' unit='dbus-org.freedesktop.nm-dispatcher.service' requested by ':1.13' (uid=0 pid=814 comm="/usr/sbin/NetworkManager --no-daemon " label="unconfined")
-Dec 27 22:32:34 kebab-B360M-DS3H systemd[1]: Starting Network Manager Script Dispatcher Service...
-Dec 27 22:32:34 kebab-B360M-DS3H dbus-daemon[813]: [system] Successfully activated service 'org.freedesktop.nm_dispatcher'
-Dec 27 22:32:34 kebab-B360M-DS3H systemd[1]: Started Network Manager Script Dispatcher Service.
-Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5783] device (enp3s0): state change: deactivating -> disconnected (reason 'user-requested', sys-iface-state: 'managed')
-Dec 27 22:32:34 kebab-B360M-DS3H avahi-daemon[810]: Withdrawing address record for fe80::de82:292:4968:4680 on enp3s0.
-Dec 27 22:32:34 kebab-B360M-DS3H avahi-daemon[810]: Leaving mDNS multicast group on interface enp3s0.IPv6 with address fe80::de82:292:4968:4680.
-Dec 27 22:32:34 kebab-B360M-DS3H avahi-daemon[810]: Interface enp3s0.IPv6 no longer relevant for mDNS.
-Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5791] dhcp4 (enp3s0): canceled DHCP transaction
-Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5792] dhcp4 (enp3s0): state changed bound -> done
-Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5794] dhcp6 (enp3s0): canceled DHCP transaction
-Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5794] dhcp6 (enp3s0): state changed bound -> done
-Dec 27 22:32:34 kebab-B360M-DS3H avahi-daemon[810]: Withdrawing address record for 192.168.100.15 on enp3s0.
-Dec 27 22:32:34 kebab-B360M-DS3H avahi-daemon[810]: Leaving mDNS multicast group on interface enp3s0.IPv4 with address 192.168.100.15.
-Dec 27 22:32:34 kebab-B360M-DS3H avahi-daemon[810]: Interface enp3s0.IPv4 no longer relevant for mDNS.
-Dec 27 22:32:34 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173154.5807] manager: NetworkManager state is now DISCONNECTED
-Dec 27 22:32:34 kebab-B360M-DS3H nm-dispatcher[29934]: run-parts: failed to stat component /etc/network/if-post-down.d/avahi-daemon: No such file or directory
-Dec 27 22:32:37 kebab-B360M-DS3H kernel: [25983.845909] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:32:41 kebab-B360M-DS3H kernel: [25987.461979] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:32:44 kebab-B360M-DS3H systemd[1]: systemd-hostnamed.service: Succeeded.
-Dec 27 22:32:45 kebab-B360M-DS3H kernel: [25991.081984] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:32:45 kebab-B360M-DS3H systemd[1]: NetworkManager-dispatcher.service: Succeeded.
-Dec 27 22:32:48 kebab-B360M-DS3H kernel: [25994.698045] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:32:52 kebab-B360M-DS3H kernel: [25998.322052] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:32:55 kebab-B360M-DS3H kernel: [26001.938057] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:32:59 kebab-B360M-DS3H kernel: [26005.554066] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:33:03 kebab-B360M-DS3H kernel: [26009.170109] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:33:06 kebab-B360M-DS3H kernel: [26012.786136] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:33:13 kebab-B360M-DS3H kernel: [26019.410121] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:33:17 kebab-B360M-DS3H kernel: [26023.026144] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:33:20 kebab-B360M-DS3H kernel: [26026.642124] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:33:20 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173200.9173] device (enp3s0): Activation: starting connection 'Wired connection 1' (b3cca343-ac7d-3b33-9063-83b7b83affdc)
-Dec 27 22:33:20 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173200.9176] audit: op="connection-activate" uuid="b3cca343-ac7d-3b33-9063-83b7b83affdc" name="Wired connection 1" pid=1420 uid=1000 result="success"
-Dec 27 22:33:20 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173200.9179] device (enp3s0): state change: disconnected -> prepare (reason 'none', sys-iface-state: 'managed')
-Dec 27 22:33:20 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173200.9188] manager: NetworkManager state is now CONNECTING
-Dec 27 22:33:20 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173200.9193] device (enp3s0): state change: prepare -> config (reason 'none', sys-iface-state: 'managed')
-Dec 27 22:33:20 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173200.9213] device (enp3s0): state change: config -> ip-config (reason 'none', sys-iface-state: 'managed')
-Dec 27 22:33:20 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173200.9219] dhcp4 (enp3s0): activation: beginning transaction (timeout in 45 seconds)
-Dec 27 22:33:20 kebab-B360M-DS3H avahi-daemon[810]: Joining mDNS multicast group on interface enp3s0.IPv6 with address fe80::de82:292:4968:4680.
-Dec 27 22:33:20 kebab-B360M-DS3H avahi-daemon[810]: New relevant interface enp3s0.IPv6 for mDNS.
-Dec 27 22:33:20 kebab-B360M-DS3H avahi-daemon[810]: Registering new address record for fe80::de82:292:4968:4680 on enp3s0.*.
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0216] dhcp4 (enp3s0): option dhcp_lease_time      => '259200'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0216] dhcp4 (enp3s0): option domain_name_servers  => '192.168.100.1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0217] dhcp4 (enp3s0): option expiry               => '1672432400'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0217] dhcp4 (enp3s0): option ip_address           => '192.168.100.15'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0217] dhcp4 (enp3s0): option requested_broadcast_address => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0217] dhcp4 (enp3s0): option requested_domain_name => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0218] dhcp4 (enp3s0): option requested_domain_name_servers => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0218] dhcp4 (enp3s0): option requested_domain_search => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0218] dhcp4 (enp3s0): option requested_host_name  => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0218] dhcp4 (enp3s0): option requested_interface_mtu => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0218] dhcp4 (enp3s0): option requested_ms_classless_static_routes => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0219] dhcp4 (enp3s0): option requested_nis_domain => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0219] dhcp4 (enp3s0): option requested_nis_servers => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0219] dhcp4 (enp3s0): option requested_ntp_servers => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0219] dhcp4 (enp3s0): option requested_rfc3442_classless_static_routes => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0220] dhcp4 (enp3s0): option requested_root_path  => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0220] dhcp4 (enp3s0): option requested_routers    => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0220] dhcp4 (enp3s0): option requested_static_routes => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0220] dhcp4 (enp3s0): option requested_subnet_mask => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0220] dhcp4 (enp3s0): option requested_time_offset => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0221] dhcp4 (enp3s0): option requested_wpad       => '1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0221] dhcp4 (enp3s0): option routers              => '192.168.100.1'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0221] dhcp4 (enp3s0): option subnet_mask          => '255.255.255.0'
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0221] dhcp4 (enp3s0): state changed unknown -> bound
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0248] device (enp3s0): state change: ip-config -> ip-check (reason 'none', sys-iface-state: 'managed')
-Dec 27 22:33:21 kebab-B360M-DS3H avahi-daemon[810]: Joining mDNS multicast group on interface enp3s0.IPv4 with address 192.168.100.15.
-Dec 27 22:33:21 kebab-B360M-DS3H avahi-daemon[810]: New relevant interface enp3s0.IPv4 for mDNS.
-Dec 27 22:33:21 kebab-B360M-DS3H avahi-daemon[810]: Registering new address record for 192.168.100.15 on enp3s0.IPv4.
-Dec 27 22:33:21 kebab-B360M-DS3H dbus-daemon[813]: [system] Activating via systemd: service name='org.freedesktop.nm_dispatcher' unit='dbus-org.freedesktop.nm-dispatcher.service' requested by ':1.13' (uid=0 pid=814 comm="/usr/sbin/NetworkManager --no-daemon " label="unconfined")
-Dec 27 22:33:21 kebab-B360M-DS3H systemd[1]: Starting Network Manager Script Dispatcher Service...
-Dec 27 22:33:21 kebab-B360M-DS3H dbus-daemon[813]: [system] Successfully activated service 'org.freedesktop.nm_dispatcher'
-Dec 27 22:33:21 kebab-B360M-DS3H systemd[1]: Started Network Manager Script Dispatcher Service.
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0607] device (enp3s0): state change: ip-check -> secondaries (reason 'none', sys-iface-state: 'managed')
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0610] device (enp3s0): state change: secondaries -> activated (reason 'none', sys-iface-state: 'managed')
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0615] manager: NetworkManager state is now CONNECTED_LOCAL
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0626] manager: NetworkManager state is now CONNECTED_SITE
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0627] policy: set 'Wired connection 1' (enp3s0) as default for IPv4 routing and DNS
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.0636] device (enp3s0): Activation: successful, device activated.
-Dec 27 22:33:21 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173201.3928] manager: NetworkManager state is now CONNECTED_GLOBAL
-Dec 27 22:33:23 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173203.1876] dhcp6 (enp3s0): activation: beginning transaction (timeout in 45 seconds)
-Dec 27 22:33:23 kebab-B360M-DS3H NetworkManager[814]: <info>  [1672173203.2104] dhcp6 (enp3s0): state changed unknown -> bound
-Dec 27 22:33:27 kebab-B360M-DS3H kernel: [26033.266222] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:33:30 kebab-B360M-DS3H kernel: [26036.882212] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:33:33 kebab-B360M-DS3H systemd[1]: NetworkManager-dispatcher.service: Succeeded.
-Dec 27 22:33:34 kebab-B360M-DS3H kernel: [26040.498213] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:33:38 kebab-B360M-DS3H kernel: [26044.118285] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:33:41 kebab-B360M-DS3H kernel: [26047.742280] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:33:45 kebab-B360M-DS3H kernel: [26051.358308] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:33:49 kebab-B360M-DS3H kernel: [26054.974183] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
-Dec 27 22:33:52 kebab-B360M-DS3H kernel: [26058.590342] usb 1-2: reset high-speed USB device number 3 using xhci_hcd
+{
+"rule":"R008",[
+	{"type":"date","value":"","name":"DATE"},
+	{"type":"string","value":"kebab-B360M-DS3H","name":"PC_NAME"},
+	{"type":"number","value":"1672418909","name":"NR1"},
+	{"type":"number","value":"3656","name":"NR2"},
+	{"type":"string","value":"DISCONNECTING","name":"STATE"}
+]},
+{
+"rule":"R008",[
+	{"type":"date","value":"","name":"DATE"},
+	{"type":"string","value":"kebab-B360M-DS3H","name":"PC_NAME"},
+	{"type":"number","value":"1672418909","name":"NR1"},
+	{"type":"number","value":"4320","name":"NR2"},
+	{"type":"string","value":"DISCONNECTED","name":"STATE"}
+]},
+{
+"rule":"R008",[
+	{"type":"date","value":"","name":"DATE"},
+	{"type":"string","value":"kebab-B360M-DS3H","name":"PC_NAME"},
+	{"type":"number","value":"1672418909","name":"NR1"},
+	{"type":"number","value":"5328","name":"NR2"},
+	{"type":"string","value":"CONNECTING","name":"STATE"}
+]},
+{
+"rule":"R008",[
+	{"type":"date","value":"","name":"DATE"},
+	{"type":"string","value":"kebab-B360M-DS3H","name":"PC_NAME"},
+	{"type":"number","value":"1672418909","name":"NR1"},
+	{"type":"number","value":"6192","name":"NR2"},
+	{"type":"string","value":"CONNECTED_LOCAL","name":"STATE"}
+]},
+{
+"rule":"R008",[
+	{"type":"date","value":"","name":"DATE"},
+	{"type":"string","value":"kebab-B360M-DS3H","name":"PC_NAME"},
+	{"type":"number","value":"1672418909","name":"NR1"},
+	{"type":"number","value":"6215","name":"NR2"},
+	{"type":"string","value":"CONNECTED_SITE","name":"STATE"}
+]},
+{
+"rule":"R008",[
+	{"type":"date","value":"","name":"DATE"},
+	{"type":"string","value":"kebab-B360M-DS3H","name":"PC_NAME"},
+	{"type":"number","value":"1672418909","name":"NR1"},
+	{"type":"number","value":"7449","name":"NR2"},
+	{"type":"string","value":"CONNECTED_GLOBAL","name":"STATE"}
+]},
+{
+"rule":"R008",[
+	{"type":"date","value":"","name":"DATE"},
+	{"type":"string","value":"kebab-B360M-DS3H","name":"PC_NAME"},
+	{"type":"number","value":"1672418923","name":"NR1"},
+	{"type":"number","value":"7563","name":"NR2"},
+	{"type":"string","value":"DISCONNECTING","name":"STATE"}
+]},
+{
+"rule":"R008",[
+	{"type":"date","value":"","name":"DATE"},
+	{"type":"string","value":"kebab-B360M-DS3H","name":"PC_NAME"},
+	{"type":"number","value":"1672418923","name":"NR1"},
+	{"type":"number","value":"7914","name":"NR2"},
+	{"type":"string","value":"DISCONNECTED","name":"STATE"}
+]},
+{
+"rule":"R008",[
+	{"type":"date","value":"","name":"DATE"},
+	{"type":"string","value":"kebab-B360M-DS3H","name":"PC_NAME"},
+	{"type":"number","value":"1672418923","name":"NR1"},
+	{"type":"number","value":"9719","name":"NR2"},
+	{"type":"string","value":"CONNECTING","name":"STATE"}
+]},
+{
+"rule":"R008",[
+	{"type":"date","value":"","name":"DATE"},
+	{"type":"string","value":"kebab-B360M-DS3H","name":"PC_NAME"},
+	{"type":"number","value":"1672418924","name":"NR1"},
+	{"type":"number","value":"0417","name":"NR2"},
+	{"type":"string","value":"CONNECTED_LOCAL","name":"STATE"}
+]},
+{
+"rule":"R008",[
+	{"type":"date","value":"","name":"DATE"},
+	{"type":"string","value":"kebab-B360M-DS3H","name":"PC_NAME"},
+	{"type":"number","value":"1672418924","name":"NR1"},
+	{"type":"number","value":"0440","name":"NR2"},
+	{"type":"string","value":"CONNECTED_SITE","name":"STATE"}
+]},
+{
+"rule":"R008",[
+	{"type":"date","value":"","name":"DATE"},
+	{"type":"string","value":"kebab-B360M-DS3H","name":"PC_NAME"},
+	{"type":"number","value":"1672418924","name":"NR1"},
+	{"type":"number","value":"1783","name":"NR2"},
+	{"type":"string","value":"CONNECTED_GLOBAL","name":"STATE"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"0259"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"activated"},
+	{"type":"string","name":"NEW_STATE","value":"deactivating"},
+	{"type":"string","name":"REASON","value":"user-requested"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"0266"},
+	{"type":"string","name":"STATE","value":"DISCONNECTING"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"0730"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"deactivating"},
+	{"type":"string","name":"NEW_STATE","value":"disconnected"},
+	{"type":"string","name":"REASON","value":"user-requested"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R001",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"1008"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"}
+]},
+{"rule":"R002",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"1009"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OLD_STATE","value":"bound"},
+	{"type":"string","name":"NEW_STATE","value":"done"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"1061"},
+	{"type":"string","name":"STATE","value":"DISCONNECTED"}
+]},
+{"rule":"R005",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"6246"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"CONN_NAME","value":"Wired connection 1"},
+	{"type":"string","name":"ID","value":"b3cca343-ac7d-3b33-9063-83b7b83affdc"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"6253"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"disconnected"},
+	{"type":"string","name":"NEW_STATE","value":"prepare"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"6263"},
+	{"type":"string","name":"STATE","value":"CONNECTING"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"6267"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"prepare"},
+	{"type":"string","name":"NEW_STATE","value":"config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"6287"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"config"},
+	{"type":"string","name":"NEW_STATE","value":"ip-config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R004",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"6293"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"}
+]},
+{"rule":"R002",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"7061"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OLD_STATE","value":"unknown"},
+	{"type":"string","name":"NEW_STATE","value":"bound"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"7090"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"ip-config"},
+	{"type":"string","name":"NEW_STATE","value":"ip-check"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"7135"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"ip-check"},
+	{"type":"string","name":"NEW_STATE","value":"secondaries"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"7142"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"secondaries"},
+	{"type":"string","name":"NEW_STATE","value":"activated"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"7153"},
+	{"type":"string","name":"STATE","value":"CONNECTED_LOCAL"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"7179"},
+	{"type":"string","name":"STATE","value":"CONNECTED_SITE"}
+]},
+{"rule":"R006",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"7204"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:02:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672426961"},
+	{"type":"number","name":"NR2","value":"8376"},
+	{"type":"string","name":"STATE","value":"CONNECTED_GLOBAL"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:57:31"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15075"},
+	{"type":"number","name":"NR2","value":"666619"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:57:35"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15079"},
+	{"type":"number","name":"NR2","value":"286532"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:57:38"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15082"},
+	{"type":"number","name":"NR2","value":"902643"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:57:42"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15086"},
+	{"type":"number","name":"NR2","value":"518691"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:57:45"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15090"},
+	{"type":"number","name":"NR2","value":"134667"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:57:49"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15093"},
+	{"type":"number","name":"NR2","value":"750698"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:57:53"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15097"},
+	{"type":"number","name":"NR2","value":"370748"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:57:56"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15100"},
+	{"type":"number","name":"NR2","value":"986733"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:58:00"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15104"},
+	{"type":"number","name":"NR2","value":"602735"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:58:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15108"},
+	{"type":"number","name":"NR2","value":"222820"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:58:07"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15111"},
+	{"type":"number","name":"NR2","value":"838845"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:58:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15115"},
+	{"type":"number","name":"NR2","value":"462867"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 21:58:14"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15119"},
+	{"type":"number","name":"NR2","value":"086853"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:02"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15375"},
+	{"type":"number","name":"NR2","value":"940261"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:02"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15379"},
+	{"type":"number","name":"NR2","value":"556291"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:02"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15383"},
+	{"type":"number","name":"NR2","value":"176335"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:02"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15386"},
+	{"type":"number","name":"NR2","value":"796384"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:02"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15390"},
+	{"type":"number","name":"NR2","value":"416386"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:02"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15394"},
+	{"type":"number","name":"NR2","value":"032390"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:02"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15397"},
+	{"type":"number","name":"NR2","value":"648388"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:02"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15401"},
+	{"type":"number","name":"NR2","value":"268392"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15404"},
+	{"type":"number","name":"NR2","value":"888443"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15408"},
+	{"type":"number","name":"NR2","value":"504422"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:03:51"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15455"},
+	{"type":"number","name":"NR2","value":"568727"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:03:54"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15459"},
+	{"type":"number","name":"NR2","value":"188700"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:03:58"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15462"},
+	{"type":"number","name":"NR2","value":"808728"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:02"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15466"},
+	{"type":"number","name":"NR2","value":"424771"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:05"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15470"},
+	{"type":"number","name":"NR2","value":"040787"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:09"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15473"},
+	{"type":"number","name":"NR2","value":"660698"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:13"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15477"},
+	{"type":"number","name":"NR2","value":"276848"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:16"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15480"},
+	{"type":"number","name":"NR2","value":"892823"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:20"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15484"},
+	{"type":"number","name":"NR2","value":"508876"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:23"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15488"},
+	{"type":"number","name":"NR2","value":"124846"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"6324"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"activated"},
+	{"type":"string","name":"NEW_STATE","value":"deactivating"},
+	{"type":"string","name":"REASON","value":"user-requested"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"6333"},
+	{"type":"string","name":"STATE","value":"DISCONNECTING"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"6820"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"deactivating"},
+	{"type":"string","name":"NEW_STATE","value":"disconnected"},
+	{"type":"string","name":"REASON","value":"user-requested"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R001",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"7089"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"}
+]},
+{"rule":"R002",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"7089"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OLD_STATE","value":"bound"},
+	{"type":"string","name":"NEW_STATE","value":"done"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"7152"},
+	{"type":"string","name":"STATE","value":"DISCONNECTED"}
+]},
+{"rule":"R005",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"7994"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"CONN_NAME","value":"Wired connection 1"},
+	{"type":"string","name":"ID","value":"b3cca343-ac7d-3b33-9063-83b7b83affdc"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"8000"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"disconnected"},
+	{"type":"string","name":"NEW_STATE","value":"prepare"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"8011"},
+	{"type":"string","name":"STATE","value":"CONNECTING"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"8016"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"prepare"},
+	{"type":"string","name":"NEW_STATE","value":"config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"8037"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"config"},
+	{"type":"string","name":"NEW_STATE","value":"ip-config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R004",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"8049"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"}
+]},
+{"rule":"R002",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"8897"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OLD_STATE","value":"unknown"},
+	{"type":"string","name":"NEW_STATE","value":"bound"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"8914"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"ip-config"},
+	{"type":"string","name":"NEW_STATE","value":"ip-check"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"8936"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"ip-check"},
+	{"type":"string","name":"NEW_STATE","value":"secondaries"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"8940"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"secondaries"},
+	{"type":"string","name":"NEW_STATE","value":"activated"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"8946"},
+	{"type":"string","name":"STATE","value":"CONNECTED_LOCAL"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"8962"},
+	{"type":"string","name":"STATE","value":"CONNECTED_SITE"}
+]},
+{"rule":"R006",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430664"},
+	{"type":"number","name":"NR2","value":"8975"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:26"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672430666"},
+	{"type":"number","name":"NR2","value":"0031"},
+	{"type":"string","name":"STATE","value":"CONNECTED_GLOBAL"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:27"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15491"},
+	{"type":"number","name":"NR2","value":"740924"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:31"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15495"},
+	{"type":"number","name":"NR2","value":"356898"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:34"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15498"},
+	{"type":"number","name":"NR2","value":"972969"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:38"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15502"},
+	{"type":"number","name":"NR2","value":"600953"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15506"},
+	{"type":"number","name":"NR2","value":"216964"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:45"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15509"},
+	{"type":"number","name":"NR2","value":"836860"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:49"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15513"},
+	{"type":"number","name":"NR2","value":"453023"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:52"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15517"},
+	{"type":"number","name":"NR2","value":"069013"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:04:56"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15520"},
+	{"type":"number","name":"NR2","value":"693097"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:05:00"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15524"},
+	{"type":"number","name":"NR2","value":"309058"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:05:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15527"},
+	{"type":"number","name":"NR2","value":"925066"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:05:07"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15531"},
+	{"type":"number","name":"NR2","value":"541129"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:05:10"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15535"},
+	{"type":"number","name":"NR2","value":"157104"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:05:14"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15538"},
+	{"type":"number","name":"NR2","value":"773171"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:05:18"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15542"},
+	{"type":"number","name":"NR2","value":"389175"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:05:21"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15546"},
+	{"type":"number","name":"NR2","value":"013037"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:05:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15549"},
+	{"type":"number","name":"NR2","value":"633204"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:05:28"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15553"},
+	{"type":"number","name":"NR2","value":"253237"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:05:32"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15556"},
+	{"type":"number","name":"NR2","value":"877266"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:05:36"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15560"},
+	{"type":"number","name":"NR2","value":"501227"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:05:39"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15564"},
+	{"type":"number","name":"NR2","value":"121281"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:05:43"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15567"},
+	{"type":"number","name":"NR2","value":"737280"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:05:47"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"15571"},
+	{"type":"number","name":"NR2","value":"357297"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:19"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16023"},
+	{"type":"number","name":"NR2","value":"659568"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:23"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16027"},
+	{"type":"number","name":"NR2","value":"279642"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431204"},
+	{"type":"number","name":"NR2","value":"7994"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"activated"},
+	{"type":"string","name":"NEW_STATE","value":"deactivating"},
+	{"type":"string","name":"REASON","value":"user-requested"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431204"},
+	{"type":"number","name":"NR2","value":"8002"},
+	{"type":"string","name":"STATE","value":"DISCONNECTING"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431204"},
+	{"type":"number","name":"NR2","value":"8351"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"deactivating"},
+	{"type":"string","name":"NEW_STATE","value":"disconnected"},
+	{"type":"string","name":"REASON","value":"user-requested"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R001",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431204"},
+	{"type":"number","name":"NR2","value":"8378"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"}
+]},
+{"rule":"R002",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431204"},
+	{"type":"number","name":"NR2","value":"8378"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OLD_STATE","value":"bound"},
+	{"type":"string","name":"NEW_STATE","value":"done"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431204"},
+	{"type":"number","name":"NR2","value":"8391"},
+	{"type":"string","name":"STATE","value":"DISCONNECTED"}
+]},
+{"rule":"R005",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"2540"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"CONN_NAME","value":"Wired connection 1"},
+	{"type":"string","name":"ID","value":"b3cca343-ac7d-3b33-9063-83b7b83affdc"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"2545"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"disconnected"},
+	{"type":"string","name":"NEW_STATE","value":"prepare"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"2557"},
+	{"type":"string","name":"STATE","value":"CONNECTING"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"2563"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"prepare"},
+	{"type":"string","name":"NEW_STATE","value":"config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"2577"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"config"},
+	{"type":"string","name":"NEW_STATE","value":"ip-config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R004",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"2584"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3428"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"dhcp_lease_time"},
+	{"type":"string","name":"OPTION_VALUE","value":"259200"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3429"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"domain_name_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3429"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"expiry"},
+	{"type":"string","name":"OPTION_VALUE","value":"1672690405"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3429"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"ip_address"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.15"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3430"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_broadcast_address"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3430"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_name"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3430"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_name_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3430"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_search"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3431"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_host_name"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3431"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_interface_mtu"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3431"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_ms_classless_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3431"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_nis_domain"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3431"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_nis_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3432"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_ntp_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3432"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_rfc3442_classless_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3432"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_root_path"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3432"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_routers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3432"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3433"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_subnet_mask"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3433"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_time_offset"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3433"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_wpad"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3433"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"routers"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3434"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"subnet_mask"},
+	{"type":"string","name":"OPTION_VALUE","value":"255.255.255.0"}
+]},
+{"rule":"R002",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3434"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OLD_STATE","value":"unknown"},
+	{"type":"string","name":"NEW_STATE","value":"bound"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3463"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"ip-config"},
+	{"type":"string","name":"NEW_STATE","value":"ip-check"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3530"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"ip-check"},
+	{"type":"string","name":"NEW_STATE","value":"secondaries"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3536"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"secondaries"},
+	{"type":"string","name":"NEW_STATE","value":"activated"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3548"},
+	{"type":"string","name":"STATE","value":"CONNECTED_LOCAL"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3576"},
+	{"type":"string","name":"STATE","value":"CONNECTED_SITE"}
+]},
+{"rule":"R006",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"3595"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672431205"},
+	{"type":"number","name":"NR2","value":"6291"},
+	{"type":"string","name":"STATE","value":"CONNECTED_GLOBAL"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:26"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16030"},
+	{"type":"number","name":"NR2","value":"895654"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:30"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16034"},
+	{"type":"number","name":"NR2","value":"511673"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:33"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16038"},
+	{"type":"number","name":"NR2","value":"131684"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:37"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16041"},
+	{"type":"number","name":"NR2","value":"747738"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:41"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16045"},
+	{"type":"number","name":"NR2","value":"383699"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:44"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16049"},
+	{"type":"number","name":"NR2","value":"003736"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:48"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16052"},
+	{"type":"number","name":"NR2","value":"627760"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:51"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16056"},
+	{"type":"number","name":"NR2","value":"251766"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:55"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16059"},
+	{"type":"number","name":"NR2","value":"875713"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:13:59"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16063"},
+	{"type":"number","name":"NR2","value":"491755"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:14:02"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16067"},
+	{"type":"number","name":"NR2","value":"107796"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:14:06"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16070"},
+	{"type":"number","name":"NR2","value":"727847"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:14:10"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16074"},
+	{"type":"number","name":"NR2","value":"343846"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:14:13"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16077"},
+	{"type":"number","name":"NR2","value":"959861"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:14:17"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16081"},
+	{"type":"number","name":"NR2","value":"579873"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:14:20"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16085"},
+	{"type":"number","name":"NR2","value":"199919"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:14:24"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16088"},
+	{"type":"number","name":"NR2","value":"827920"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:14:28"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16092"},
+	{"type":"number","name":"NR2","value":"443953"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:14:31"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16096"},
+	{"type":"number","name":"NR2","value":"063950"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:14:35"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16099"},
+	{"type":"number","name":"NR2","value":"680010"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:14:39"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16103"},
+	{"type":"number","name":"NR2","value":"295960"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:14:42"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16106"},
+	{"type":"number","name":"NR2","value":"912022"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:14:46"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16110"},
+	{"type":"number","name":"NR2","value":"528035"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:22:18"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16562"},
+	{"type":"number","name":"NR2","value":"745604"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:22:29"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16573"},
+	{"type":"number","name":"NR2","value":"601697"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:22:36"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"16580"},
+	{"type":"number","name":"NR2","value":"833678"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:31:53"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"17137"},
+	{"type":"number","name":"NR2","value":"886940"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:31:57"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"17141"},
+	{"type":"number","name":"NR2","value":"502881"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:32:00"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"17145"},
+	{"type":"number","name":"NR2","value":"123025"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:32:04"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"17148"},
+	{"type":"number","name":"NR2","value":"747004"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:48:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"18107"},
+	{"type":"number","name":"NR2","value":"586553"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:48:06"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"18111"},
+	{"type":"number","name":"NR2","value":"210555"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:48:10"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"18114"},
+	{"type":"number","name":"NR2","value":"826570"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:48:14"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"18118"},
+	{"type":"number","name":"NR2","value":"442600"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:48:17"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"18122"},
+	{"type":"number","name":"NR2","value":"062582"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:48:21"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"18125"},
+	{"type":"number","name":"NR2","value":"682594"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 22:48:25"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"18129"},
+	{"type":"number","name":"NR2","value":"298630"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]}

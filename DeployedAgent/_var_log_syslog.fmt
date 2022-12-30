@@ -1,12 +1,9 @@
-\d:"DATE" \s:"PC-NAME" NetworkManager[\n:"_"]: <info>  [\n:"nr1".\n:"nr2"] dhcp4 (\s:"INTERFACE"): canceled DHCP transaction
-\d:"DATE" \s:"PC-NAME" NetworkManager[\n:"_"]: <info>  [\n:"nr1".\n:"nr2"] dhcp4 (\s:"INTERFACE"): state changed \s:"OLD-STATE" -> \s:"NEW-STATE"
-\d:"DATE" \s:"PC-NAME" NetworkManager[\n:"_"]: <info>  [\n:"nr1".\n:"nr2"] dhcp4 (\s:"INTERFACE"): option \s:"OPTION" => '\s:"OPTION-VALUE"'
-\d:"DATE" \s:"PC-NAME" NetworkManager[\n:"_"]: <info>  [\n:"nr1".\n:"nr2"] dhcp4 (\s:"INTERFACE"): activation: beginning transaction (timeout in \n:"_" seconds)
-\d:"DATE" \s:"PC-NAME" NetworkManager[\n:"_"]: <info>  [\n:"nr1".\n:"nr2"] device (\s:"INTERFACE"): Activation: starting connection '\s:"CONN-NAME"' (\s:"ID")
-\d:"DATE" \s:"PC-NAME" NetworkManager[\n:"_"]: <info>  [\n:"nr1".\n:"nr2"] device (\s:"INTERFACE"): Activation: successful, device activated.
-\d:"DATE" \s:"PC-NAME" NetworkManager[\n:"_"]: <info>  [\n:"nr1".\n:"nr2"] device (\s:"INTERFACE"): state change: \s:"ORIGINAL-STATE" -> \s:"NEW-STATE" (reason '\s:"REASON"', sys-iface-state: '\s:"IFACE-STATE"')
-\d:"DATE" \s:"PC-NAME" NetworkManager[\n:"_"]: <info>  [\n:"nr1".\n:"nr2"] manager: NetworkManager state is now \s:"STATE"
-
-//default
-
-\d:"DATE" \s:"PC-NAME" \s:"SOURCE": \s:"MESSAGE"
+R001|\d:"DATE" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\n:"NR1".\n:"NR2"] dhcp4 (\s:"INTERFACE"): canceled DHCP transaction
+R002|\d:"DATE" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\n:"NR1".\n:"NR2"] dhcp4 (\s:"INTERFACE"): state changed \s:"OLD_STATE" -> \s:"NEW_STATE"
+R003|\d:"DATE" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\n:"NR1".\n:"NR2"] dhcp4 (\s:"INTERFACE"): option \s:"OPTION"\ => '\s:"OPTION_VALUE"'
+R004|\d:"DATE" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\n:"NR1".\n:"NR2"] dhcp4 (\s:"INTERFACE"): activation: beginning transaction (timeout in \n:"_" seconds)
+R005|\d:"DATE" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\n:"NR1".\n:"NR2"] device (\s:"INTERFACE"): Activation: starting connection '\s:"CONN_NAME"' (\s:"ID")
+R006|\d:"DATE" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\n:"NR1".\n:"NR2"] device (\s:"INTERFACE"): Activation: successful, device activated.
+R007|\d:"DATE" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\n:"NR1".\n:"NR2"] device (\s:"INTERFACE"): state change: \s:"ORIGINAL_STATE" -> \s:"NEW_STATE" (reason '\s:"REASON"', sys-iface-state: '\s:"IFACE_STATE"')
+R008|\d:"DATE" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\n:"NR1".\n:"NR2"] manager: NetworkManager state is now \s:"STATE"
+R009|\d:"DATE" \s:"PC_NAME" kernel: [\n:"NR1".\n:"NR2"] usb \s:"USB_NAME": reset high-speed USB device number \n:"DEVICE_NR" using \s:"PROTOCOL"

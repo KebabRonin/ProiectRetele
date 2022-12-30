@@ -14,22 +14,39 @@ Server Actions:
 Agent Actions:
 -collect and send data
 -recieve commands from server
+============================
+BUGS
+============================
+Agent operational
+recv_fixed_length: FD is nonblocking or socket was closed
+Error : recv varlen length
+recv_fixed_length: FD is nonblocking or socket was closed
+Error : recv varlen length
+recv_varmsg(): Success
+terminate called without an active exception
+terminate called recursively
+Aborted (core dumped)
+!!! After some Agent connections (while debugging)
+=============================
+recv_fixed_length: FD is nonblocking or socket was closed
+Error : recv varlen length
+recv_fixed_length: FD is nonblocking or socket was closed
+Error : recv varlen length
+recv_varmsg(): Success
+terminate called without an active exception
+terminate called recursively
+Aborted (core dumped)
+!!! After Ctrl + C in Agent
+..reduced msg
+At rule 6
+..reduced msg
+At rule 7
+..reduced msg
+At rule 8
+parsed
+_var_log_syslog
+..reduced msg
+^C
 
-
-
-
-Classes:
-Cl/Sv: 
-+Filter interface
-	File
-	Action
-
-Cl/Sv/Ag:
-	Sv:AddAgent()
-		Generate_Key
-		Sent(client,key)
-		Wait_for(agent,key)
-	Cl:AddAgent()
-		Recv(key)
-	Ag:connectServer()
-		
+Because of Agent::~Agent()
+Likely fixed

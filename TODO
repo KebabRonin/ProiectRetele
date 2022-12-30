@@ -1,12 +1,8 @@
 ///!! hton/ ntoh
 //AGENT
-///use mac address as identifier?
-///!! ar trebui sa fie un sockfd nou, pus cu TCP pe AGENT_TCP_PORT
-///!send to parent the new id
 ///! Handle server down event?
 ///INFOSOURCE
 ///!daemon for restarting sources?
 ///!select readfds pentru performanta?
 ///CLIENT+SERVER
 ///!Add a query
-///!UDP

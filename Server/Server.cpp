@@ -18,10 +18,16 @@
 #define LOG_PATH "logs/"
 
 void create_agent_dispatcher(pthread_t *agent_tid) {
-    if( 0 != pthread_create(agent_tid, nullptr, fnc_agent_dispatcher, nullptr)) {
+    if( 0 != pthread_create(agent_tid, nullptr, fnc_agent_control_dispatcher, nullptr)) {
         perror("Failed to make Agent dispatcher");
         exit(1);
     }
+    
+    if( 0 != pthread_create(agent_tid, nullptr, fnc_agent_transfer_dispatcher, nullptr)) {
+        perror("Failed to make Agent transfer dispatcher");
+        exit(1);
+    }
+    
     printf("Made Agent dispatcher\n");
 }
 void create_client_dispatcher(pthread_t *client_tid) {

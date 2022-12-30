@@ -59,37 +59,40 @@ void* fnc_handle_client(void* p) {
     struct sockaddr_in clsock = *cparam->sock; delete[] cparam->sock;
     delete cparam;
     
-    printf("Recieved:%s:\n",clreq);
+    printf("ClReq Recieved:%s:\n",clreq);
     char type = clreq[0];
     char response[MSG_MAX_SIZE]; bzero(response, MSG_MAX_SIZE);
-    if (type == CLMSG_AGLIST) {
-        printf("AGLIST\n");
-        for(auto i : agent_list) {
-            strcat(response,i->id);
-            strcat(response,"\n");
-        }
-        if(strlen(response) == 0) {
-            sprintf(response, "No agents");
-        }
-    }
-    else if (type == CLMSG_AGPROP) {
-        printf("AGPROP\n");
-        for(auto i : agent_list) {
-            if(strcmp(i->id, clreq+1) == 0) {
-                sprintf(response,"id:%s\n",i->id);
-                break;
+    switch (type) {
+        case CLMSG_AGLIST: {
+            printf("AGLIST\n");
+            for(auto i : agent_list) {
+                strcat(response,i->id);
+                strcat(response,"\n");
             }
+            if(strlen(response) == 0) {
+                sprintf(response, "No agents");
+            }
+            break;
         }
-        if(strlen(response) == 0) {
-            sprintf(response, "Unknown agent");
+        case CLMSG_AGPROP: {
+            printf("AGPROP\n");
+            for(auto i : agent_list) {
+                if(strcmp(i->id, clreq+1) == 0) {
+                    sprintf(response,"id:%s\n",i->id);
+                    break;
+                }
+            }
+            if(strlen(response) == 0) {
+                sprintf(response, "Unknown agent");
+            }
+            break;
         }
-    }
-    else {
-        strcpy(response,"Unknown command");
+        default:
+            strcpy(response,"Unknown command");
     }
     if ( 0 > sendto(sockfd, response, strlen(response), 0, (struct sockaddr*)&clsock, sizeof(clsock)) ) {
         perror("sendto");
-        exit(3);
+        pthread_exit(nullptr);
     }
     printf("Sent:%s:\n",response);
     pthread_exit(nullptr);
@@ -117,7 +120,7 @@ void* fnc_client_dispatcher(void*) {
         }
         if( 0 > recvfrom(server_sockfd,buf,MSG_MAX_SIZE, 0,(sockaddr*) &client_sockaddr,(socklen_t*) &length)) {
             perror("recv_from");
-            exit(7);
+            continue;
         }
         struct clparam* cparam = new struct clparam;
         cparam->serv_sock = server_sockfd;
