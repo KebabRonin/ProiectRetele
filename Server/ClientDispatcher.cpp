@@ -65,6 +65,7 @@ void* fnc_handle_client(void* p) {
     switch (type) {
         case CLMSG_AGLIST: {
             printf("AGLIST\n");
+            //ls -l ~/Documents/Untitled\ Folder/ProiectRetele/Server/logs/ | grep ^d | awk '{print $9}'
             for(auto i : agent_list) {
                 strcat(response,i->id);
                 strcat(response,"\n");

@@ -207,7 +207,7 @@ void init_agent_info() {///!XML
 
 std::vector<InfoSource*> sources;
 
-bool send_ack(const char* info, const unsigned int info_size) {
+bool send_ack(const char agmsg_type, const char* info, const unsigned int info_size) {
     char ack[MSG_MAX_SIZE]; bzero(ack,sizeof(ack));
 
     if (info_size + 3 > MSG_MAX_SIZE) {
@@ -215,7 +215,7 @@ bool send_ack(const char* info, const unsigned int info_size) {
     }
 
     ack[0] = AGMSG_ACK;
-    ack[1] = AGMSG_NEW_IS;
+    ack[1] = agmsg_type;
     memcpy(ack+2,info, info_size);
 
     if ( false == send_varmsg(control_sd, ack, info_size + 2, MSG_NOSIGNAL)) {
@@ -246,7 +246,7 @@ void treat (char const* command) {
             strcpy(response,"Unsupported");
             printf("Unknown command:%s\n",command);
     }
-    if (send_ack(response, strlen(response)) == false) {
+    if (send_ack(AGMSG_NEW_IS, response, strlen(response)) == false) {
         perror("send()");
         exit(3);
     }

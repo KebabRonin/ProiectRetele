@@ -1867,4 +1867,880 @@
 	{"type":"string","name":"USB_NAME","value":"1-2"},
 	{"type":"number","name":"DEVICE_NR","value":"3"},
 	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 23:27:14"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"20458"},
+	{"type":"number","name":"NR2","value":"970944"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"DATE","value":"12 30 23:27:18"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"20462"},
+	{"type":"number","name":"NR2","value":"586950"},
+	{"type":"string","name":"USB_NAME","value":"1-2"},
+	{"type":"number","name":"DEVICE_NR","value":"3"},
+	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:02"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493822"},
+	{"type":"number","name":"NR2","value":"6255"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"activated"},
+	{"type":"string","name":"NEW_STATE","value":"deactivating"},
+	{"type":"string","name":"REASON","value":"user-requested"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:02"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493822"},
+	{"type":"number","name":"NR2","value":"6263"},
+	{"type":"string","name":"STATE","value":"DISCONNECTING"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:02"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493822"},
+	{"type":"number","name":"NR2","value":"6817"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"deactivating"},
+	{"type":"string","name":"NEW_STATE","value":"disconnected"},
+	{"type":"string","name":"REASON","value":"user-requested"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R001",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:02"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493822"},
+	{"type":"number","name":"NR2","value":"7171"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"}
+]},
+{"rule":"R002",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:02"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493822"},
+	{"type":"number","name":"NR2","value":"7172"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OLD_STATE","value":"bound"},
+	{"type":"string","name":"NEW_STATE","value":"done"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:02"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493822"},
+	{"type":"number","name":"NR2","value":"7239"},
+	{"type":"string","name":"STATE","value":"DISCONNECTED"}
+]},
+{"rule":"R005",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"2309"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"CONN_NAME","value":"Wired connection 1"},
+	{"type":"string","name":"ID","value":"b3cca343-ac7d-3b33-9063-83b7b83affdc"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"2315"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"disconnected"},
+	{"type":"string","name":"NEW_STATE","value":"prepare"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"2326"},
+	{"type":"string","name":"STATE","value":"CONNECTING"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"2335"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"prepare"},
+	{"type":"string","name":"NEW_STATE","value":"config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"2356"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"config"},
+	{"type":"string","name":"NEW_STATE","value":"ip-config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R004",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"2371"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3264"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"dhcp_lease_time"},
+	{"type":"string","name":"OPTION_VALUE","value":"259200"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3265"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"domain_name_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3265"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"expiry"},
+	{"type":"string","name":"OPTION_VALUE","value":"1672753023"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3266"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"ip_address"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.15"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3266"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_broadcast_address"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3266"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_name"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3267"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_name_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3267"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_search"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3267"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_host_name"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3267"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_interface_mtu"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3268"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_ms_classless_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3268"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_nis_domain"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3268"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_nis_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3268"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_ntp_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3269"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_rfc3442_classless_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3269"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_root_path"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3269"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_routers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3269"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3270"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_subnet_mask"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3270"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_time_offset"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3270"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_wpad"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3271"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"routers"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3271"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"subnet_mask"},
+	{"type":"string","name":"OPTION_VALUE","value":"255.255.255.0"}
+]},
+{"rule":"R002",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3271"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OLD_STATE","value":"unknown"},
+	{"type":"string","name":"NEW_STATE","value":"bound"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3304"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"ip-config"},
+	{"type":"string","name":"NEW_STATE","value":"ip-check"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3357"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"ip-check"},
+	{"type":"string","name":"NEW_STATE","value":"secondaries"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3363"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"secondaries"},
+	{"type":"string","name":"NEW_STATE","value":"activated"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3376"},
+	{"type":"string","name":"STATE","value":"CONNECTED_LOCAL"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3407"},
+	{"type":"string","name":"STATE","value":"CONNECTED_SITE"}
+]},
+{"rule":"R006",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"3428"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:03"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493823"},
+	{"type":"number","name":"NR2","value":"6135"},
+	{"type":"string","name":"STATE","value":"CONNECTED_GLOBAL"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:08"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493828"},
+	{"type":"number","name":"NR2","value":"7193"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"activated"},
+	{"type":"string","name":"NEW_STATE","value":"deactivating"},
+	{"type":"string","name":"REASON","value":"user-requested"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:08"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493828"},
+	{"type":"number","name":"NR2","value":"7201"},
+	{"type":"string","name":"STATE","value":"DISCONNECTING"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:08"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493828"},
+	{"type":"number","name":"NR2","value":"7782"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"deactivating"},
+	{"type":"string","name":"NEW_STATE","value":"disconnected"},
+	{"type":"string","name":"REASON","value":"user-requested"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R001",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:08"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493828"},
+	{"type":"number","name":"NR2","value":"8051"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"}
+]},
+{"rule":"R002",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:08"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493828"},
+	{"type":"number","name":"NR2","value":"8052"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OLD_STATE","value":"bound"},
+	{"type":"string","name":"NEW_STATE","value":"done"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:08"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493828"},
+	{"type":"number","name":"NR2","value":"8105"},
+	{"type":"string","name":"STATE","value":"DISCONNECTED"}
+]},
+{"rule":"R005",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"2652"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"CONN_NAME","value":"Wired connection 1"},
+	{"type":"string","name":"ID","value":"b3cca343-ac7d-3b33-9063-83b7b83affdc"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"2658"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"disconnected"},
+	{"type":"string","name":"NEW_STATE","value":"prepare"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"2676"},
+	{"type":"string","name":"STATE","value":"CONNECTING"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"2682"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"prepare"},
+	{"type":"string","name":"NEW_STATE","value":"config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"2699"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"config"},
+	{"type":"string","name":"NEW_STATE","value":"ip-config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R004",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"2702"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3610"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"dhcp_lease_time"},
+	{"type":"string","name":"OPTION_VALUE","value":"259200"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3611"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"domain_name_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3611"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"expiry"},
+	{"type":"string","name":"OPTION_VALUE","value":"1672753031"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3611"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"ip_address"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.15"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3611"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_broadcast_address"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3612"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_name"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3612"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_name_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3612"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_search"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3612"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_host_name"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3613"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_interface_mtu"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3613"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_ms_classless_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3613"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_nis_domain"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3613"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_nis_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3613"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_ntp_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3614"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_rfc3442_classless_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3614"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_root_path"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3614"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_routers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3614"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3615"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_subnet_mask"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3615"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_time_offset"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3615"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_wpad"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3615"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"routers"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3615"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OPTION","value":"subnet_mask"},
+	{"type":"string","name":"OPTION_VALUE","value":"255.255.255.0"}
+]},
+{"rule":"R002",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3616"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"OLD_STATE","value":"unknown"},
+	{"type":"string","name":"NEW_STATE","value":"bound"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3645"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"ip-config"},
+	{"type":"string","name":"NEW_STATE","value":"ip-check"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3669"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"ip-check"},
+	{"type":"string","name":"NEW_STATE","value":"secondaries"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3671"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"secondaries"},
+	{"type":"string","name":"NEW_STATE","value":"activated"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3674"},
+	{"type":"string","name":"STATE","value":"CONNECTED_LOCAL"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3679"},
+	{"type":"string","name":"STATE","value":"CONNECTED_SITE"}
+]},
+{"rule":"R006",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"3683"},
+	{"type":"string","name":"INTERFACE","value":"enp3s0"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"DATE","value":"12 31 15:37:11"},
+	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
+	{"type":"number","name":"NR1","value":"1672493831"},
+	{"type":"number","name":"NR2","value":"5033"},
+	{"type":"string","name":"STATE","value":"CONNECTED_GLOBAL"}
 ]}

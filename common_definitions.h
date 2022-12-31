@@ -38,11 +38,13 @@ bool recv_fixed_length(const int fd, char* message, const unsigned int length, i
 }
 
 bool recv_varmsg(const int fd, char* message, int flags) {
-    unsigned int length = 0;
+    unsigned short int length = 0;
     if ( false == recv_fixed_length(fd, (char*)&length, sizeof(length), flags)) {
         printf("Error : recv varlen length\n");
         return false;
     }
+
+    length = ntohs(length);
 
     if ( false == recv_fixed_length(fd, message, length, flags)) {
         printf("Error : recv varlen msg\n");
@@ -52,8 +54,9 @@ bool recv_varmsg(const int fd, char* message, int flags) {
     return true;
 }
 
-bool send_varmsg(const int fd, const void* message, const unsigned int length, int flags) {
-    if ( 0 > send(fd, &length, sizeof(length), flags) ) { 
+bool send_varmsg(const int fd, const char* message, const unsigned short int length, int flags) {
+    unsigned short int myLen = htons(length);
+    if ( 0 > send(fd, &myLen, sizeof(myLen), flags) ) { 
         perror("send length");
         return false;
     }

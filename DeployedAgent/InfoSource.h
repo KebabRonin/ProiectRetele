@@ -5,7 +5,7 @@
 extern pthread_mutex_t my_mutex;
 extern pthread_mutex_t sources_mutex;
 extern int control_sd, transfer_sd;
-extern bool send_ack(const char*, const unsigned int);
+extern bool send_ack(const char, const char*, const unsigned int);
 
 struct InfoSource {
     pthread_t tid;
@@ -605,7 +605,7 @@ InfoSource::InfoSource(const char* mypath) : path(mypath), id(globalID++) {
     logfd = open(path,O_RDONLY);
     if (logfd < 0) {
         perror("Opening InfoSource path");
-        send_ack("Error: Opening path", strlen("Error: Opening path"));
+        send_ack(AGMSG_NEW_IS, "Error: Opening path", strlen("Error: Opening path"));
 
         this->unregister();
         return;
@@ -623,7 +623,7 @@ InfoSource::InfoSource(const char* mypath) : path(mypath), id(globalID++) {
 
     int rulesfd = 0;
     if((rulesfd = open(name, O_RDWR | O_CREAT, 0750)) < 0) {
-        send_ack("Error: Opening fmt file", strlen("Error: Opening fmt file"));
+        send_ack(AGMSG_NEW_IS, "Error: Opening fmt file", strlen("Error: Opening fmt file"));
         close(rulesfd);
         
         this->unregister();
@@ -638,7 +638,7 @@ InfoSource::InfoSource(const char* mypath) : path(mypath), id(globalID++) {
         exit(1);
     }
     
-    send_ack(this->path, strlen(this->path));
+    send_ack(AGMSG_NEW_IS, this->path, strlen(this->path));
 }
 
 InfoSource::~InfoSource() {
