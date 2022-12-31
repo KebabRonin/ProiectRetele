@@ -225,7 +225,7 @@ bool send_ack(const char agmsg_type, const char* info, const unsigned int info_s
     return true;
 }
 
-void treat (char const* command) {
+bool treat (char const* command) {
     char request_id = command[1];
     char response[MSG_MAX_SIZE]; bzero(response, sizeof(response));
     switch(command[0]){
@@ -248,8 +248,9 @@ void treat (char const* command) {
     }
     if (send_ack(AGMSG_NEW_IS, response, strlen(response)) == false) {
         perror("send()");
-        exit(3);
+        return false;
     }
+    return true;
 }
 
 int main(int argc, char* argv[]) {
@@ -302,7 +303,10 @@ Retry:
                 break;
             }
             
-            treat(command);
+            if (false == treat(command)) {
+                perror("Treating request");
+                break;
+            }
         }
     }
     while(sources.size() > 0) {
