@@ -13,6 +13,7 @@
 #include <sys/socket.h>
 #include <pthread.h>
 #include "../common_definitions.h"
+#include "ag_cl_common.h"
 
 #define AGENT_CONN_INFO_SIZE 20
 
@@ -27,6 +28,8 @@ struct Agent {
 
     bool login();
     bool init_transfer_connection();
+    pthread_mutex_t ag_mutex = PTHREAD_MUTEX_INITIALIZER;
+    void send_request(pthread_t tid, char type, const char* params, unsigned int len);
 
     Agent(sockaddr_in* agent_sockaddr, int* agent_transfer_sd);
     ~Agent();
@@ -36,6 +39,22 @@ struct Agent {
 
 #include <vector>
 extern std::vector<Agent*> agent_list;
+
+void Agent::send_request(pthread_t tid, char type, const char* params, unsigned int len) {
+    char message[MSG_MAX_SIZE]; bzero(message, MSG_MAX_SIZE);
+    message[0] = type;
+    ///@!
+    memcpy(message + 1, &tid, sizeof(pthread_t));
+    memcpy(message + 1 + sizeof(pthread_t), params, len);
+
+    buffer_change_endian(message, 1 + sizeof(pthread_t) + len);
+
+    pthread_mutex_lock(&ag_mutex);
+    if (false == send_varmsg(agent_control_sd, message, 1 + sizeof(pthread_t) + len, MSG_NOSIGNAL)) {
+        perror("send request");
+    }
+    pthread_mutex_unlock(&ag_mutex);
+}
 
 bool Agent::login() {
     char conn_info[MSG_MAX_SIZE]; bzero(conn_info, sizeof(conn_info));
@@ -65,7 +84,6 @@ bool Agent::login() {
     }
 
     strcat(log_path, "/info");
-    printf("\n--\n%s\n", log_path);
 
     int infofd = open(log_path, O_CREAT | O_TRUNC | O_WRONLY, 0750);
     
@@ -90,7 +108,17 @@ bool Agent::login() {
 void treat(const char* message) {
     switch(message[0]) {
         case AGMSG_ACK:
-            switch(message[1]) {
+        {
+            ///@!
+            pthread_t request_ID = (*((pthread_t*)(message+1)));
+            Request* clreq = get_Request(request_ID);
+            if (clreq != nullptr) {
+                bcopy(message + 1 + sizeof(pthread_t), clreq->rsp, strlen(message + 1 + sizeof(pthread_t))+1);
+            }
+            else {
+                printf("%s\n",message + 1 + sizeof(pthread_t));
+            }
+        /*    switch(message[1]) {
                 case AGMSG_NEW_IS:
                     if(message[2] == 0) {
                         //error
@@ -98,8 +126,9 @@ void treat(const char* message) {
                     break;
                 default:
                     printf("Unknown command ack\n");
-            }
+            }*/
             break;
+        }
         case AGMSG_HEARTBEAT:
             printf("Inima mea bate\n");
             break;
@@ -117,6 +146,7 @@ void* fnc_agent_control_listener(void* p) {
 
 
     char   message[MSG_MAX_SIZE];
+    int len;
 
     timeval time;
     while(1) {
@@ -135,10 +165,11 @@ void* fnc_agent_control_listener(void* p) {
         }
 
         bzero( message, sizeof(message) );
-        if ( false == recv_varmsg(myAgent->agent_control_sd, message, MSG_NOSIGNAL) ) {
+        if ( false == (len = recv_varmsg(myAgent->agent_control_sd, message, MSG_NOSIGNAL) )) {
             perror("recv_varmsg() control");
             break;    
         }
+        buffer_change_endian(message, len);
         treat(message);
     }
 
@@ -151,22 +182,22 @@ void* fnc_agent_transfer_listener(void* p) {
     char log_path[100];
     sprintf(log_path,"logs/%s",myAgent->id);
     int log_path_base_len = strlen(log_path);
+    int len;
     
     char   message[MSG_MAX_SIZE];
     bzero( message, sizeof(message) );
     while(1) {
-        if(recv_varmsg(myAgent->agent_transfer_sd,message, MSG_NOSIGNAL) == false) {
+        if( false == ( len = recv_varmsg(myAgent->agent_transfer_sd,message, MSG_NOSIGNAL))) {
             perror("recv_varmsg() transfer");
             break;
         }
-        else if(strlen(message) > 0) {
-            printf("%s;\n",message);
+        else if(len > 0) {
+            buffer_change_endian(message, len);
 
             char* p = strchr(message, '\t'); ///! change \t to \0 in InfoSource.h too!!!
             *p = '\0';
 
             sprintf(log_path + log_path_base_len ,"/%s.log", message);
-            printf("%s\n--\n",log_path);
 
             bool first_time = false;
 
@@ -221,6 +252,7 @@ bool Agent::init_transfer_connection() {
 }
 
 void* fnc_agent_creator(void* p) {
+    pthread_mutex_lock(&clreq_mutex);
     Agent* self = (Agent*) p;
     pthread_detach(pthread_self());
     //validate agent
@@ -255,6 +287,7 @@ void* fnc_agent_creator(void* p) {
     }
 
     printf("Agent operational\n");
+    pthread_mutex_unlock(&clreq_mutex);
 
     pthread_exit(nullptr);
 }
@@ -289,22 +322,25 @@ Agent::~Agent() {
     else {
         //printf("pthread exited with %d", *(int*)retval);
     }
-    if( agent_control_tid != 0 && agent_control_tid != pthread_self() && 0 != (err = pthread_tryjoin_np(agent_control_tid,&retval)) ) {
+    if( agent_control_tid != 0 && agent_control_tid != pthread_self()) {
         printf("Asta trebuia sa fie inutila, inseamna ca altcineva a distrus un agent decat el insusi\n");
-        if(err == EBUSY) {
-            if( 0 != (err = pthread_cancel(agent_control_tid)) ) {
-                perror("pthread_cancel()");
+        printf("self:%ld|control:%ld|transfer:%ld\n",pthread_self(),agent_control_tid, agent_transfer_tid);
+        if(0 != (err = pthread_tryjoin_np(agent_control_tid,&retval)) ) {
+            if(err == EBUSY) {
+                if( 0 != (err = pthread_cancel(agent_control_tid)) ) {
+                    perror("pthread_cancel()");
+                }
+                if(  0 != (err = pthread_join(agent_control_tid, &retval)) ) {
+                    perror("pthread_join()");
+                }
             }
-            if(  0 != (err = pthread_join(agent_control_tid, &retval)) ) {
-                perror("pthread_join()");
+            else {
+                perror("pthread_tryjoin()");
             }
         }
         else {
-            perror("pthread_tryjoin()");
+            //printf("pthread exited with %d", *(int*)retval);
         }
-    }
-    else {
-        //printf("pthread exited with %d", *(int*)retval);
     }
     close(agent_transfer_sd);
     close(agent_control_sd);

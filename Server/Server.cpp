@@ -15,7 +15,6 @@
 #include "AgentDispatcher.cpp"
 #include "ClientDispatcher.cpp"
 
-#define LOG_PATH "logs/"
 
 void create_agent_dispatcher(pthread_t *agent_tid) {
     if( 0 != pthread_create(agent_tid, nullptr, fnc_agent_control_dispatcher, nullptr)) {
