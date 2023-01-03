@@ -1,9 +1,12 @@
-R001|\d:"DATE" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\n:"NR1".\n:"NR2"] dhcp4 (\s:"INTERFACE"): canceled DHCP transaction
-R002|\d:"DATE" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\n:"NR1".\n:"NR2"] dhcp4 (\s:"INTERFACE"): state changed \s:"OLD_STATE" -> \s:"NEW_STATE"
-R003|\d:"DATE" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\n:"NR1".\n:"NR2"] dhcp4 (\s:"INTERFACE"): option \s:"OPTION"\ => '\s:"OPTION_VALUE"'
-R004|\d:"DATE" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\n:"NR1".\n:"NR2"] dhcp4 (\s:"INTERFACE"): activation: beginning transaction (timeout in \n:"_" seconds)
-R005|\d:"DATE" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\n:"NR1".\n:"NR2"] device (\s:"INTERFACE"): Activation: starting connection '\s:"CONN_NAME"' (\s:"ID")
-R006|\d:"DATE" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\n:"NR1".\n:"NR2"] device (\s:"INTERFACE"): Activation: successful, device activated.
-R007|\d:"DATE" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\n:"NR1".\n:"NR2"] device (\s:"INTERFACE"): state change: \s:"ORIGINAL_STATE" -> \s:"NEW_STATE" (reason '\s:"REASON"', sys-iface-state: '\s:"IFACE_STATE"')
-R008|\d:"DATE" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\n:"NR1".\n:"NR2"] manager: NetworkManager state is now \s:"STATE"
-R009|\d:"DATE" \s:"PC_NAME" kernel: [\n:"NR1".\n:"NR2"] usb \s:"USB_NAME": reset high-speed USB device number \n:"DEVICE_NR" using \s:"PROTOCOL"
+R001|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] dhcp4 (\s:"INTERFACE"): canceled DHCP transaction
+R002|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] dhcp4 (\s:"INTERFACE"): state changed \s:"OLD_STATE" -> \s:"NEW_STATE"
+R003|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] dhcp4 (\s:"INTERFACE"): option \s:"OPTION"\ => '\s:"OPTION_VALUE"'
+R004|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] dhcp4 (\s:"INTERFACE"): activation: beginning transaction (timeout in \n:"_" seconds)
+R005|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] device (\s:"INTERFACE"): Activation: starting connection '\s:"CONN_NAME"' (\s:"ID")
+R006|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] device (\s:"INTERFACE"): Activation: successful, device activated.
+R007|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] device (\s:"INTERFACE"): state change: \s:"ORIGINAL_STATE" -> \s:"NEW_STATE" (reason '\s:"REASON"', sys-iface-state: '\s:"IFACE_STATE"')
+R008|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] manager: NetworkManager state is now \s:"STATE"
+R009|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] policy: set '\s:"NAME"' (\s:"INTERFACE") as default for \s:"PROTOCOLS"
+R010|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" kernel: [\ \n:"_".\n:"_"] usb \s:"USB_NAME": reset high-speed USB device number \n:"DEVICE_NR" using \s:"PROTOCOL"
+R011|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" avahi-daemon[\n:"_"]: Withdrawing address record for \s:"ADDRESS" on \s:"INTERFACE".
+R012|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" avahi-daemon[\n:"_"]: Registering new address record for \s:"ADDRESS" on \s:"INTERFACE".\s:"PROTOCOL".

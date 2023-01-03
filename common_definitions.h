@@ -6,13 +6,31 @@
 #define CLIENT_PORT 2048
 #define CLMSG_AGLIST 'l'
 #define CLMSG_ADDSRC 'a'
+#define CLMSG_ADDRLE 'r'
 #define CLMSG_AGPROP 'p'
 #define AGMSG_HEARTBEAT 'h'
 #define AGMSG_ACK 'a'
 #define AGMSG_NEW_IS 'i'
+#define AGMSG_NEW_RL 'r'
+#define LOG_PATH "logs/"
 
+#include <stdio.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+#include <string.h>
 
-bool recv_fixed_length(const int fd, char* message, const unsigned int length, int flags) {
+void buffer_change_endian(char* buffer, unsigned long length) {
+    char temp;
+    if (htonl(1) != 1) {
+        for (int i = 0; i < length/2; ++i) {
+            temp = buffer[i];
+            buffer[i] = buffer[length - 1 - i];
+            buffer[length - 1 - i] = temp;
+        }
+    }
+}
+
+int recv_fixed_length(const int fd, char* message, const unsigned int length, int flags) {
 
     unsigned int read_bytes, total_read_bytes = 0;
     bzero(message, length + 1);
@@ -28,43 +46,47 @@ bool recv_fixed_length(const int fd, char* message, const unsigned int length, i
                 printf("recv_fixed_length: FD is nonblocking or socket was closed\n");
             }
             
-            return false;
+            return 0;
         }
 
         total_read_bytes += read_bytes;
     }
 
-    return true;
+    if (ntohl(1) != 1) {
+        buffer_change_endian(message, length);
+    }
+
+    return 1;
 }
 
-bool recv_varmsg(const int fd, char* message, int flags) {
+int recv_varmsg(const int fd, char* message, int flags) {
     unsigned short int length = 0;
-    if ( false == recv_fixed_length(fd, (char*)&length, sizeof(length), flags)) {
+    if ( 0 == recv_fixed_length(fd, (char*)&length, sizeof(length), flags)) {
         printf("Error : recv varlen length\n");
-        return false;
+        return 0;
     }
 
-    length = ntohs(length);
-
-    if ( false == recv_fixed_length(fd, message, length, flags)) {
+    if ( 0 == recv_fixed_length(fd, message, length, flags)) {
         printf("Error : recv varlen msg\n");
-        return false;
+        return 0;
     }
 
-    return true;
+    buffer_change_endian(message, length);
+
+    return length;
 }
 
-bool send_varmsg(const int fd, const char* message, const unsigned short int length, int flags) {
+int send_varmsg(const int fd, const char* message, const unsigned short int length, int flags) {
     unsigned short int myLen = htons(length);
     if ( 0 > send(fd, &myLen, sizeof(myLen), flags) ) { 
         perror("send length");
-        return false;
+        return 0;
     }
     if ( 0 > send(fd, message, length, 0) ) { 
         perror("send message");
-        return false;
+        return 0;
     }
 
-    return true;
+    return 1;
 
 }

@@ -207,7 +207,7 @@ void init_agent_info() {///!XML
 
 std::vector<InfoSource*> sources;
 
-bool send_ack(const char agmsg_type, const char* info, const unsigned int info_size) {
+bool send_ack(pthread_t request_ID, const char* info, const unsigned int info_size) {
     char ack[MSG_MAX_SIZE]; bzero(ack,sizeof(ack));
 
     if (info_size + 3 > MSG_MAX_SIZE) {
@@ -215,30 +215,40 @@ bool send_ack(const char agmsg_type, const char* info, const unsigned int info_s
     }
 
     ack[0] = AGMSG_ACK;
-    ack[1] = agmsg_type;
-    memcpy(ack+2,info, info_size);
+    ///@!
+    memcpy(ack+1, &request_ID , sizeof(request_ID));
+    memcpy(ack+1+sizeof(request_ID), info, info_size);
 
-    if ( false == send_varmsg(control_sd, ack, info_size + 2, MSG_NOSIGNAL)) {
+    buffer_change_endian(ack, 1 + sizeof(request_ID) + info_size);
+
+    if ( false == send_varmsg(control_sd, ack, info_size + sizeof(request_ID) + 1, MSG_NOSIGNAL)) {
         perror("send");
         return false;
     }
     return true;
 }
 
-bool treat (char const* command) {
-    char request_id = command[1];
+bool treat (const char * command) {
+    ///@!
+    pthread_t request_ID = (*((pthread_t*) (command + 1)));
     char response[MSG_MAX_SIZE]; bzero(response, sizeof(response));
+    const char* params = command + 1 + sizeof(request_ID);
     switch(command[0]){
         case AGMSG_NEW_IS:
             {
-                InfoSource* to_add = new InfoSource(command + 2);
-                if( to_add != nullptr ) {
-                    sources.push_back(to_add);
-                    ///!send to parent the new id
-                    strcpy(response,"Success\0");
+                InfoSource* to_add = createIS(params);
+                bool found = false;
+                for (auto i : sources) {
+                    if (i == to_add) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found) {
+                    strcpy(response,"Success");
                 }
                 else {
-                    strcpy(response,"Error\0");
+                    strcpy(response,"Failure");
                 }
                 break;
             }    
@@ -246,7 +256,8 @@ bool treat (char const* command) {
             strcpy(response,"Unsupported");
             printf("Unknown command:%s\n",command);
     }
-    if (send_ack(AGMSG_NEW_IS, response, strlen(response)) == false) {
+    
+    if (send_ack(request_ID, response, strlen(response)) == false) {
         perror("send()");
         return false;
     }
@@ -264,9 +275,14 @@ Retry:
     init_comms_to_server(argv[1]);
     
     
-    sources.push_back(new InfoSource("/var/log/syslog"));
+    if(nullptr == createIS("/var/log/syslog")) {
+        printf("couldn't add syslog\n");
+    }
+    else {
+        printf("Added syslog\n");
+    }
 
-    printf("Added syslog, listening for commands...\n");
+    printf("Listening for commands...\n");
 
     char command[MSG_MAX_SIZE];
 
@@ -276,6 +292,7 @@ Retry:
     FD_SET(control_sd,&actfds);
 
     timeval time;
+    int len;
 
     while(1) {
         bcopy ((char *) &actfds, (char *) &readfds, sizeof (readfds));
@@ -298,11 +315,13 @@ Retry:
             }
         }
         else {
-            if (false == recv_varmsg(control_sd,command, MSG_NOSIGNAL)) {
+            if (false == (len = recv_varmsg(control_sd,command, MSG_NOSIGNAL))) {
                 perror("recv()");
                 break;
             }
-            
+
+            buffer_change_endian(command, len);
+
             if (false == treat(command)) {
                 perror("Treating request");
                 break;

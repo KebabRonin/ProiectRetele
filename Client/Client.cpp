@@ -36,13 +36,22 @@
 
 static const char* server_address;
 
-void get_request(const char* request, char response[MSG_MAX_SIZE]) {
+bool get_request(char* request, char response[MSG_MAX_SIZE]) {
+    unsigned int retry_counter = 0;
+    int len;
+    buffer_change_endian(request, strlen(request));
+
+Retry_get_request:
+	retry_counter+=1;
+	if(retry_counter >= 5) {
+		return false;
+	}
     int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
     if ( -1 == sockfd ) {
         perror("socket()");
-        exit(2);
+        goto Retry_get_request;
     }
-    fcntl(sockfd, F_SETFL, fcntl(sockfd, F_GETFL, 0) | O_NONBLOCK);
+    //fcntl(sockfd, F_SETFL, fcntl(sockfd, F_GETFL, 0) | O_NONBLOCK);
 
     struct sockaddr_in server_sockaddr;
     bzero(&server_sockaddr, sizeof(server_sockaddr));
@@ -57,23 +66,30 @@ void get_request(const char* request, char response[MSG_MAX_SIZE]) {
     bzero(response, MSG_MAX_SIZE);
     
     while(!recieved_response) {
-        if (sendto(sockfd, request, strlen(request), 0, (struct sockaddr*)&server_sockaddr, sizeof(server_sockaddr)) < 0) {
+        if (sendto(sockfd, request, strlen(request), MSG_NOSIGNAL, (struct sockaddr*)&server_sockaddr, sizeof(server_sockaddr)) < 0) {
             perror("sendto");
-            exit(1);
+            close(sockfd);
+            goto Retry_get_request;
         }
         printf("Sent :%s:\n",request);
-        if(recv(sockfd, response, MSG_MAX_SIZE, 0) < 0) {
+        sleep(1);
+        if( 0 > (len = recv(sockfd, response, MSG_MAX_SIZE, MSG_DONTWAIT | MSG_NOSIGNAL))) {
             if(errno == EAGAIN || errno == EWOULDBLOCK)
-               sleep(1);
+               ;
             else {
                 perror("recv()");
-                exit(2);
+                close(sockfd);
+                goto Retry_get_request;
             }
         }
         else {
+            buffer_change_endian(response, len);
             recieved_response = true;
         }
     }
+    
+    close(sockfd);
+    return true;
 }
 
 void wid_agent_list() {
@@ -96,6 +112,17 @@ void wid_agent_properties(char* id) {
     printf("%s\n",response);
 }
 
+void wid_agent_add_is(char* id, char* path) {
+    char response[MSG_MAX_SIZE];
+    char request[MSG_MAX_SIZE];
+    request[0] = CLMSG_ADDSRC;
+    sprintf(request+1, "%s\n%s", id, path);
+    get_request(request, response);
+
+    printf("%s\n",response);
+}
+
+
 int main(int argc, char* argv[]) {
     if(argc < 3) {
         printf("Usage: %s ip widget\n", argv[0]);
@@ -115,6 +142,20 @@ int main(int argc, char* argv[]) {
                 exit(2);
             }
             wid_agent_properties(argv[3]);
+            break;
+        case 's':
+            if (argc < 5) {
+                printf("Must specify agent & path\n");
+                exit(2);
+            }
+            wid_agent_add_is(argv[3], argv[4]);
+            break;
+        case 'r':
+            if (argc < 5) {
+                printf("Must specify agent & path\n");
+                exit(2);
+            }
+            wid_agent_add_is(argv[3], argv[4]);
             break;
         default:
             printf("Unsupported widget\n");

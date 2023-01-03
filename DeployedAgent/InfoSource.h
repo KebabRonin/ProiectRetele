@@ -5,7 +5,7 @@
 extern pthread_mutex_t my_mutex;
 extern pthread_mutex_t sources_mutex;
 extern int control_sd, transfer_sd;
-extern bool send_ack(const char, const char*, const unsigned int);
+extern bool send_ack(pthread_t, const char*, const unsigned int);
 
 struct InfoSource {
     pthread_t tid;
@@ -19,10 +19,13 @@ struct InfoSource {
     bool parse_entry(const char* message, char* parsed_message);
     void send_entry(int sockfd, char* message);
     void unregister();
+    friend InfoSource* createIS(const char* mypath);
 
-    InfoSource(const char* path);
     ~InfoSource();
-};//InfoSource daemon for restarting?
+private: 
+    InfoSource(const char* mypath, int mylogfd) : path(mypath), id(globalID++), logfd(mylogfd) {}
+};
+//InfoSource daemon for restarting?
 unsigned char InfoSource::globalID = 'a';
 
 #include <vector>
@@ -76,7 +79,6 @@ void InfoSource::read_entry(int fd, char* message) {
         size_t len =  strlen(p+1);
         strcpy(message, p+1);
         bzero(message + len, MSG_MAX_SIZE - len);
-        printf("..reduced msg\n");
     }
 
     int already_read = strlen(message);
@@ -381,7 +383,7 @@ bool InfoSource::parse_entry(const char* message, char* parsed_message) {
                             if (day < 0 || day > 31) {
                                 goto NewEntry;
                             }
-                            parser_at += 1 + (day/10 > 0);
+                            parser_at += 2;
                             if (message[parser_at] != ' ') {
                                 goto NewEntry;
                             }
@@ -461,7 +463,7 @@ bool InfoSource::parse_entry(const char* message, char* parsed_message) {
                         if (day < 0 || day > 31) {
                             goto NewEntry;
                         }
-                        parser_at += 1 + (day/10 > 0);
+                        parser_at += 2;
                         if (message[parser_at] != ' ') {
                             goto NewEntry;
                         }
@@ -495,13 +497,8 @@ bool InfoSource::parse_entry(const char* message, char* parsed_message) {
                     }
                         break;
                     case ' ':
-                        if(message[parser_at++] == ' ') {
-                            while(message[parser_at] == ' ' || message[parser_at] == '\t') parser_at+=1;
-                            while(rule[i + 1] == ' ') i += 1;
-                        }
-                        else {
-                            goto NewEntry;
-                        }
+                        while(message[parser_at] == ' ' || message[parser_at] == '\t') parser_at+=1;
+                        while(rule[i + 1] == ' ') i += 1;
                         break;
                     default:
                         if(message[parser_at] != rule[i]) {
@@ -546,7 +543,6 @@ NewEntry:
     }
     
     strcat(parsed_message, jsoned_msg);
-    printf("parsed\n");
     
     return could_parse;
 }
@@ -556,11 +552,10 @@ void InfoSource::send_entry(int sockfd, char* message) {
     if (send_varmsg(sockfd, message, strlen(message), MSG_NOSIGNAL) == false) {
         pthread_mutex_unlock(&my_mutex);
         perror("Sending message");
-        this->unregister();
+        //this->unregister();
         pthread_exit(nullptr);
     }
     pthread_mutex_unlock(&my_mutex);
-    printf("sent\n");
 }
 
 void InfoSource::unregister() {
@@ -584,37 +579,48 @@ void* fnc_monitor_infosource(void* p) {
 
     while(1) {
         self->read_entry(self->logfd, message);
-        printf("Read : %s..\n", message);
+        {
+            char* p = strchr(message, '\n');
+            if (p != nullptr) p[0] = '\0';
+            printf("Read : %s..\n", message);
+            if (p != nullptr) p[0] = '\n';
+        }
+        
         if (true == self->parse_entry(message, parsed_message) ) {
-            printf("AMERSOMFGMORTOS\n");
+            buffer_change_endian(parsed_message, strlen(parsed_message));
             self->send_entry(transfer_sd,parsed_message);
+            printf("Am trimis\n");
         }
         else {
-            printf("N-a mers : %s\n",parsed_message);
+            printf("N-am trimis:%s\n",parsed_message);
+
         }
     }
     self->unregister();
     return nullptr;
 }
 
+InfoSource* createIS(const char* mypath) {
+printf("\n\n%s\n\n",mypath);
+    for(auto i : sources) {
+        if (0 ==strcmp(i->path,mypath)) {
+            return nullptr;
+        }
+    }
 
-InfoSource::InfoSource(const char* mypath) : path(mypath), id(globalID++) {
-    pthread_mutex_lock(&sources_mutex);
-    sources.push_back(this);
-    pthread_mutex_unlock(&sources_mutex);
-    logfd = open(path,O_RDONLY);
+    int logfd = open(mypath,O_RDONLY);
     if (logfd < 0) {
         perror("Opening InfoSource path");
-        send_ack(AGMSG_NEW_IS, "Error: Opening path", strlen("Error: Opening path"));
+        //send_ack(request_ID,"Error: Opening path", strlen("Error: Opening path"));
 
-        this->unregister();
-        return;
+        //this->unregister();
+        return nullptr;
     }
     lseek(logfd,0,SEEK_END);
 
 
     char name[MSG_MAX_SIZE];
-    sprintf(name, "%s.fmt", path);
+    sprintf(name, "%s.fmt", mypath);
     for ( int i = 0; name[i] != '\0'; ++i) {
         if (name[i] == '/') {
             name[i] = '_';
@@ -623,22 +629,31 @@ InfoSource::InfoSource(const char* mypath) : path(mypath), id(globalID++) {
 
     int rulesfd = 0;
     if((rulesfd = open(name, O_RDWR | O_CREAT, 0750)) < 0) {
-        send_ack(AGMSG_NEW_IS, "Error: Opening fmt file", strlen("Error: Opening fmt file"));
+        //send_ack(request_ID, "Error: Opening fmt file", strlen("Error: Opening fmt file"));
         close(rulesfd);
         
-        this->unregister();
-        return;
+        //this->unregister();
+        return nullptr;
     }
     close(rulesfd);
 
+    InfoSource* myIS = new InfoSource(mypath, logfd);
+    pthread_t tid;
 
-    if( 0 != pthread_create(&tid, nullptr, fnc_monitor_infosource, (void*)this)) {
+    if( 0 != pthread_create(&tid, nullptr, fnc_monitor_infosource, (void*)myIS)) {
         perror("Failed to make Info Source Monitor");
-        this->unregister();
+        //this->unregister();
         exit(1);
     }
+
+    myIS->tid = tid;
+
+    pthread_mutex_lock(&sources_mutex);
+    sources.push_back(myIS);
+    pthread_mutex_unlock(&sources_mutex);
     
-    send_ack(AGMSG_NEW_IS, this->path, strlen(this->path));
+    return myIS;
+    //send_ack(request_ID, this->path, strlen(this->path));
 }
 
 InfoSource::~InfoSource() {
