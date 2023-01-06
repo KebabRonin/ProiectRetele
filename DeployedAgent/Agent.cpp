@@ -195,12 +195,18 @@ void init_agent_info() {///!XML
             exit(3);
         case 0 :
             dup2(infofd, 1);
-            execlp("hostnamectl", "Agent info gatherer", nullptr);
+            execlp("hostnamectl", "Agent info gatherer", NULL);
             perror("execlp");
             exit(3);
     }
 
-    waitpid(pid, nullptr, 0);
+    int stat;
+    if ( -1 == waitpid(pid, &stat, 0) ) {
+        perror("waitpid");
+    }
+    else if(stat != 0) {
+        printf("error hostnamectl\n");
+    }
     close(infofd);
 
 }
@@ -297,7 +303,137 @@ bool treat (char * command) {
             strcpy(response, "Success");
 
             break;
-        }  
+        }
+        case CLMSG_RMVRLE: {
+            InfoSource* my_is = nullptr;
+
+            for(auto i : sources) {
+                if(0 == strcmp(i->path, params)) {
+                    my_is = i;
+                    break;
+                }
+            }
+
+            if (my_is == nullptr) {
+                strcpy(response, "Error: Unknown InfoSource");
+                break;
+            }
+
+            char* rule_name = params + strlen(params) + 1;
+            if (strlen(rule_name) == 0) {
+                strcpy(response,"Invalid format");
+                break;
+            }
+
+            char name[MSG_MAX_SIZE];
+            sprintf(name, "%s.fmt", my_is->path);
+            for ( int i = 0; name[i] != '\0'; ++i) {
+                if (name[i] == '/') {
+                    name[i] = '_';
+                }
+            }
+
+            int old_fd = open(name, O_RDONLY, 0);
+            if (old_fd < 0) {
+                perror("open");
+                strcpy(response, "Error: Opening rule file");
+                break;
+            }
+
+            char new_name[strlen(name) + 1];
+            sprintf(new_name,"%s~", name);
+
+            int new_fd = open(new_name, O_WRONLY | O_CREAT | O_TRUNC, 0750);
+            if (new_fd < 0) {
+                perror("open");
+                strcpy(response, "Error: Making new file");
+                break;
+            }
+
+            char rule[MSG_MAX_SIZE]; bzero(rule, MSG_MAX_SIZE);
+            bool first_time = true;
+            bool found = false;
+
+            read_fmt_entry(old_fd, rule);
+
+            while(strlen(rule) > 0) {
+                char* ending = strchr(rule, '\n');
+                if (ending != nullptr) {
+                    ending[0] = '\0';
+                }
+
+                char* p = strchr(rule, '|');
+                if(p == nullptr) {
+                    printf("Error: Rule not well formatted in %s, removing it\n", name);
+                }
+                
+                
+                if(strstr(rule, rule_name) == rule && rule[strlen(rule_name)] == '|') {
+                    found = true;
+                }
+                else if (p != nullptr) {//is formatted ok
+                    if(!first_time) {
+                        if ( 0 > write(new_fd, "\n", strlen("\n")) ) {
+                            perror("write");
+                            strcpy(response, "Error: Making new file");
+                            close(old_fd);
+                            close(new_fd);
+                            goto after_treat;
+                        }
+                    }
+                    if ( 0 > write(new_fd, rule, strlen(rule)) ) {
+                        perror("write");
+                        strcpy(response, "Error: Making new file");
+                        close(old_fd);
+                        close(new_fd);
+                        goto after_treat;
+                    }
+                    first_time = false;
+                }
+                
+                if (ending != nullptr) {
+                    ending[0] = '\n';
+                }
+
+                read_fmt_entry(old_fd, rule);
+            }
+
+            close(old_fd);
+            close(new_fd);
+
+            pthread_mutex_lock(&my_is->rules_file_mutex);
+            switch(int pid = fork()) {
+                case -1: 
+                    perror("fork");
+                    strcpy(response, "Error: Making new file");
+                    goto after_treat;
+                case 0 :
+                    execlp("mv", "mv", "-f", new_name, name, NULL);
+                    perror("execlp");
+                    exit(2);
+                default:{
+                    int stat;
+                    if ( -1 == waitpid(pid, &stat, 0) ) {
+                        perror("waitpid");
+                    }
+                    else if(stat != 0) {
+                        printf("error mv\n");
+                    }
+                }
+                    
+            }
+            pthread_mutex_unlock(&my_is->rules_file_mutex);
+
+
+            if (found) {
+                strcpy(response, "Success");
+            }
+            else {
+                strcpy(response, "Error: Rule not found");
+            }
+
+            break;
+        }
         case CLMSG_AG_LIST_SOURCES: {
             for(auto i : sources) {
                 strcat(response, i->path);
@@ -518,6 +654,7 @@ bool treat (char * command) {
             strcpy(response,"Unsupported");
             printf("Unknown command:%s\n",command);
     }
+after_treat:
     
     #ifdef cl_debug
     printf(COLOR_CL_DEB);

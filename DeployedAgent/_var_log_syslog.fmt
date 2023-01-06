@@ -9,4 +9,3 @@ R008|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_"
 R009|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] policy: set '\s:"NAME"' (\s:"INTERFACE") as default for \s:"PROTOCOLS"
 R010|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" kernel: [\ \n:"_".\n:"_"] usb \s:"USB_NAME": reset high-speed USB device number \n:"DEVICE_NR" using \s:"PROTOCOL"
 R011|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" avahi-daemon[\n:"_"]: Withdrawing address record for \s:"ADDRESS" on \s:"INTERFACE".
-R012|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" avahi-daemon[\n:"_"]: Registering new address record for \s:"ADDRESS" on \s:"INTERFACE".\s:"PROTOCOL".

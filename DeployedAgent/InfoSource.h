@@ -587,7 +587,6 @@ bool InfoSource::has_rule(const char* rule_name) {
 
     int fd = open(name, O_RDONLY, 0);
     if (fd < 0) {
-        pthread_mutex_unlock(&rules_file_mutex);
         perror("open");
         return false;
     }

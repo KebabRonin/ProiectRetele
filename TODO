@@ -1,8 +1,1 @@
-///!! hton/ ntoh
-//AGENT
-///! Handle server down event?
-///INFOSOURCE
-///!daemon for restarting sources?
-///!select readfds pentru performanta?
-///CLIENT+SERVER
-///!Add a query
+Agent concurent

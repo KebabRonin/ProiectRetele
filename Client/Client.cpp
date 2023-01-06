@@ -149,7 +149,7 @@ void wid_agent_add_rule(char* id, char* path, char* rule_name, char* rule) {
 void wid_agent_rm_rule(char* id, char* path, char* rule_name) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
-    request[0] = CLMSG_AG_HOWMANY_RULEPAGES;
+    request[0] = CLMSG_RMVRLE;
     sprintf(request+1, "%s\n%s\n%s", id, path, rule_name);
     get_request(request, response);
 
@@ -215,18 +215,19 @@ void help() {
     #define NOTDONE  "\033[1;31m"
 
     printf(MYCOLOR "======================" COLOR_OFF "\n");
-    printf(MYCOLOR "list" COLOR_OFF " - list all agents\n");
-    printf(MYCOLOR "prop <agent-name>" COLOR_OFF " - show info on <agent-name>\n");
-    printf(MYCOLOR "add-source <agent-name> <path>" COLOR_OFF " - add file from <path> to the info sources of <agent-name>\n");
-    printf(MYCOLOR "add-rule <agent-name> <path> <rule-name> <rule>" COLOR_OFF " - add <rule> (referred to as <rule-name>) to watch in file from <path> of <agent-name>\n");
-    printf(NOTDONE "!!rm-rule <agent-name> <path> <rule-name>" COLOR_OFF " - remove rule (referred to as <rule-name>) to watch in file from <path> of <agent-name>\n");
-    printf(MYCOLOR "run <file-name>" COLOR_OFF " - run <file-name> as script in client terminal\n");
-    printf(MYCOLOR "howmany <agent-name> <path>" COLOR_OFF " - show number of rule pages (there are %d rules/page)\n", ENTRIESPERPAGE);
-    printf(MYCOLOR "rulenames <agent-name> <path> <page>" COLOR_OFF " - show names of all rules on page <page>\n");
-    printf(MYCOLOR "showrule <agent-name> <path> <rule-name>" COLOR_OFF " - show actual rule refered to as <rule-name>\n");
-    printf(MYCOLOR "lsinfo <agent-name>" COLOR_OFF " - show active info sources of <>agent-name>\n");
     printf(MYCOLOR "exit" COLOR_OFF " - \n");
     printf(MYCOLOR "help" COLOR_OFF " - show this\n");
+    printf(MYCOLOR "list" COLOR_OFF " - list all agents\n");
+    printf(MYCOLOR "run <file-name>" COLOR_OFF " - run <file-name> as script in client terminal\n");
+    printf(MYCOLOR "prop <agent-name>" COLOR_OFF " - show info on <agent-name>\n");
+    printf(MYCOLOR "lsinfo <agent-name>" COLOR_OFF " - show active info sources of <>agent-name>\n");
+    printf(MYCOLOR "howmany <agent-name> <path>" COLOR_OFF " - show number of rule pages (there are %d rules/page)\n", ENTRIESPERPAGE);
+    printf(MYCOLOR "add-source <agent-name> <path>" COLOR_OFF " - add file from <path> to the info sources of <agent-name>\n");
+    printf(MYCOLOR "rulenames <agent-name> <path> <page>" COLOR_OFF " - show names of all rules on page <page>\n");
+    printf(NOTDONE "!!query <agent-name> <path> <condition>" COLOR_OFF " - ask for <condition> from the log of <path> in <agent-name>\n");
+    printf(MYCOLOR "rm-rule <agent-name> <path> <rule-name>" COLOR_OFF " - remove rule (referred to as <rule-name>) to watch in file from <path> of <agent-name>\n");
+    printf(MYCOLOR "showrule <agent-name> <path> <rule-name>" COLOR_OFF " - show actual rule refered to as <rule-name>\n");
+    printf(MYCOLOR "add-rule <agent-name> <path> <rule-name> <rule>" COLOR_OFF " - add <rule> (referred to as <rule-name>) to watch in file from <path> of <agent-name>\n");
     printf(MYCOLOR "======================" COLOR_OFF "\n");
 }
 
@@ -247,10 +248,17 @@ int main(int argc, char* argv[]) {
 
     int stdin_backup = dup(0);
 
+    bool done_reading_file = false;
+
     while(1) {
         already_read = strlen(buffer);
         if(0 >= (read_now = read(0, buffer + already_read, 300 - already_read))) {
             if(read_now == 0) {
+                if(done_reading_file == false) {
+                    done_reading_file = true;
+                    strcat(buffer,"\n");
+                    already_read += 1;
+                }
                 if (already_read == 0) {
                     dup2(stdin_backup, 0);
                     bzero(buffer, 300);
@@ -284,6 +292,7 @@ int main(int argc, char* argv[]) {
             char* prev = buffer, *tok = buffer;
             char* args[10];
             int nr_args = 0;
+
             while( tok != nullptr) {
 
                 tok = strchr(tok, ' ');
@@ -368,7 +377,9 @@ int main(int argc, char* argv[]) {
                         perror("open");
                     }
                     else {
+                        done_reading_file = false;
                         printf("===============\n");
+                        printf("Running script..\n");
                         dup2(fd, 0);
                         close(fd);
                         bzero(buffer, 300);
@@ -402,6 +413,16 @@ int main(int argc, char* argv[]) {
                 else {
                     printf("===============\n");
                     wid_agent_showrule(args[1], args[2], args[3]);
+                    printf("===============\n");
+                }
+            }
+            else if(strcmp(args[0], "lsinfo") == 0) {
+                if(nr_args < 2) {
+                    printf("lsinfo <agent-name>" COLOR_OFF " - show active info sources of <>agent-name>\n");
+                }
+                else {
+                    printf("===============\n");
+                    wid_agent_lsinfo(args[1]);
                     printf("===============\n");
                 }
             }

@@ -14,6 +14,7 @@
 #define CLMSG_AG_LIST_RULEPAGE      'g'
 #define CLMSG_AG_LIST_SOURCES       'i'
 #define CLMSG_AG_SHOW_RULE          's'
+#define CLMSG_COUNT_QUERY           'q'
 #define AGMSG_HEARTBEAT     'h'
 #define AGMSG_ACK           'a'
 #define LOG_PATH "logs/"

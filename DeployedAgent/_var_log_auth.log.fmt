@@ -1,2 +1,3 @@
 
 R001|salut
+R012|\d:"__LOG_TIMESTAMP" \s:"PC_NAME" avahi-daemon[\n:"_"]: Registering new address record for \s:"ADDRESS" on \s:"INTERFACE".\s:"PROTOCOL".
