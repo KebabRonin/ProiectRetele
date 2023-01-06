@@ -7,3 +7,4 @@ R101\
 list
 
 rm-rule kebab-B360M-DS3H /var/log/syslog R101
+run add_R101

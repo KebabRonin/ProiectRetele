@@ -14,6 +14,8 @@
 #include <sys/wait.h>
 #include <pthread.h>
 #include <vector>
+#include <fstream>
+#include <jsoncpp/json/json.h>
 #include "Agent.h"
 #include "../common_definitions.h"
 #include "ag_cl_common.h"
@@ -106,11 +108,10 @@ void* fnc_treat_client(void* p) {
     char response[MSG_MAX_SIZE]; bzero(response, MSG_MAX_SIZE);
     switch (type) {
         case CLMSG_AGLIST: {
-            #ifdef cl_debug
-printf(COLOR_CL_DEB);
+#ifdef cl_debug
+            printf(COLOR_CL_DEB);
             printf("AGLIST\n");
-            printf(COLOR_OFF);
-fflush(stdout);
+            printf(COLOR_OFF);fflush(stdout);
 #endif
             char buf[MSG_MAX_SIZE];
 
@@ -134,11 +135,10 @@ fflush(stdout);
             break;
         }
         case CLMSG_AGPROP: {
-            #ifdef cl_debug
-printf(COLOR_CL_DEB);
+#ifdef cl_debug
+            printf(COLOR_CL_DEB);
             printf("AGPROP\n");
-            printf(COLOR_OFF);
-fflush(stdout);
+            printf(COLOR_OFF);fflush(stdout);
 #endif
             char buf[MSG_MAX_SIZE];
 
@@ -172,12 +172,296 @@ fflush(stdout);
 
             break;
         }
+        case CLMSG_COUNT_QUERY: {
+#ifdef cl_debug
+            printf(COLOR_CL_DEB);
+            printf("CLMSG_COUNT_QUERY\n");
+            printf(COLOR_OFF);fflush(stdout);
+#endif
+
+            char* ag_name = clreq + 1;
+            char* my_path = strchr(ag_name, '\n');
+            if (my_path == nullptr) {
+                sprintf(response, "Can't find argument: Path");
+                break;
+            }
+            my_path[0] = '\0';
+            my_path += 1;
+            char* my_cond = strchr(my_path, '\n');
+            if (my_cond == nullptr) {
+                sprintf(response, "Can't find argument: Conditions");
+                break;
+            }
+            my_cond[0] = '\0';
+            my_cond += 1;
+
+            //parse conditions
+
+            struct condition {
+                char* name;
+                char op;
+                char* value;
+            }conditions[100];
+            int nr_cond = 0;
+            {
+                char* p = strtok(my_cond,"\"");
+                while(p != nullptr) {
+                    if(p[0] == '&') {
+                        p += 1;
+                    }
+                    conditions[nr_cond].name = p;
+                        if ( nullptr != (p = strchr(conditions[nr_cond].name,'='))) {
+                        conditions[nr_cond].op = '=';
+                        p[0] = '\0';
+                        p += 1;
+                    }
+                    else if ( nullptr != (p = strchr(conditions[nr_cond].name,'!'))) {
+                        conditions[nr_cond].op = '!';
+                        p[0] = '\0';
+                        p += 1;
+                    }
+                    else if ( nullptr != (p = strchr(conditions[nr_cond].name,'<'))) {
+                        conditions[nr_cond].op = '<';
+                        p[0] = '\0';
+                        p += 1;
+                    }
+                    else if ( nullptr != (p = strchr(conditions[nr_cond].name,'>'))) {
+                        conditions[nr_cond].op = '>';
+                        p[0] = '\0';
+                        p += 1;
+                    }
+                    else {
+                        sprintf(response, "Invalid condition: Missing operator(=,!,>,<)");
+                        goto send_response;
+                    }
+                    
+                    p = strtok(NULL, "\"");
+
+                    if(p == nullptr) {
+                        sprintf(response, "Invalid condition: \"<value>\" not found");
+                        goto send_response;
+                    }
+
+                    conditions[nr_cond].value = p;
+
+                    nr_cond += 1;
+
+                    p = strtok(NULL, "\"");
+                }
+            }
+
+            if(nr_cond == 0) {
+                sprintf(response, "Invalid conditions: no conditions");
+                break;
+            }
+
+            /*printf("Found %d rules:\n",nr_cond);
+            for(int i = 0; i < nr_cond; ++i) {
+                printf("\t:%s: %c \"%s\"\n",conditions[i].name,conditions[i].op,conditions[i].value);
+            }*/
+
+
+            char buf[MSG_MAX_SIZE];
+
+            get_all_agents(buf);
+
+            char* p = strtok(buf, "\n");
+
+            while(p != nullptr) {
+                if(strcmp(p , ag_name) == 0) {
+                    break;
+                }
+                p = strtok(nullptr, "\n");
+            }
+
+            if( p == nullptr) {
+                sprintf(response, "Unknown agent");
+                break;
+            }
+
+            char name[MSG_MAX_SIZE];
+            sprintf(name, "%s%s/%s.log", LOG_PATH, ag_name, my_path);
+
+            for ( int i = strlen(LOG_PATH) + strlen(ag_name) + 1; name[i] != '\0'; ++i) {
+                if (name[i] == '/') {
+                    name[i] = '_';
+                }
+            }
+
+            int fd = open(name, O_RDONLY, 0);
+            if (fd == -1) {
+                perror("open");
+                sprintf(response, "Error: opening log file");
+                break;
+            }
+
+            char buffer[MSG_MAX_SIZE]; bzero(buffer, sizeof(buffer));
+            int count = 0;
+            do {
+                int err;
+                if( 0 >= (err = read(fd, buffer + strlen(buffer), MSG_MAX_SIZE - strlen(buffer)))) {
+                    
+                    if (err == 0 && strlen(buffer) == 0) {
+                        break;
+                    }
+                    else if (err != 0) {
+                        perror("error");
+                        break;
+                    }
+                }
+
+                char* p = strstr(buffer, "]}");
+                if(p == nullptr) {
+                    break;
+                }
+                p+=2;
+                if(p[0] == ',') {
+                    p[0] = '\0';
+                    p += 1;
+                    if (p[0] == '\n') p+=1;
+                }
+                else if(p[0] != 0) {
+                    printf("============================\nUnexpected character!!\n");
+                    break;
+                }
+
+                //verify conditions
+
+                int i;
+
+                for (i = 0; i < nr_cond; ++i) {
+                    char* p = buffer;
+                    if(0 == strcmp(conditions[i].name,"rule")) {
+                        char* possible_match = strstr(buffer, "rule");
+                        if(possible_match == nullptr) {
+                            printf("Something is wrong with the json file, aborting");
+                            sprintf(response, "Database compromised");
+                            goto send_response;
+                        }
+                        possible_match += strlen("rule\":\"");
+                        char* ending = strchr(possible_match, '\"');
+                        if(ending == nullptr) {
+                            printf("Something is wrong with the json file, aborting");
+                            sprintf(response, "Database compromised");
+                            goto send_response;
+                        }
+                        ending[0] = '\0';
+                        switch(conditions[i].op) {
+                            case '=':
+                                if(0 == strcmp(conditions[i].value, possible_match)) {
+                                    ending[0] = '\"';
+                                    goto match;
+                                }
+                                break;
+                            case '!':
+                                if(0 != strcmp(conditions[i].value, possible_match)) {
+                                    ending[0] = '\"';
+                                    goto match;
+                                }
+                                break;
+                            case '<':
+                                if(0 < strcmp(conditions[i].value, possible_match)) {
+                                    ending[0] = '\"';
+                                    goto match;
+                                }
+                                break;
+                            case '>':
+                                if(0 > strcmp(conditions[i].value, possible_match)) {
+                                    ending[0] = '\"';
+                                    goto match;
+                                }
+                                break;
+                        }
+                        ending[0] = '\"';
+                    }
+                    else {
+                        while((p = strstr(p, conditions[i].name)) != nullptr) {
+                            char* possible_match = p + strlen(conditions[i].name);
+                            if(possible_match == strstr(possible_match,"\",\"value\":\"")) {
+                                possible_match += strlen("\",\"value\":\"");
+                                char* ending = strchr(possible_match, '\"');
+                                if(ending == nullptr) {
+                                    printf("Something is wrong with the json file, aborting");
+                                    sprintf(response, "Database compromised");
+                                    goto send_response;
+                                }
+                                ending[0] = '\0';
+                                switch(conditions[i].op) {
+                                    case '=':
+                                        if(0 == strcmp(conditions[i].value, possible_match)) {
+                                            ending[0] = '\"';
+                                            goto match;
+                                        }
+                                        break;
+                                    case '!':
+                                        if(0 != strcmp(conditions[i].value, possible_match)) {
+                                            ending[0] = '\"';
+                                            goto match;
+                                        }
+                                        break;
+                                    case '<':
+                                        if(0 < strcmp(conditions[i].value, possible_match)) {
+                                            ending[0] = '\"';
+                                            goto match;
+                                        }
+                                        break;
+                                    case '>':
+                                        if(0 > strcmp(conditions[i].value, possible_match)) {
+                                            ending[0] = '\"';
+                                            goto match;
+                                        }
+                                        break;
+                                }
+                                ending[0] = '\"';
+                                p += 1;
+                            }
+                            p += 1;
+                        }
+                    }
+                    break;
+match:              ;
+                }
+
+                if(i==nr_cond) {
+                    count+=1;
+                }
+
+                bzero(buffer, strlen(buffer));
+                strcpy(buffer, p);
+                
+                /*
+                //std::ifstream log(name);
+                Json::CharReaderBuilder builder;
+                Json::CharReader* my_reader = builder.newCharReader();
+                Json::Value root;
+                std::string err;
+                if ( false == my_reader->parse(buffer, buffer + strlen(buffer), &root, &err) ) {
+                    printf("%s\n", err.c_str());
+                }
+                
+                Json::Value entry;
+                
+                for(auto i : root) {
+                    if((entry = i["rule"]) == 0) {
+                        printf("error finding entry\n");
+                    }
+                    //check rule
+                    printf("found %s\n", entry.asCString());
+                }*/
+
+            }while(strlen(buffer) > 0);
+
+            close(fd);
+
+            sprintf(response, "%d", count);
+
+            break;
+        }
         default: {
-            #ifdef cl_debug
-printf(COLOR_CL_DEB);
+#ifdef cl_debug
+            printf(COLOR_CL_DEB);
             printf("Some command : %c\n", type);
-            printf(COLOR_OFF);
-fflush(stdout);
+            printf(COLOR_OFF);fflush(stdout);
 #endif
 
             //verify params
@@ -189,10 +473,9 @@ fflush(stdout);
             }
 
 #ifdef cl_debug
-printf(COLOR_CL_DEB);
+            printf(COLOR_CL_DEB);
             printf("my_id:%s:\nnext_params:%s:\n",my_id, next_params);
-printf(COLOR_OFF);
-fflush(stdout);
+            printf(COLOR_OFF);fflush(stdout);
 #endif
 
             Agent* my_agent = nullptr;
@@ -212,10 +495,9 @@ fflush(stdout);
             register_Request(&myReq);
 
 #ifdef ag_debug
-printf(COLOR_AG_DEB);
+            printf(COLOR_AG_DEB);
             printf("REGISTERED THREAD %lu\n", pthread_self());
-printf(COLOR_OFF);
-fflush(stdout);
+            printf(COLOR_OFF);fflush(stdout);
 #endif
 
             my_agent->send_request(pthread_self(), type, next_params, next_params == nullptr ? 0 : strlen(next_params));
@@ -227,22 +509,20 @@ fflush(stdout);
             }while(strlen(myReq.rsp) == 0);
             
 #ifdef ag_debug
-printf(COLOR_AG_DEB);
+            printf(COLOR_AG_DEB);
             printf("request!\n");
-printf(COLOR_OFF);
-fflush(stdout);
+            printf(COLOR_OFF);fflush(stdout);
 #endif
 
             unregister_Request(&myReq);
             break;
         }
     }
-    
-    #ifdef cl_debug
-printf(COLOR_CL_DEB);
+send_response:
+#ifdef cl_debug
+    printf(COLOR_CL_DEB);
     printf("Sending to client:%s:\n",response);
-    printf(COLOR_OFF);
-fflush(stdout);
+    printf(COLOR_OFF);fflush(stdout);
 #endif
 
     buffer_change_endian(response, strlen(response));

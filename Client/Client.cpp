@@ -146,6 +146,20 @@ void wid_agent_add_rule(char* id, char* path, char* rule_name, char* rule) {
     
 }
 
+void wid_agent_c_query(char* id, char* path, char* conditions) {
+    char response[MSG_MAX_SIZE];
+    char request[MSG_MAX_SIZE];
+    request[0] = CLMSG_COUNT_QUERY;
+    if(MSG_MAX_SIZE < sprintf(request+1, "%s\n%s\n%s", id, path, conditions))
+        printf("WARNING: message too long!\n");
+    else
+        get_request(request, response);
+
+    
+    printf("There were %s entries matching the conditions.\n",response);
+    
+}
+
 void wid_agent_rm_rule(char* id, char* path, char* rule_name) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
@@ -224,10 +238,11 @@ void help() {
     printf(MYCOLOR "howmany <agent-name> <path>" COLOR_OFF " - show number of rule pages (there are %d rules/page)\n", ENTRIESPERPAGE);
     printf(MYCOLOR "add-source <agent-name> <path>" COLOR_OFF " - add file from <path> to the info sources of <agent-name>\n");
     printf(MYCOLOR "rulenames <agent-name> <path> <page>" COLOR_OFF " - show names of all rules on page <page>\n");
-    printf(NOTDONE "!!query <agent-name> <path> <condition>" COLOR_OFF " - ask for <condition> from the log of <path> in <agent-name>\n");
     printf(MYCOLOR "rm-rule <agent-name> <path> <rule-name>" COLOR_OFF " - remove rule (referred to as <rule-name>) to watch in file from <path> of <agent-name>\n");
+    printf(MYCOLOR "c-query <agent-name> <path> `<conditions>" COLOR_OFF " - ask for entries matching <conditions> from the log of <path> in <agent-name>\n");
+    printf(NOTDONE "<conditions>" COLOR_OFF " - \'&\' separated conditions of type :<name><op>\"<value>\":\nWhere <op> can be one of {=!<>}\nNO SPACES OUTSIDE \"\"!!\n");
     printf(MYCOLOR "showrule <agent-name> <path> <rule-name>" COLOR_OFF " - show actual rule refered to as <rule-name>\n");
-    printf(MYCOLOR "add-rule <agent-name> <path> <rule-name> <rule>" COLOR_OFF " - add <rule> (referred to as <rule-name>) to watch in file from <path> of <agent-name>\n");
+    printf(MYCOLOR "add-rule <agent-name> <path> <rule-name> `<rule>" COLOR_OFF " - add <rule> (referred to as <rule-name>) to watch in file from <path> of <agent-name>\n");
     printf(MYCOLOR "======================" COLOR_OFF "\n");
 }
 
@@ -329,7 +344,7 @@ int main(int argc, char* argv[]) {
             }
             else if(strcmp(args[0], "prop") == 0) {
                 if(nr_args < 2) {
-                    printf("\nUsage : prop <agent-name> - show info on <agent-name>\n");
+                    printf("\nUsage: prop <agent-name> - show info on <agent-name>\n");
                 }
                 else {
                     printf("===============\n");
@@ -339,7 +354,7 @@ int main(int argc, char* argv[]) {
             }
             else if(strcmp(args[0], "add-source") == 0) {
                 if(nr_args < 3) {
-                    printf("\nUsage : add-source <agent-name> <path> - add file from <path> to the info sources of <agent-name>\n");
+                    printf("\nUsage: add-source <agent-name> <path> - add file from <path> to the info sources of <agent-name>\n");
                 }
                 else {
                     printf("===============\n");
@@ -349,7 +364,7 @@ int main(int argc, char* argv[]) {
             }
             else if(strcmp(args[0], "add-rule") == 0) {
                 if(nr_args < 5) {
-                    printf("\nUsage : add-rule <agent-name> <path> <rule-name> <rule> - add <rule> (referred to as <rule-name>) to watch in file from <path> of <agent-name>\n");
+                    printf("\nUsage: add-rule <agent-name> <path> <rule-name> `<rule> - add <rule> (referred to as <rule-name>) to watch in file from <path> of <agent-name>\n");
                 }
                 else {
                     printf("===============\n");
@@ -359,7 +374,7 @@ int main(int argc, char* argv[]) {
             }
             else if(strcmp(args[0], "rm-rule") == 0) {
                 if(nr_args < 4) {
-                    printf("\nUsage : rm-rule <agent-name> <path> <rule-name> - remove rule (referred to as <rule-name>) to watch in file from <path> of <agent-name>\n");
+                    printf("\nUsage: rm-rule <agent-name> <path> <rule-name> - remove rule (referred to as <rule-name>) to watch in file from <path> of <agent-name>\n");
                 }
                 else {
                     printf("===============\n");
@@ -369,7 +384,7 @@ int main(int argc, char* argv[]) {
             }
             else if(strcmp(args[0], "run") == 0) {
                 if(nr_args < 2) {
-                    printf("\nUsage : run <file-name> - run <file-name> as script in client terminal\n");
+                    printf("\nUsage: run <file-name> - run <file-name> as script in client terminal\n");
                 }
                 else {
                     int fd = open(args[1], O_RDONLY, 0);
@@ -388,7 +403,7 @@ int main(int argc, char* argv[]) {
             }
             else if(strcmp(args[0], "howmany") == 0) {
                 if(nr_args < 3) {
-                    printf("\nUsage : howmany <agent-name> <path> - show number of rule pages (there are %d rules/page)\n", ENTRIESPERPAGE);
+                    printf("\nUsage: howmany <agent-name> <path> - show number of rule pages (there are %d rules/page)\n", ENTRIESPERPAGE);
                 }
                 else {
                     printf("===============\n");
@@ -398,7 +413,7 @@ int main(int argc, char* argv[]) {
             }
             else if(strcmp(args[0], "rulenames") == 0) {
                 if(nr_args < 4) {
-                    printf("\nUsage : rulenames <agent-name> <path> <page> - show names of all rules on page <page>\n");
+                    printf("\nUsage: rulenames <agent-name> <path> <page> - show names of all rules on page <page>\n");
                 }
                 else {
                     printf("===============\n");
@@ -408,7 +423,7 @@ int main(int argc, char* argv[]) {
             }
             else if(strcmp(args[0], "showrule") == 0) {
                 if(nr_args < 4) {
-                    printf("\nshowrule <agent-name> <path> <rule-name> - show actual rule refered to as <rule-name>\n");
+                    printf("\nUsage: showrule <agent-name> <path> <rule-name> - show actual rule refered to as <rule-name>\n");
                 }
                 else {
                     printf("===============\n");
@@ -418,7 +433,7 @@ int main(int argc, char* argv[]) {
             }
             else if(strcmp(args[0], "lsinfo") == 0) {
                 if(nr_args < 2) {
-                    printf("lsinfo <agent-name>" COLOR_OFF " - show active info sources of <>agent-name>\n");
+                    printf("\nUsage: lsinfo <agent-name>" COLOR_OFF " - show active info sources of <>agent-name>\n");
                 }
                 else {
                     printf("===============\n");
@@ -426,13 +441,13 @@ int main(int argc, char* argv[]) {
                     printf("===============\n");
                 }
             }
-            else if(strcmp(args[0], "lsinfo") == 0) {
-                if(nr_args < 2) {
-                    printf("lsinfo <agent-name>" COLOR_OFF " - show active info sources of <>agent-name>\n");
+            else if(strcmp(args[0], "c-query") == 0) {
+                if(nr_args < 4) {
+                    printf("\nUsage: c-query <agent-name> <path> `<conditions> - ask for entries matching <conditions> from the log of <path> in <agent-name>\n");
                 }
                 else {
                     printf("===============\n");
-                    wid_agent_lsinfo(args[1]);
+                    wid_agent_c_query(args[1], args[2], args[3]);
                     printf("===============\n");
                 }
             }

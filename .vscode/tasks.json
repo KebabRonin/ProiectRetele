@@ -6,6 +6,7 @@
             "command": "/usr/bin/g++",
             "args": [
                 "-pthread",
+                "-ljsoncpp",
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
@@ -27,6 +28,7 @@
             "command": "/usr/bin/g++",
             "args": [
                 "-pthread",
+                "-ljsoncpp",
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
