@@ -1,0 +1,7 @@
+add-rule\
+kebab-B360M-DS3H\
+/var/log/syslog\
+R101\
+`\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] dhcp6 (\s:"INTERFACE"): canceled DHCP transaction
+
+list
