@@ -15,7 +15,7 @@
 
 #define AGENT_PORT 2077
 
-pthread_mutex_t my_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t transfer_sock_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t sources_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 int control_sd, transfer_sd;
@@ -89,7 +89,7 @@ bool init_transfer_connection(const char* ip) {
     timeval time;
 
     while (1) {
-        printf("Entering while..\n");
+        printf("Initialising transfer conn..\n");
 
         transfer_sd = socket(AF_INET, SOCK_STREAM, 0);
         if( -1 == transfer_sd ) {
@@ -228,14 +228,22 @@ bool send_ack(pthread_t request_ID, const char* info, const unsigned int info_si
     return true;
 }
 
-bool treat (const char * command) {
+bool treat (char * command) {
     ///@!
     pthread_t request_ID = (*((pthread_t*) (command + 1)));
     char response[MSG_MAX_SIZE]; bzero(response, sizeof(response));
-    const char* params = command + 1 + sizeof(request_ID);
+    char* params = command + 1 + sizeof(request_ID);
+    #ifdef cl_debug
+    printf(COLOR_CL_DEB);
+    printf("ClReq Recieved:%s:\n",params);
+    printf(COLOR_OFF); fflush(stdout);
+    #endif
+    char* p = strtok(params, "\n");
+    while(p != nullptr) {
+        p = strtok(NULL, "\n");
+    }
     switch(command[0]){
-        case AGMSG_NEW_IS:
-            {
+        case CLMSG_ADDSRC: {
                 InfoSource* to_add = createIS(params);
                 bool found = false;
                 for (auto i : sources) {
@@ -251,12 +259,272 @@ bool treat (const char * command) {
                     strcpy(response,"Failure");
                 }
                 break;
-            }    
+            }
+        case CLMSG_ADDRLE: {
+            InfoSource* my_is = nullptr;
+
+            for(auto i : sources) {
+                if(0 == strcmp(i->path, params)) {
+                    my_is = i;
+                    break;
+                }
+            }
+
+            if (my_is == nullptr) {
+                strcpy(response, "Error: Unknown InfoSource");
+                break;
+            }
+
+            char* p = strchr(params + strlen(params) + 1, '|');
+            if (p == nullptr) {
+                strcpy(response,"Invalid format");
+                break;
+            }
+
+            p[0] = '\0';
+
+            if(true == my_is->has_rule(params + strlen(params) + 1)) {
+                strcpy(response, "Error: Rule name already in use");
+                break;
+            }
+
+            p[0] = '|';
+            
+            if(false == my_is->add_rule(params + strlen(params) + 1)) {
+                strcpy(response, "Error: Couldn't add rule");
+                break;
+            }
+            strcpy(response, "Success");
+
+            break;
+        }  
+        case CLMSG_AG_LIST_SOURCES: {
+            for(auto i : sources) {
+                strcat(response, i->path);
+                strcat(response, "\n");
+            }
+            break;
+        }  
+        case CLMSG_AG_HOWMANY_RULEPAGES: {
+            InfoSource* my_is = nullptr;
+
+            for(auto i : sources) {
+                if(0 == strcmp(i->path, params)) {
+                    my_is = i;
+                    break;
+                }
+            }
+
+            if (my_is == nullptr) {
+                strcpy(response, "Error: Unknown InfoSource");
+                break;
+            }
+
+            char name[MSG_MAX_SIZE];
+            sprintf(name, "%s.fmt", my_is->path);
+            for ( int i = 0; name[i] != '\0'; ++i) {
+                if (name[i] == '/') {
+                    name[i] = '_';
+                }
+            }
+
+            int fd = open(name, O_RDONLY, 0);
+            if(fd < 0) {
+                strcpy(response, "Error: Couldn't open rule file");
+                break;
+            }
+
+            char entry[MSG_MAX_SIZE]; bzero(entry, MSG_MAX_SIZE);
+            int nr_entries = 0;
+
+            read_fmt_entry(fd, entry);
+
+            while(strlen(entry) > 0) {
+                nr_entries += 1;
+
+                char* ending = strchr(entry, '\n');
+                if (ending != nullptr) {
+                    ending[0] = '\0';
+                }
+
+                char* p = strchr(entry, '|');
+                if(p == nullptr) {
+                    nr_entries -= 1;
+                    printf("Error: Rule not well formatted in %s, after %d-th rule\n", name, nr_entries);
+                }
+
+                if (ending != nullptr) {
+                    ending[0] = '\n';
+                }
+
+                read_fmt_entry(fd, entry);
+            }
+            close(fd);
+
+            sprintf(response, "%d", nr_entries/ENTRIESPERPAGE + (nr_entries % ENTRIESPERPAGE > 0));
+
+            break;
+        }  
+        case CLMSG_AG_LIST_RULEPAGE: {
+            InfoSource* my_is = nullptr;
+
+            for(auto i : sources) {
+                if(0 == strcmp(i->path, params)) {
+                    my_is = i;
+                    break;
+                }
+            }
+
+            if (my_is == nullptr) {
+                strcpy(response, "Error: Unknown InfoSource");
+                break;
+            }
+
+            int page = atoi(params + strlen(params) + 1);
+            if (page == 0) {
+                strcpy(response,"Invalid page");
+                break;
+            }
+
+            char name[MSG_MAX_SIZE];
+            sprintf(name, "%s.fmt", my_is->path);
+            for ( int i = 0; name[i] != '\0'; ++i) {
+                if (name[i] == '/') {
+                    name[i] = '_';
+                }
+            }
+
+            int fd = open(name, O_RDONLY, 0);
+            if(fd < 0) {
+                strcpy(response, "Error: Couldn't open rule file");
+                break;
+            }
+
+            char entry[MSG_MAX_SIZE]; bzero(entry, MSG_MAX_SIZE);
+            int nr_entries = 0;
+
+            read_fmt_entry(fd, entry);
+
+            while(strlen(entry) > 0 && (nr_entries/ENTRIESPERPAGE) + 1 <= page + 1) {
+                nr_entries += 1;
+                if(((nr_entries/ENTRIESPERPAGE) + 1 == page && (nr_entries%ENTRIESPERPAGE) != 0) || ((nr_entries/ENTRIESPERPAGE) + 1 == page + 1 && (nr_entries%ENTRIESPERPAGE) == 0)) {
+                    char* ending = strchr(entry, '\n');
+                    if (ending != nullptr) {
+                        ending[0] = '\0';
+                    }
+                    
+                    char* p = strchr(entry, '|');
+                    if(p == nullptr) {
+                        nr_entries -= 1;
+                        printf("Error: Rule not well formatted in %s, after %d-th rule\n", name, nr_entries);
+                    }
+                    else {
+                        p[0] = '\0';
+                        strcat(response, entry);
+                        strcat(response, ",");
+                        p[0] = '|';
+                    }
+                    
+                    if (ending != nullptr) {
+                        ending[0] = '\n';
+                    }
+                }
+                read_fmt_entry(fd, entry);
+            }
+            close(fd);
+            if(strlen(response) > 0) {
+                response[strlen(response) - 1] = '\0';
+            }
+            else {
+                strcpy(response, "Error: Invalid page");
+            }
+
+
+            break;
+        }
+        case CLMSG_AG_SHOW_RULE: {
+            InfoSource* my_is = nullptr;
+
+            for(auto i : sources) {
+                if(0 == strcmp(i->path, params)) {
+                    my_is = i;
+                    break;
+                }
+            }
+
+            char* my_entry = params + strlen(params) + 1;
+
+            if (my_is == nullptr) {
+                strcpy(response, "Error: Unknown InfoSource");
+                break;
+            }
+
+            char name[MSG_MAX_SIZE];
+            sprintf(name, "%s.fmt", my_is->path);
+            for ( int i = 0; name[i] != '\0'; ++i) {
+                if (name[i] == '/') {
+                    name[i] = '_';
+                }
+            }
+
+            int fd = open(name, O_RDONLY, 0);
+            if(fd < 0) {
+                strcpy(response, "Error: Couldn't open rule file");
+                break;
+            }
+
+            char entry[MSG_MAX_SIZE]; bzero(entry, MSG_MAX_SIZE);
+            int nr_entries = 0;
+
+            read_fmt_entry(fd, entry);
+
+            while(strlen(entry) > 0) {
+                nr_entries += 1;
+
+                char* ending = strchr(entry, '\n');
+                if (ending != nullptr) {
+                    ending[0] = '\0';
+                }
+
+                char* p = strchr(entry, '|');
+                if(p == nullptr) {
+                    nr_entries -= 1;
+                    printf("Error: Rule not well formatted in %s, after %d-th rule\n", name, nr_entries);
+                }
+                
+                p[0] = '\0';
+                
+                if( 0 == strcmp(entry, my_entry)) {
+                    strcpy(response, p + 1);
+                    break;
+                }
+                
+                p[0] = '|';
+
+                if (ending != nullptr) {
+                    ending[0] = '\n';
+                }
+
+                read_fmt_entry(fd, entry);
+            }
+            close(fd);
+
+            if(strlen(response) == 0) {
+                strcpy(response, "Error: Rule not found");
+            }
+            break;
+        }  
         default:
             strcpy(response,"Unsupported");
             printf("Unknown command:%s\n",command);
     }
     
+    #ifdef cl_debug
+    printf(COLOR_CL_DEB);
+    printf("Sending response:%s:\n", response);
+    printf(COLOR_OFF); fflush(stdout);
+    #endif
+
     if (send_ack(request_ID, response, strlen(response)) == false) {
         perror("send()");
         return false;

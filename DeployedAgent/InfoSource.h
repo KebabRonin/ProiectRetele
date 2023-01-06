@@ -2,7 +2,7 @@
 #include <errno.h>
 #include "../common_definitions.h"
 
-extern pthread_mutex_t my_mutex;
+extern pthread_mutex_t transfer_sock_mutex;
 extern pthread_mutex_t sources_mutex;
 extern int control_sd, transfer_sd;
 extern bool send_ack(pthread_t, const char*, const unsigned int);
@@ -10,23 +10,25 @@ extern bool send_ack(pthread_t, const char*, const unsigned int);
 struct InfoSource {
     pthread_t tid;
     const char* path;
-    const unsigned char id;
-    static unsigned char globalID;
-
     int logfd;
+
+    pthread_mutex_t rules_file_mutex = PTHREAD_MUTEX_INITIALIZER;
     
     void read_entry(int fd, char* message);
     bool parse_entry(const char* message, char* parsed_message);
     void send_entry(int sockfd, char* message);
     void unregister();
+
+    bool has_rule(const char* rule_name);
+    bool add_rule(char* rule);
+
     friend InfoSource* createIS(const char* mypath);
 
     ~InfoSource();
 private: 
-    InfoSource(const char* mypath, int mylogfd) : path(mypath), id(globalID++), logfd(mylogfd) {}
+    InfoSource(const char* mypath, int mylogfd) : path(mypath), logfd(mylogfd) {}
 };
 //InfoSource daemon for restarting?
-unsigned char InfoSource::globalID = 'a';
 
 #include <vector>
 extern std::vector<InfoSource*> sources;
@@ -133,8 +135,11 @@ bool InfoSource::parse_entry(const char* message, char* parsed_message) {
         }
     }
 
+    pthread_mutex_lock(&rules_file_mutex);
+
     int fmtfd = open(name, O_RDONLY, 0);
     if (fmtfd < 0) {
+        pthread_mutex_unlock(&rules_file_mutex);
         perror("open");
         exit(3);
     }
@@ -143,7 +148,7 @@ bool InfoSource::parse_entry(const char* message, char* parsed_message) {
     int rule_nr = 0;
     char rule[MSG_MAX_SIZE]; bzero(rule, MSG_MAX_SIZE);
     char jsoned_msg[2*MSG_MAX_SIZE];
-    read_entry(fmtfd, rule);
+    read_fmt_entry(fmtfd, rule);
 
     bool could_parse = false;
 
@@ -541,21 +546,23 @@ bool InfoSource::parse_entry(const char* message, char* parsed_message) {
 NewEntry:
         read_fmt_entry(fmtfd, rule);
     }
-    
+
+    pthread_mutex_unlock(&rules_file_mutex);
+
     strcat(parsed_message, jsoned_msg);
     
     return could_parse;
 }
 
 void InfoSource::send_entry(int sockfd, char* message) {
-    pthread_mutex_lock(&my_mutex);
+    pthread_mutex_lock(&transfer_sock_mutex);
     if (send_varmsg(sockfd, message, strlen(message), MSG_NOSIGNAL) == false) {
-        pthread_mutex_unlock(&my_mutex);
+        pthread_mutex_unlock(&transfer_sock_mutex);
         perror("Sending message");
         //this->unregister();
         pthread_exit(nullptr);
     }
-    pthread_mutex_unlock(&my_mutex);
+    pthread_mutex_unlock(&transfer_sock_mutex);
 }
 
 void InfoSource::unregister() {
@@ -566,6 +573,92 @@ void InfoSource::unregister() {
         }
     }
     delete this;
+}
+
+bool InfoSource::has_rule(const char* rule_name) {
+
+    char name[MSG_MAX_SIZE];
+    sprintf(name, "%s.fmt", path);
+    for ( int i = 0; name[i] != '\0'; ++i) {
+        if (name[i] == '/') {
+            name[i] = '_';
+        }
+    }
+
+    int fd = open(name, O_RDONLY, 0);
+    if (fd < 0) {
+        pthread_mutex_unlock(&rules_file_mutex);
+        perror("open");
+        return false;
+    }
+
+    char rule[MSG_MAX_SIZE]; bzero(rule, MSG_MAX_SIZE);
+
+    read_fmt_entry(fd, rule);
+
+    while(strlen(rule) > 0) {
+        if(strstr(rule, rule_name) == rule && rule[strlen(rule_name)] == '|') {
+            close(fd);
+            return true;
+        }
+        read_fmt_entry(fd, rule);
+    }
+
+    close(fd);
+
+    return false;
+}
+
+bool InfoSource::add_rule(char* rule) {
+
+    char name[MSG_MAX_SIZE];
+    sprintf(name, "%s.fmt", path);
+    for ( int i = 0; name[i] != '\0'; ++i) {
+        if (name[i] == '/') {
+            name[i] = '_';
+        }
+    }
+
+    char* p = strchr(rule, '|');
+    if(p == nullptr) {
+        return false;
+    }
+
+    p[0] = '\0';
+
+    if(true == has_rule(rule)) {
+        return false;
+    }
+
+    p[0] = '|';
+
+    pthread_mutex_lock(&rules_file_mutex);
+
+    int fd = open(name, O_WRONLY, 0);
+    if (fd < 0) {
+        pthread_mutex_unlock(&rules_file_mutex);
+        return false;
+    }
+    
+    if ( 0 != lseek(fd, 0, SEEK_END)) {
+        if ( 0 > write(fd, "\n", strlen("\n")) ) {
+            pthread_mutex_unlock(&rules_file_mutex);
+            perror("write");
+            return false;
+        }
+    }
+
+    if ( 0 > write(fd, rule, strlen(rule)) ) {
+        pthread_mutex_unlock(&rules_file_mutex);
+        perror("write");
+        return false;
+    }
+
+    close(fd);
+
+    pthread_mutex_unlock(&rules_file_mutex);
+
+    return true;
 }
 
 void* fnc_monitor_infosource(void* p) {
@@ -582,17 +675,17 @@ void* fnc_monitor_infosource(void* p) {
         {
             char* p = strchr(message, '\n');
             if (p != nullptr) p[0] = '\0';
-            printf("Read : %s..\n", message);
+            //printf("Read : %s..\n", message);
             if (p != nullptr) p[0] = '\n';
         }
         
         if (true == self->parse_entry(message, parsed_message) ) {
             buffer_change_endian(parsed_message, strlen(parsed_message));
             self->send_entry(transfer_sd,parsed_message);
-            printf("Am trimis\n");
+            //printf("Am trimis\n");
         }
         else {
-            printf("N-am trimis:%s\n",parsed_message);
+            //printf("N-am trimis:%s\n",parsed_message);
 
         }
     }
@@ -601,7 +694,7 @@ void* fnc_monitor_infosource(void* p) {
 }
 
 InfoSource* createIS(const char* mypath) {
-printf("\n\n%s\n\n",mypath);
+    printf("Adding %s..\n",mypath);
     for(auto i : sources) {
         if (0 ==strcmp(i->path,mypath)) {
             return nullptr;
@@ -611,9 +704,6 @@ printf("\n\n%s\n\n",mypath);
     int logfd = open(mypath,O_RDONLY);
     if (logfd < 0) {
         perror("Opening InfoSource path");
-        //send_ack(request_ID,"Error: Opening path", strlen("Error: Opening path"));
-
-        //this->unregister();
         return nullptr;
     }
     lseek(logfd,0,SEEK_END);
@@ -629,10 +719,7 @@ printf("\n\n%s\n\n",mypath);
 
     int rulesfd = 0;
     if((rulesfd = open(name, O_RDWR | O_CREAT, 0750)) < 0) {
-        //send_ack(request_ID, "Error: Opening fmt file", strlen("Error: Opening fmt file"));
         close(rulesfd);
-        
-        //this->unregister();
         return nullptr;
     }
     close(rulesfd);
@@ -642,7 +729,6 @@ printf("\n\n%s\n\n",mypath);
 
     if( 0 != pthread_create(&tid, nullptr, fnc_monitor_infosource, (void*)myIS)) {
         perror("Failed to make Info Source Monitor");
-        //this->unregister();
         exit(1);
     }
 
@@ -653,7 +739,6 @@ printf("\n\n%s\n\n",mypath);
     pthread_mutex_unlock(&sources_mutex);
     
     return myIS;
-    //send_ack(request_ID, this->path, strlen(this->path));
 }
 
 InfoSource::~InfoSource() {

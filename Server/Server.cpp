@@ -12,6 +12,8 @@
 #include <sys/socket.h>
 #include <pthread.h>
 
+#define COLOR_AGNAME   "\033[1;34m"
+
 #include "AgentDispatcher.cpp"
 #include "ClientDispatcher.cpp"
 

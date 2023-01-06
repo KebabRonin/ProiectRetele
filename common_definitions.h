@@ -1,18 +1,28 @@
 #pragma once
 #define MSG_MAX_SIZE 1024
+#define ENTRIESPERPAGE 10
 #define MSG_HEADER_SIZE 0
 #define AGENT_CONTROL_PORT 2078
 #define AGENT_TRANSFER_PORT 2079
 #define CLIENT_PORT 2048
-#define CLMSG_AGLIST 'l'
-#define CLMSG_ADDSRC 'a'
-#define CLMSG_ADDRLE 'r'
-#define CLMSG_AGPROP 'p'
-#define AGMSG_HEARTBEAT 'h'
-#define AGMSG_ACK 'a'
-#define AGMSG_NEW_IS 'i'
-#define AGMSG_NEW_RL 'r'
+#define CLMSG_AGLIST                'l'
+#define CLMSG_ADDSRC                'a'
+#define CLMSG_ADDRLE                'r'
+#define CLMSG_RMVRLE                'v'
+#define CLMSG_AGPROP                'p'
+#define CLMSG_AG_HOWMANY_RULEPAGES  'h'
+#define CLMSG_AG_LIST_RULEPAGE      'g'
+#define CLMSG_AG_LIST_SOURCES       'i'
+#define CLMSG_AG_SHOW_RULE          's'
+#define AGMSG_HEARTBEAT     'h'
+#define AGMSG_ACK           'a'
 #define LOG_PATH "logs/"
+
+#define cl_debug 0
+#define ag_debug 0
+#define COLOR_OFF   "\e[m"
+#define COLOR_AG_DEB "\033[1;30m"
+#define COLOR_CL_DEB "\033[1;32m"
 
 #include <stdio.h>
 #include <sys/socket.h>
@@ -62,12 +72,12 @@ int recv_fixed_length(const int fd, char* message, const unsigned int length, in
 int recv_varmsg(const int fd, char* message, int flags) {
     unsigned short int length = 0;
     if ( 0 == recv_fixed_length(fd, (char*)&length, sizeof(length), flags)) {
-        printf("Error : recv varlen length\n");
+        //printf("Error : recv varlen length\n");
         return 0;
     }
 
     if ( 0 == recv_fixed_length(fd, message, length, flags)) {
-        printf("Error : recv varlen msg\n");
+        //printf("Error : recv varlen msg\n");
         return 0;
     }
 

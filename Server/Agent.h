@@ -31,7 +31,7 @@ struct Agent {
     pthread_mutex_t ag_mutex = PTHREAD_MUTEX_INITIALIZER;
     void send_request(pthread_t tid, char type, const char* params, unsigned int len);
 
-    Agent(sockaddr_in* agent_sockaddr, int* agent_transfer_sd);
+    Agent(sockaddr_in* agentsock, int* agent_control_fd);
     ~Agent();
 
     friend void* fnc_agent_creator(void*);
@@ -130,7 +130,11 @@ void treat(const char* message) {
             break;
         }
         case AGMSG_HEARTBEAT:
+            #ifdef ag_debug
+            printf(COLOR_AG_DEB);
             printf("Inima mea bate\n");
+            printf(COLOR_OFF); fflush(stdout);
+            #endif
             break;
         default:
             printf("Unknown msg type: %c\n", message[0]);
@@ -152,6 +156,9 @@ void* fnc_agent_control_listener(void* p) {
     while(1) {
         time.tv_sec = 10;
         time.tv_usec = 0;
+        if(myAgent->agent_transfer_sd == -1) {
+            break;
+        }
         memcpy(&readfd, &actfd, sizeof(actfd));
 
         int retval = select(myAgent->agent_control_sd + 1, &readfd, nullptr, nullptr, &time);
@@ -166,7 +173,12 @@ void* fnc_agent_control_listener(void* p) {
 
         bzero( message, sizeof(message) );
         if ( false == (len = recv_varmsg(myAgent->agent_control_sd, message, MSG_NOSIGNAL) )) {
+            #ifdef ag_debug
+printf(COLOR_AG_DEB);
             perror("recv_varmsg() control");
+            printf(COLOR_OFF);
+fflush(stdout);
+#endif
             break;    
         }
         buffer_change_endian(message, len);
@@ -188,7 +200,12 @@ void* fnc_agent_transfer_listener(void* p) {
     bzero( message, sizeof(message) );
     while(1) {
         if( false == ( len = recv_varmsg(myAgent->agent_transfer_sd,message, MSG_NOSIGNAL))) {
+            #ifdef ag_debug
+printf(COLOR_AG_DEB);
             perror("recv_varmsg() transfer");
+            printf(COLOR_OFF);
+fflush(stdout);
+#endif
             break;
         }
         else if(len > 0) {
@@ -225,7 +242,8 @@ void* fnc_agent_transfer_listener(void* p) {
     }
 
     //delete myAgent;
-    printf("WARNING: Transfer thread exited\n");
+    printf("WARNING:" COLOR_AGNAME " %s " COLOR_OFF "Transfer thread exited\n", myAgent->id);
+    myAgent->agent_transfer_sd = -1;
     return nullptr;
 }
 
@@ -286,13 +304,13 @@ void* fnc_agent_creator(void* p) {
        exit(1);
     }
 
-    printf("Agent operational\n");
+    printf("Agent" COLOR_AGNAME " %s " COLOR_OFF "operational\n", self->id);
     pthread_mutex_unlock(&clreq_mutex);
 
     pthread_exit(nullptr);
 }
 
-Agent::Agent(sockaddr_in* agentsock, int* agentfd) : agent_sockaddr(*agentsock), agent_control_sd(*agentfd) {
+Agent::Agent(sockaddr_in* agentsock, int* agent_control_fd) : agent_sockaddr(*agentsock), agent_control_sd(*agent_control_fd) {
     pthread_t temp_tid;
 
     if( 0 != pthread_create(&temp_tid, nullptr, fnc_agent_creator, this)) {
@@ -351,6 +369,6 @@ Agent::~Agent() {
         }
         nr_ordine += 1;
     }
-    printf("Control thread: Agent destructed\n");
+    printf("Control thread:" COLOR_AGNAME " %s " COLOR_OFF "Agent destructed\n", this->id);
 }
     

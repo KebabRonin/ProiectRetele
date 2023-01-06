@@ -13,7 +13,11 @@ struct Request{
 std::list<Request*> requests_list;
 
 Request* get_Request(pthread_t tid) {
+    #ifdef ag_debug
+    printf(COLOR_AG_DEB);
     printf("Searching for thread %ld",tid);
+    printf(COLOR_OFF); fflush(stdout);
+    #endif
     for(auto i : requests_list) {
         if (i->tid == tid) {
             return i;
