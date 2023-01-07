@@ -37,7 +37,11 @@ std::vector<Agent*> connecting_agents;
 
 void* fnc_agent_control_dispatcher(void*) {
     int server_sockfd = init_server_to_port(AGENT_CONTROL_PORT);
-    
+    if(server_sockfd == -1) {
+        printf("Error initialising control port\n");
+        exit(3);
+    }
+
     int agent_sockfd;
     struct sockaddr_in agent_sockaddr;
     socklen_t len = sizeof(agent_sockaddr);
@@ -59,6 +63,10 @@ void* fnc_agent_control_dispatcher(void*) {
 
 void* fnc_agent_transfer_dispatcher(void*) {
     int server_sockfd = init_server_to_port(AGENT_TRANSFER_PORT);
+    if(server_sockfd == -1) {
+        printf("Error initialising transfer port\n");
+        exit(3);
+    }
     
     int agent_sockfd;
     struct sockaddr_in agent_sockaddr;

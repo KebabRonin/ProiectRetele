@@ -8,49 +8,6 @@
       <column type="kebab_PC"/>
     </columns>
   </object>
-  <object class="GtkWindow" id="popup_server_ip">
-    <property name="can_focus">False</property>
-    <property name="type">popup</property>
-    <property name="resizable">False</property>
-    <property name="destroy_with_parent">True</property>
-    <child type="titlebar">
-      <placeholder/>
-    </child>
-    <child>
-      <object class="GtkFixed">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <child>
-          <object class="GtkButton" id="confirm_server_ip_button">
-            <property name="label" translatable="yes">Confirm Server IP</property>
-            <property name="width_request">131</property>
-            <property name="height_request">34</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <property name="valign">center</property>
-          </object>
-          <packing>
-            <property name="x">152</property>
-            <property name="y">204</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkEntry" id="fdsfds">
-            <property name="width_request">100</property>
-            <property name="height_request">80</property>
-            <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="max_width_chars">30</property>
-          </object>
-          <packing>
-            <property name="x">139</property>
-            <property name="y">68</property>
-          </packing>
-        </child>
-      </object>
-    </child>
-  </object>
   <object class="GtkImage" id="refresh_image">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
@@ -720,5 +677,4 @@
       </object>
     </child>
   </object>
-  <object class="GtkEntryBuffer" id="server_ip_buffer"/>
 </interface>

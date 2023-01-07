@@ -386,7 +386,36 @@ void* fnc_treat_client(void* p) {
                                     goto send_response;
                                 }
                                 ending[0] = '\0';
-                                switch(conditions[i].op) {
+                                if(possible_match - strlen("number\",\"name\":\"") > buffer && strstr(possible_match - strlen("number\",\"name\":\""), "number") == possible_match - strlen("number\",\"name\":\"")) {
+                                    switch(conditions[i].op) {
+                                    case '=':
+                                        if(atoi(conditions[i].value) == atoi(possible_match)) {
+                                            ending[0] = '\"';
+                                            goto match;
+                                        }
+                                        break;
+                                    case '!':
+                                        if(atoi(conditions[i].value) != atoi(possible_match)) {
+                                            ending[0] = '\"';
+                                            goto match;
+                                        }
+                                        break;
+                                    case '<':
+                                        if(atoi(conditions[i].value) < atoi(possible_match)) {
+                                            ending[0] = '\"';
+                                            goto match;
+                                        }
+                                        break;
+                                    case '>':
+                                        if(atoi(conditions[i].value) > atoi(possible_match)) {
+                                            ending[0] = '\"';
+                                            goto match;
+                                        }
+                                        break;
+                                    }
+                                }
+                                else {
+                                    switch(conditions[i].op) {
                                     case '=':
                                         if(0 == strcmp(conditions[i].value, possible_match)) {
                                             ending[0] = '\"';
@@ -411,7 +440,9 @@ void* fnc_treat_client(void* p) {
                                             goto match;
                                         }
                                         break;
+                                    }
                                 }
+                                
                                 ending[0] = '\"';
                                 p += 1;
                             }
@@ -428,26 +459,6 @@ match:              ;
 
                 bzero(buffer, strlen(buffer));
                 strcpy(buffer, p);
-                
-                /*
-                //std::ifstream log(name);
-                Json::CharReaderBuilder builder;
-                Json::CharReader* my_reader = builder.newCharReader();
-                Json::Value root;
-                std::string err;
-                if ( false == my_reader->parse(buffer, buffer + strlen(buffer), &root, &err) ) {
-                    printf("%s\n", err.c_str());
-                }
-                
-                Json::Value entry;
-                
-                for(auto i : root) {
-                    if((entry = i["rule"]) == 0) {
-                        printf("error finding entry\n");
-                    }
-                    //check rule
-                    printf("found %s\n", entry.asCString());
-                }*/
 
             }while(strlen(buffer) > 0);
 
@@ -539,6 +550,10 @@ void* fnc_client_dispatcher(void*) {
     struct sockaddr_in client_sockaddr;  bzero( &client_sockaddr , sizeof(client_sockaddr ) );
 
     int server_sockfd = init_server_to_port_UDP(CLIENT_PORT);
+    if(server_sockfd == -1) {
+        printf("Error initialising client port\n");
+        exit(3);
+    }
     fd_set actfds,readfds;
 
     FD_ZERO(&actfds);

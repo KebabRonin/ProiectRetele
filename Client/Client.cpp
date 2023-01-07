@@ -12,6 +12,7 @@
 #include <sys/socket.h>
 #include <pthread.h>
 #include <sys/wait.h>
+#include <time.h>
 #include "../common_definitions.h"
 
 static const char* server_address;
@@ -74,7 +75,7 @@ Retry_get_request:
             recieved_response = true;
         }
     }
-    printf("\n");
+    //printf("\n");
     close(sockfd);
     return true;
 }
@@ -82,7 +83,7 @@ Retry_get_request:
 void wid_agent_list() {
     char response[MSG_MAX_SIZE];
     char request[2];
-    request[0] = CLMSG_AGLIST;
+    request[0] = CLMSG_AGLIST; //*((pthread_t*)(request+1)) = pthread_self(); request + sizeof(pthread_t);
     request[1] = '\0';
     get_request(request, response);
 
@@ -146,7 +147,7 @@ void wid_agent_add_rule(char* id, char* path, char* rule_name, char* rule) {
     
 }
 
-void wid_agent_c_query(char* id, char* path, char* conditions) {
+void wid_agent_c_query(char* output, char* id, char* path, char* conditions) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_COUNT_QUERY;
@@ -156,7 +157,102 @@ void wid_agent_c_query(char* id, char* path, char* conditions) {
         get_request(request, response);
 
     
-    printf("There were %s entries matching the conditions.\n",response);
+    if(output != 0) {
+        sprintf(output,"%s",response);
+    }
+}
+
+void wid_graph(char* id, char* path, char* samples_text, char* data1, char* data2, char* conditions) {
+    int samples = atoi(samples_text);
+    time_t time1, time2;
+    tm time;
+    bzero(&time, sizeof(struct tm));
+    char* err = strptime(data1, "%m_%d_%H:%M:%S", &time);
+    if(err == 0 || err[0] != '\0') {
+        printf("Invalid date 1 - parsing\n");
+        return;
+    }
+    time1 = mktime(&time);
+    if (time1 == -1) {
+        printf("Invalid date 1 - mktime\n");
+        return;
+    }
+    bzero(&time, sizeof(struct tm));
+    err = strptime(data2, "%m_%d_%H:%M:%S", &time);
+    if(err == 0 || err[0] != '\0') {
+        printf("Invalid date 2 - parsing\n");
+        return;
+    }
+    time2 = mktime(&time);
+    if (time2 == -1) {
+        printf("Invalid date 2 - mktime\n");
+        return;
+    }
+
+    double interval = difftime(time2,time1);
+    interval /= samples;
+
+    char aug_cond[MSG_MAX_SIZE];
+    sprintf(aug_cond,"%s", conditions);
+    char* date_stuff = aug_cond + strlen(conditions);
+    int counts[samples];
+    time_t t1, t2 = time2;
+    char _date1[20], _date2[20];
+    struct tm* for_text;
+    printf("      sample requested"); fflush(stdout);
+    for(int i = 0 ; i < samples; ++i) {
+        
+        if(i == samples - 1) t1 = time1;
+        else t1 = t2 - (long) interval;
+
+        for_text = localtime(&t1);
+        if (0 == strftime(_date1, 16, "%m %d %H:%M:%S", for_text)) {
+            printf("Error\n");
+            return;
+        }
+        for_text = localtime(&t2);
+        if (0 == strftime(_date2, 16, "%m %d %H:%M:%S", for_text)) {
+            printf("Error\n");
+            return;
+        }
+        sprintf(date_stuff,"&__LOG_TIMESTAMP>\"%s\"&__LOG_TIMESTAMP<\"%s\"",_date1, _date2);
+        printf("\r\r\r%03d", i+1); fflush(stdout);
+
+        char response[MSG_MAX_SIZE];
+        wid_agent_c_query(response, id, path, aug_cond);
+        counts[samples-1-i] = atoi(response);
+
+        sprintf(date_stuff,"&__LOG_TIMESTAMP=\"%s\"",_date1);
+        wid_agent_c_query(response, id, path, aug_cond);
+        counts[samples-1-i] += atoi(response);
+
+        t2 = t1;      
+    }
+
+    int maxval = 0;
+    printf("\n");
+    for(int i = 0; i < samples; ++i) {
+        if (counts[i] > maxval) maxval = counts[i];
+        printf("%d>",counts[i]);
+    }
+    printf("\n");
+
+    const int height = 10;
+    const double unit = ((double)maxval/height);
+    const double epsilon = (double)1/2;
+    for(int j = height; j >= 0; --j) {
+        printf("|");
+        for(int i = 0; i < samples; ++i) {
+            //printf("%f <= {%f} <= %f\n", ((double)j)-epsilon, ((double)counts[i])/unit, ((double)j)+epsilon);
+            if(((double)j)-epsilon <= ((double)counts[i])/unit && ((double)counts[i])/unit <= ((double)j)+epsilon) {
+                printf("*");
+            }
+            else {
+                printf(" ");
+            }
+        }
+        printf("|\n");
+    }
     
 }
 
@@ -243,6 +339,8 @@ void help() {
     printf(NOTDONE "<conditions>" COLOR_OFF " - \'&\' separated conditions of type :<name><op>\"<value>\":\nWhere <op> can be one of {=!<>}\nNO SPACES OUTSIDE \"\"!!\n");
     printf(MYCOLOR "showrule <agent-name> <path> <rule-name>" COLOR_OFF " - show actual rule refered to as <rule-name>\n");
     printf(MYCOLOR "add-rule <agent-name> <path> <rule-name> `<rule>" COLOR_OFF " - add <rule> (referred to as <rule-name>) to watch in file from <path> of <agent-name>\n");
+    printf(NOTDONE "graph <agent-name> <path> <sample-count> <date1> <date2> `<conditions>" COLOR_OFF " - graphs the count of entries which match <conditions> in the date interval with <sample-count> samples\n");
+    printf(NOTDONE "<date>" COLOR_OFF " - format : \'MM DD HH:mm:ss\'\n");
     printf(MYCOLOR "======================" COLOR_OFF "\n");
 }
 
@@ -444,10 +542,30 @@ int main(int argc, char* argv[]) {
             else if(strcmp(args[0], "c-query") == 0) {
                 if(nr_args < 4) {
                     printf("\nUsage: c-query <agent-name> <path> `<conditions> - ask for entries matching <conditions> from the log of <path> in <agent-name>\n");
+                    printf(NOTDONE "<conditions>" COLOR_OFF " - \'&\' separated conditions of type :<name><op>\"<value>\":\nWhere <op> can be one of {=!<>}\nNO SPACES OUTSIDE \"\"!!\n");
                 }
                 else {
                     printf("===============\n");
-                    wid_agent_c_query(args[1], args[2], args[3]);
+                    char response[MSG_MAX_SIZE];
+                    wid_agent_c_query(response, args[1], args[2], args[3]);
+                    if(atoi(response) == 0 && response[0] != '0') {
+                        printf("%s\n", response);
+                    }
+                    else {
+                        printf("There were %s entries matching the conditions.\n",response);
+                    }
+                    printf("===============\n");
+                }
+            }
+            else if(strcmp(args[0], "graph") == 0) {
+                if(nr_args < 7) {
+                    printf("\nUsage: graph <agent-name> <path> <sample-count> <date1> <date2> `<conditions> - graphs the count of entries which match <conditions> in the date interval with <sample-count> samples\n");
+                    printf(NOTDONE "<conditions>" COLOR_OFF " - \'&\' separated conditions of type :<name><op>\"<value>\":\nWhere <op> can be one of {=!<>}\nNO SPACES OUTSIDE \"\"!!\n");
+                    printf(NOTDONE "<date>" COLOR_OFF " - format : \'MM_DD_HH:mm:ss\'\n");
+                }
+                else {
+                    printf("===============\n");
+                    wid_graph(args[1], args[2], args[3], args[4], args[5], args[6]);
                     printf("===============\n");
                 }
             }

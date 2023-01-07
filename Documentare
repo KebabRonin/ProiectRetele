@@ -1,52 +1,16 @@
 Client Actions:
--Vede toti agentii activi
+✓Vede toti agentii activi
 -Cere sa vada grafic cu nr de mesaje logate pe minut intr-un interval de timp
 -Adauga o statistica de urmarit
 -Reconfigureaza dashboardul propriu
--Adauga surse noi de date colectate pentru agentii
+✓Adauga surse noi de date colectate pentru agentii
 -Cere validarea datelor colectate pe server
 
 Server Actions:
--Proceseaza queries de la clienti
+✓Proceseaza queries de la clienti
 -Updateaza statistici
--Accepta Agenti
+✓Accepta Agenti
 
 Agent Actions:
--collect and send data
--recieve commands from server
-============================
-BUGS
-============================
-Agent operational
-recv_fixed_length: FD is nonblocking or socket was closed
-Error : recv varlen length
-recv_fixed_length: FD is nonblocking or socket was closed
-Error : recv varlen length
-recv_varmsg(): Success
-terminate called without an active exception
-terminate called recursively
-Aborted (core dumped)
-!!! After some Agent connections (while debugging)
-=============================
-recv_fixed_length: FD is nonblocking or socket was closed
-Error : recv varlen length
-recv_fixed_length: FD is nonblocking or socket was closed
-Error : recv varlen length
-recv_varmsg(): Success
-terminate called without an active exception
-terminate called recursively
-Aborted (core dumped)
-!!! After Ctrl + C in Agent
-..reduced msg
-At rule 6
-..reduced msg
-At rule 7
-..reduced msg
-At rule 8
-parsed
-_var_log_syslog
-..reduced msg
-^C
-
-Because of Agent::~Agent()
-Likely fixed
+✓collect and send data
+✓recieve commands from server
