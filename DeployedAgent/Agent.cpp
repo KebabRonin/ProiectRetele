@@ -19,6 +19,7 @@ pthread_mutex_t transfer_sock_mutex = PTHREAD_MUTEX_INITIALIZER;
 pthread_mutex_t sources_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 int control_sd, transfer_sd;
+int keep_on_keeping_on = true;
 
 bool get_stdin_approval(int time) {
     fd_set actfd;
@@ -186,7 +187,7 @@ CommRetry:
     printf("Connected to server!\n");
 }
 
-void init_agent_info() {///!XML
+void init_agent_info() {
     int infofd = open("agent.info",O_WRONLY | O_CREAT, 0750);
     int pid;
     switch(pid = fork()) {
@@ -650,6 +651,11 @@ bool treat (char * command) {
             }
             break;
         }  
+        case CLMSG_AG_RESTART: {
+            keep_on_keeping_on = false;
+            strcpy(response,"Success");
+            break;
+        }
         default:
             strcpy(response,"Unsupported");
             printf("Unknown command:%s\n",command);
@@ -679,7 +685,6 @@ int main(int argc, char* argv[]) {
 Retry:
     init_comms_to_server(argv[1]);
     
-    
     if(nullptr == createIS("/var/log/syslog")) {
         printf("couldn't add syslog\n");
     }
@@ -698,8 +703,9 @@ Retry:
 
     timeval time;
     int len;
+    keep_on_keeping_on = true;
 
-    while(1) {
+    while(keep_on_keeping_on) {
         bcopy ((char *) &actfds, (char *) &readfds, sizeof (readfds));
         bzero(command,sizeof(command));
         
@@ -712,7 +718,7 @@ Retry:
             perror("select()");
             return 3;
         }
-        else if (retval == 0) {
+        else if (retval == 0) { //time expired
             char heartbeat = AGMSG_HEARTBEAT;
             if ( false == send_varmsg(control_sd, &heartbeat, sizeof(heartbeat), MSG_NOSIGNAL) ) {
                 perror("send heartbeat");
@@ -736,6 +742,7 @@ Retry:
     while(sources.size() > 0) {
         (*sources.begin())->unregister();
     }
+    sleep(5);
     close(control_sd);
     close(transfer_sd);
 

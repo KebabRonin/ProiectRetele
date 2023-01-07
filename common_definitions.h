@@ -10,6 +10,7 @@
 #define CLMSG_ADDRLE                'r'
 #define CLMSG_RMVRLE                'v'
 #define CLMSG_AGPROP                'p'
+#define CLMSG_AG_RESTART            't'
 #define CLMSG_AG_HOWMANY_RULEPAGES  'h'
 #define CLMSG_AG_LIST_RULEPAGE      'g'
 #define CLMSG_AG_LIST_SOURCES       'i'

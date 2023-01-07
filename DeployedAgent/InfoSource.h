@@ -1,11 +1,10 @@
 #include <pthread.h>
 #include <errno.h>
 #include "../common_definitions.h"
-
+#define COLOR_LOG "\033[2;31m"
 extern pthread_mutex_t transfer_sock_mutex;
 extern pthread_mutex_t sources_mutex;
 extern int control_sd, transfer_sd;
-extern bool send_ack(pthread_t, const char*, const unsigned int);
 
 struct InfoSource {
     pthread_t tid;
@@ -28,7 +27,6 @@ struct InfoSource {
 private: 
     InfoSource(const char* mypath, int mylogfd) : path(mypath), logfd(mylogfd) {}
 };
-//InfoSource daemon for restarting?
 
 #include <vector>
 extern std::vector<InfoSource*> sources;
@@ -118,7 +116,7 @@ bool InfoSource::parse_entry(const char* message, char* parsed_message) {
     }
 
 
-    bzero(parsed_message, 2*MSG_MAX_SIZE);
+    bzero(parsed_message, MSG_MAX_SIZE);
     strcpy(parsed_message,this->path);
     for ( int i = 0; parsed_message[i] != '\0'; ++i) {
         if (parsed_message[i] == '/') {
@@ -147,7 +145,7 @@ bool InfoSource::parse_entry(const char* message, char* parsed_message) {
 
     int rule_nr = 0;
     char rule[MSG_MAX_SIZE]; bzero(rule, MSG_MAX_SIZE);
-    char jsoned_msg[2*MSG_MAX_SIZE];
+    char jsoned_msg[MSG_MAX_SIZE];
     read_fmt_entry(fmtfd, rule);
 
     bool could_parse = false;
@@ -156,7 +154,7 @@ bool InfoSource::parse_entry(const char* message, char* parsed_message) {
 
     while(!could_parse && strlen(rule) > 0) {
         ++rule_nr;
-        bzero(jsoned_msg, 2*MSG_MAX_SIZE);
+        bzero(jsoned_msg, MSG_MAX_SIZE);
         int parser_at = 0, jsoned_at = 0;
         bool escaped_ch = false;
 
@@ -539,6 +537,7 @@ bool InfoSource::parse_entry(const char* message, char* parsed_message) {
                 }
             }
         }
+
         if (jsoned_at > MSG_MAX_SIZE) {
             printf("Sending Json would overflow MSG_MAX_SIZE, so I won't send it.\n");
             could_parse = false;
@@ -559,7 +558,7 @@ void InfoSource::send_entry(int sockfd, char* message) {
     if (send_varmsg(sockfd, message, strlen(message), MSG_NOSIGNAL) == false) {
         pthread_mutex_unlock(&transfer_sock_mutex);
         perror("Sending message");
-        //this->unregister();
+        this->unregister();
         pthread_exit(nullptr);
     }
     pthread_mutex_unlock(&transfer_sock_mutex);
@@ -567,11 +566,14 @@ void InfoSource::send_entry(int sockfd, char* message) {
 
 void InfoSource::unregister() {
     int nr_ord = 0;
+    pthread_mutex_lock(&sources_mutex);
     for (auto i : sources) {
         if ( i == this) {
             sources.erase(sources.begin() + nr_ord);
+            break;
         }
     }
+    pthread_mutex_unlock(&sources_mutex);
     delete this;
 }
 
@@ -663,7 +665,7 @@ bool InfoSource::add_rule(char* rule) {
 void* fnc_monitor_infosource(void* p) {
     InfoSource* self = (InfoSource*) p;
     
-    char message[MSG_MAX_SIZE], parsed_message[2*MSG_MAX_SIZE];
+    char message[MSG_MAX_SIZE], parsed_message[MSG_MAX_SIZE];
 
     bzero(message,MSG_MAX_SIZE);
 
@@ -671,12 +673,12 @@ void* fnc_monitor_infosource(void* p) {
 
     while(1) {
         self->read_entry(self->logfd, message);
-        {
+        #ifdef ag_debug
             char* p = strchr(message, '\n');
             if (p != nullptr) p[0] = '\0';
-            //printf("Read : %s..\n", message);
+            printf(COLOR_LOG "Read : %s..\n" COLOR_OFF, message);
             if (p != nullptr) p[0] = '\n';
-        }
+        #endif
         
         if (true == self->parse_entry(message, parsed_message) ) {
             buffer_change_endian(parsed_message, strlen(parsed_message));
@@ -695,7 +697,7 @@ void* fnc_monitor_infosource(void* p) {
 InfoSource* createIS(const char* mypath) {
     printf("Adding %s..\n",mypath);
     for(auto i : sources) {
-        if (0 ==strcmp(i->path,mypath)) {
+        if (0 == strcmp(i->path,mypath)) {
             return nullptr;
         }
     }
@@ -718,7 +720,6 @@ InfoSource* createIS(const char* mypath) {
 
     int rulesfd = 0;
     if((rulesfd = open(name, O_RDWR | O_CREAT, 0750)) < 0) {
-        close(rulesfd);
         return nullptr;
     }
     close(rulesfd);

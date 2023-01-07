@@ -123,7 +123,7 @@ void wid_agent_list() {
     
 }
 
-void wid_agent_properties(char* id) {
+void wid_agent_properties(const char* id) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_AGPROP;
@@ -136,7 +136,20 @@ void wid_agent_properties(char* id) {
     
 }
 
-void wid_agent_add_is(char* id, char* path) {
+void wid_restart(const char* id) {
+    char response[MSG_MAX_SIZE];
+    char request[MSG_MAX_SIZE];
+    request[0] = CLMSG_AG_RESTART;
+    *((pthread_t*)(request+1)) = pthread_self();
+    sprintf(request+sizeof(pthread_t) + 1, "%s", id);
+    get_request(request, response);
+
+    
+    printf("%s\n",response);
+    
+}
+
+void wid_agent_add_is(const char* id, const char* path) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_ADDSRC;
@@ -149,7 +162,7 @@ void wid_agent_add_is(char* id, char* path) {
     
 }
 
-void wid_agent_add_rule(char* id, char* path, char* rule_name, char* rule) {
+void wid_agent_add_rule(const char* id, const char* path, const char* rule_name, const char* rule) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_ADDRLE;
@@ -164,7 +177,7 @@ void wid_agent_add_rule(char* id, char* path, char* rule_name, char* rule) {
     
 }
 
-void wid_agent_c_query(char* output, char* id, char* path, char* conditions) {
+void wid_agent_c_query(char* output, const char* id, const char* path, const char* conditions) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_COUNT_QUERY;
@@ -181,7 +194,7 @@ void wid_agent_c_query(char* output, char* id, char* path, char* conditions) {
     }
 }
 
-void wid_graph(char* id, char* path, char* samples_text, char* data1, char* data2, char* conditions) {
+void wid_graph(const char* id, const char* path, const char* samples_text, const char* data1, const char* data2, const char* conditions) {
     int samples = atoi(samples_text);
     time_t time1, time2;
     tm time;
@@ -285,7 +298,7 @@ void wid_graph(char* id, char* path, char* samples_text, char* data1, char* data
     
 }
 
-void wid_agent_rm_rule(char* id, char* path, char* rule_name) {
+void wid_agent_rm_rule(const char* id, const char* path, const char* rule_name) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_RMVRLE;
@@ -299,7 +312,7 @@ void wid_agent_rm_rule(char* id, char* path, char* rule_name) {
     
 }
 
-void wid_agent_howmany(char* id, char* path) {
+void wid_agent_howmany(const char* id, const char* path) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_AG_HOWMANY_RULEPAGES;
@@ -316,7 +329,7 @@ void wid_agent_howmany(char* id, char* path) {
     
 }
 
-void wid_agent_rulenames(char* id, char* path, char* page_nr) {
+void wid_agent_rulenames(const char* id, const char* path, const char* page_nr) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_AG_LIST_RULEPAGE;
@@ -329,7 +342,7 @@ void wid_agent_rulenames(char* id, char* path, char* page_nr) {
     
 }
 
-void wid_agent_showrule(char* id, char* path, char* rule_name) {
+void wid_agent_showrule(const char* id, const char* path, const char* rule_name) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_AG_SHOW_RULE;
@@ -342,7 +355,7 @@ void wid_agent_showrule(char* id, char* path, char* rule_name) {
     
 }
 
-void wid_agent_lsinfo(char* id) {
+void wid_agent_lsinfo(const char* id) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_AG_LIST_SOURCES;
@@ -366,6 +379,7 @@ void help() {
     printf(MYCOLOR "run <file-name>" COLOR_OFF " - run <file-name> as script in client terminal\n");
     printf(MYCOLOR "prop <agent-name>" COLOR_OFF " - show info on <agent-name>\n");
     printf(MYCOLOR "lsinfo <agent-name>" COLOR_OFF " - show active info sources of <>agent-name>\n");
+    printf(MYCOLOR "restart <agent-name>" COLOR_OFF " -\n");
     printf(MYCOLOR "howmany <agent-name> <path>" COLOR_OFF " - show number of rule pages (there are %d rules/page)\n", ENTRIESPERPAGE);
     printf(MYCOLOR "add-source <agent-name> <path>" COLOR_OFF " - add file from <path> to the info sources of <agent-name>\n");
     printf(MYCOLOR "rulenames <agent-name> <path> <page>" COLOR_OFF " - show names of all rules on page <page>\n");
@@ -380,6 +394,7 @@ void help() {
 }
 
 int main(int argc, char* argv[]) {
+
     if(argc < 2) {
         printf("Usage: %s ip \n", argv[0]);
         return 0;
@@ -601,6 +616,16 @@ int main(int argc, char* argv[]) {
                 else {
                     printf("===============\n");
                     wid_graph(args[1], args[2], args[3], args[4], args[5], args[6]);
+                    printf("===============\n");
+                }
+            }
+            else if(strcmp(args[0], "restart") == 0) {
+                if(nr_args < 2) {
+                    printf("\nUsage: restart <agent-name> -\n");
+                }
+                else {
+                    printf("===============\n");
+                    wid_restart(args[1]);
                     printf("===============\n");
                 }
             }

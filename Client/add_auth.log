@@ -1,0 +1,10 @@
+add-source kebab-B360M-DS3H /var/log/auth.log
+rm-rule kebab-B360M-DS3H /var/log/auth.log SOPEN
+rm-rule kebab-B360M-DS3H /var/log/auth.log SCLOSE
+rm-rule kebab-B360M-DS3H /var/log/auth.log CMD
+add-rule kebab-B360M-DS3H /var/log/auth.log\
+CMD `\d:"__LOG_TIMESTAMP" \s:"PC_NAME" \s:"arbiter":\ \s:"username"\ :\ TTY=\s:"TTY"\ ;\ PWD=\s:"PWD"\ ;\ USER=\s:"USER" ; COMMAND=\s:"COMMAND"
+add-rule kebab-B360M-DS3H /var/log/auth.log\
+SOPEN `\d:"__LOG_TIMESTAMP" \s:"PC_NAME" \s:"arbiter": pam_unix(\s:"_":session): session opened for user \s:"USER" by (uid=\n:"uid")
+add-rule kebab-B360M-DS3H /var/log/auth.log\
+SCLOSE `\d:"__LOG_TIMESTAMP" \s:"PC_NAME" \s:"arbiter": pam_unix(\s:"_":session): session closed for user \s:"USER"

@@ -200,11 +200,10 @@ void* fnc_agent_transfer_listener(void* p) {
     bzero( message, sizeof(message) );
     while(1) {
         if( false == ( len = recv_varmsg(myAgent->agent_transfer_sd,message, MSG_NOSIGNAL))) {
-            #ifdef ag_debug
-printf(COLOR_AG_DEB);
+#ifdef ag_debug
+            printf(COLOR_AG_DEB);
             perror("recv_varmsg() transfer");
-            printf(COLOR_OFF);
-fflush(stdout);
+            printf(COLOR_OFF); fflush(stdout);
 #endif
             break;
         }
