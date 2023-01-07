@@ -30,10 +30,8 @@ int init_server_to_port (int port) {
     printf("Bound to %d\n",port);
     return server_sockfd;
 }
-
+extern pthread_mutex_t agent_list_lock;
 extern std::vector<Agent*> agent_list;
-
-std::vector<Agent*> connecting_agents;
 
 void* fnc_agent_control_dispatcher(void*) {
     int server_sockfd = init_server_to_port(AGENT_CONTROL_PORT);
@@ -87,6 +85,7 @@ void* fnc_agent_transfer_dispatcher(void*) {
 
         Agent* myAgent = nullptr;
 
+        pthread_mutex_lock(&agent_list_lock);
         for (auto i : agent_list) {
             if ( agent_sockaddr.sin_addr.s_addr == i->agent_sockaddr.sin_addr.s_addr) {
                 if ( i->agent_transfer_sd != -1) {
@@ -99,6 +98,7 @@ void* fnc_agent_transfer_dispatcher(void*) {
                 break;
             }
         }
+        pthread_mutex_unlock(&agent_list_lock);
 
         if ( ok == false ) {
             printf("Foreign Transfer Connection Found. Closing it..\n");

@@ -16,7 +16,7 @@
 #include "ag_cl_common.h"
 
 #define AGENT_CONN_INFO_SIZE 20
-
+extern pthread_mutex_t agent_list_lock;
 struct Agent {
     struct sockaddr_in agent_sockaddr;
     int agent_control_sd ;
@@ -282,7 +282,9 @@ void* fnc_agent_creator(void* p) {
     
     //register agent as online
 
+    pthread_mutex_lock(&agent_list_lock);
     agent_list.push_back(self);
+    pthread_mutex_unlock(&agent_list_lock);
 
 
     //init transfer connection
@@ -363,12 +365,14 @@ Agent::~Agent() {
     close(agent_transfer_sd);
     close(agent_control_sd);
     int nr_ordine = 0;
+    pthread_mutex_lock(&agent_list_lock);
     for(auto i : agent_list) {
         if (i == this) {
         agent_list.erase(agent_list.begin() + nr_ordine); nr_ordine -= 1;
         }
         nr_ordine += 1;
     }
+    pthread_mutex_unlock(&agent_list_lock);
     printf("Control thread:" COLOR_AGNAME " %s " COLOR_OFF "Agent destructed\n", this->id);
 }
     

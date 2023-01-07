@@ -47,6 +47,8 @@
         "typeinfo": "cpp",
         "stdio.h": "c",
         "stat.h": "c",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "cstring": "cpp",
+        "map": "cpp"
     }
 }

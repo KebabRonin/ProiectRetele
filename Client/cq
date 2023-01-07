@@ -1,4 +1,1 @@
-c-query kebab-B360M-DS3H /var/log/syslog\
-`__LOG_TIMESTAMP>"00 00 00:00:00"
-
-graph kebab-B360M-DS3H /var/log/syslog 50 01_07_16:33:08 01_07_16:33:30 `rule!"R010"
+graph kebab-B360M-DS3H /var/log/syslog 10 01_07_22:53:00 01_07_22:55:50 `

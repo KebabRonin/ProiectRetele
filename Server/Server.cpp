@@ -55,6 +55,7 @@ void init_files() {
 	}
 }
 
+pthread_mutex_t agent_list_lock = PTHREAD_MUTEX_INITIALIZER;
 std::vector<struct Agent*> agent_list;
 
 int main() {

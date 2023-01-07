@@ -20,10 +20,12 @@
 #include "../common_definitions.h"
 #include "ag_cl_common.h"
 
+extern pthread_mutex_t agent_list_lock;
 extern std::vector<struct Agent*> agent_list;
 
 struct clparam{
     int serv_sock;
+    int param_len;
     char* param;
     struct sockaddr_in* sock;
 };
@@ -93,19 +95,29 @@ void* fnc_treat_client(void* p) {
     pthread_detach(pthread_self());
     struct clparam *cparam = (clparam*)p;
     int sockfd = cparam->serv_sock;
-    char clreq[MSG_MAX_SIZE];
-    bzero(clreq,MSG_MAX_SIZE);
-    strcpy(clreq, cparam->param); delete[] cparam->param;
+    char msg[MSG_MAX_SIZE];
+    bzero(msg,MSG_MAX_SIZE);
+    memcpy(msg, cparam->param, cparam->param_len); delete[] cparam->param;
     
     struct sockaddr_in clsock = *cparam->sock; delete[] cparam->sock;
     delete cparam;
-    #ifdef cl_debug
+    
+    char type = msg[0];
+    pthread_t msg_id = *((pthread_t*)(msg + 1));
+    char* clreq = msg + 1 + sizeof(pthread_t);
+    char to_send[MSG_MAX_SIZE];
+
+#ifdef cl_debug
     printf(COLOR_CL_DEB);
-    printf("ClReq Recieved:%s:\n",clreq);
+    printf("ClReq Recieved:%s:from th %ld\n", clreq, msg_id);
     printf(COLOR_OFF); fflush(stdout);
-    #endif
-    char type = clreq[0];
-    char response[MSG_MAX_SIZE]; bzero(response, MSG_MAX_SIZE);
+#endif
+
+    memcpy(to_send, &msg_id, sizeof(pthread_t));
+    char* response = to_send + sizeof(pthread_t);
+    bzero(response, MSG_MAX_SIZE - sizeof(pthread_t));
+
+    
     switch (type) {
         case CLMSG_AGLIST: {
 #ifdef cl_debug
@@ -121,10 +133,12 @@ void* fnc_treat_client(void* p) {
 
             while(p != nullptr) {
                 strcat(response,p);
+                pthread_mutex_lock(&agent_list_lock);
                 for(auto i : agent_list) {
                     if(strcmp(p,i->id) == 0)
                         strcat(response,"(*)");
                 }
+                pthread_mutex_unlock(&agent_list_lock);
                 strcat(response,"\n");
                 p = strtok(nullptr, "\n");
             }
@@ -147,7 +161,7 @@ void* fnc_treat_client(void* p) {
             char* p = strtok(buf, "\n");
 
             while(p != nullptr) {
-                if(strcmp(p , clreq+1) == 0) {
+                if(strcmp(p , clreq) == 0) {
                     char path[300];
                     sprintf(path,"logs/%s/info", p);
                     int infofd = open(path, O_RDONLY);
@@ -179,7 +193,7 @@ void* fnc_treat_client(void* p) {
             printf(COLOR_OFF);fflush(stdout);
 #endif
 
-            char* ag_name = clreq + 1;
+            char* ag_name = clreq;
             char* my_path = strchr(ag_name, '\n');
             if (my_path == nullptr) {
                 sprintf(response, "Can't find argument: Path");
@@ -255,28 +269,34 @@ void* fnc_treat_client(void* p) {
                 break;
             }
 
-            /*printf("Found %d rules:\n",nr_cond);
+#ifdef cl_debug
+            printf(COLOR_CL_DEB);
+            printf("Found %d rules:\n",nr_cond);
             for(int i = 0; i < nr_cond; ++i) {
                 printf("\t:%s: %c \"%s\"\n",conditions[i].name,conditions[i].op,conditions[i].value);
-            }*/
+            }
+            printf(COLOR_OFF); fflush(stdout);
+#endif
 
 
             char buf[MSG_MAX_SIZE];
 
             get_all_agents(buf);
 
-            char* p = strtok(buf, "\n");
+            {
+                char* p = strtok(buf, "\n");
 
-            while(p != nullptr) {
-                if(strcmp(p , ag_name) == 0) {
-                    break;
+                while(p != nullptr) {
+                    if(strcmp(p , ag_name) == 0) {
+                        break;
+                    }
+                    p = strtok(nullptr, "\n");
                 }
-                p = strtok(nullptr, "\n");
-            }
 
-            if( p == nullptr) {
-                sprintf(response, "Unknown agent");
-                break;
+                if( p == nullptr) {
+                    sprintf(response, "Unknown agent");
+                    break;
+                }   
             }
 
             char name[MSG_MAX_SIZE];
@@ -298,30 +318,40 @@ void* fnc_treat_client(void* p) {
             char buffer[MSG_MAX_SIZE]; bzero(buffer, sizeof(buffer));
             int count = 0;
             do {
-                int err;
-                if( 0 >= (err = read(fd, buffer + strlen(buffer), MSG_MAX_SIZE - strlen(buffer)))) {
-                    
-                    if (err == 0 && strlen(buffer) == 0) {
-                        break;
+                
+                {
+                    int err;
+                    int len = strlen(buffer);
+                    if( 0 >= (err = read(fd, buffer + len, MSG_MAX_SIZE - strlen(buffer)))) {
+                        
+                        if (err == 0) {
+                            if(strlen(buffer) == 0) {
+                                break;
+                            }
+                        }
+                        else {
+                            perror("error");
+                            break;
+                        }
                     }
-                    else if (err != 0) {
-                        perror("error");
-                        break;
-                    }
+                    buffer[len + err] = '\0';
                 }
 
-                char* p = strstr(buffer, "]}");
-                if(p == nullptr) {
+                
+
+                char* next_entry = strstr(buffer, "]}");
+                if(next_entry == nullptr) {
                     break;
                 }
-                p+=2;
-                if(p[0] == ',') {
-                    p[0] = '\0';
-                    p += 1;
-                    if (p[0] == '\n') p+=1;
+
+                next_entry+=2;
+                if(next_entry[0] == ',') {
+                    next_entry[0] = '\0';
+                    next_entry += 1;
+                    if (next_entry[0] == '\n') next_entry+=1;
                 }
-                else if(p[0] != 0) {
-                    printf("============================\nUnexpected character!!\n");
+                else if(next_entry[0] != 0) {
+                    printf("============================\nUnexpected character: %c!!\n", next_entry[0]);
                     break;
                 }
 
@@ -334,16 +364,30 @@ void* fnc_treat_client(void* p) {
                     if(0 == strcmp(conditions[i].name,"rule")) {
                         char* possible_match = strstr(buffer, "rule");
                         if(possible_match == nullptr) {
-                            printf("Something is wrong with the json file, aborting");
-                            sprintf(response, "Database compromised");
-                            goto send_response;
+                            printf("Something is wrong with the json file\n");
+#ifdef cl_debug
+                            printf(COLOR_CL_DEB);
+                            printf("My entry has no rule field:\n%s\n\n", buffer);
+                            printf(COLOR_OFF);
+                            fflush(stdout);                     
+#endif
+                            //sprintf(response, "Database compromised");
+                            //goto send_response;
+                            goto unmatch;
                         }
                         possible_match += strlen("rule\":\"");
                         char* ending = strchr(possible_match, '\"');
                         if(ending == nullptr) {
-                            printf("Something is wrong with the json file, aborting");
-                            sprintf(response, "Database compromised");
-                            goto send_response;
+                            printf("Something is wrong with the json file\n");
+#ifdef cl_debug
+                            printf(COLOR_CL_DEB); 
+                            printf("My entry has no rule closing \" :\n%s\n\n", buffer);
+                            printf(COLOR_OFF);
+                            fflush(stdout);                     
+#endif
+                            //sprintf(response, "Database compromised");
+                            //goto send_response;
+                            goto unmatch;
                         }
                         ending[0] = '\0';
                         switch(conditions[i].op) {
@@ -381,9 +425,16 @@ void* fnc_treat_client(void* p) {
                                 possible_match += strlen("\",\"value\":\"");
                                 char* ending = strchr(possible_match, '\"');
                                 if(ending == nullptr) {
-                                    printf("Something is wrong with the json file, aborting");
-                                    sprintf(response, "Database compromised");
-                                    goto send_response;
+                                    printf("Something is wrong with the json file\n");
+#ifdef cl_debug
+                                    printf(COLOR_CL_DEB); 
+                                    printf("My entry has no value closing \" :\n%s\n\n", buffer);
+                                    printf(COLOR_OFF);
+                                    fflush(stdout);                     
+#endif
+                                    //sprintf(response, "Database compromised");
+                                    //goto send_response;
+                                    goto unmatch;
                                 }
                                 ending[0] = '\0';
                                 if(possible_match - strlen("number\",\"name\":\"") > buffer && strstr(possible_match - strlen("number\",\"name\":\""), "number") == possible_match - strlen("number\",\"name\":\"")) {
@@ -449,6 +500,7 @@ void* fnc_treat_client(void* p) {
                             p += 1;
                         }
                     }
+unmatch:
                     break;
 match:              ;
                 }
@@ -458,7 +510,7 @@ match:              ;
                 }
 
                 bzero(buffer, strlen(buffer));
-                strcpy(buffer, p);
+                strcpy(buffer, next_entry);
 
             }while(strlen(buffer) > 0);
 
@@ -476,7 +528,7 @@ match:              ;
 #endif
 
             //verify params
-            char* my_id = clreq + 1;
+            char* my_id = clreq;
             char* next_params = strchr(my_id, '\n'); 
             if (next_params != nullptr ) {
                 next_params[0] = '\0'; 
@@ -491,11 +543,13 @@ match:              ;
 
             Agent* my_agent = nullptr;
 
+            pthread_mutex_lock(&agent_list_lock);
             for(auto i : agent_list) {
                 if (0 == strcmp(i->id, my_id)) {
                     my_agent = i;
                 }
             }
+            pthread_mutex_unlock(&agent_list_lock);
 
             if (my_agent == nullptr) {
                 strcpy(response, "Error : Agent is not online");
@@ -535,9 +589,9 @@ send_response:
     printf("Sending to client:%s:\n",response);
     printf(COLOR_OFF);fflush(stdout);
 #endif
-
-    buffer_change_endian(response, strlen(response));
-    if ( 0 > sendto(sockfd, response, strlen(response), 0, (struct sockaddr*)&clsock, sizeof(clsock)) ) {
+    int t_len = sizeof(pthread_t) + strlen(response);
+    buffer_change_endian(to_send, t_len);
+    if ( 0 > sendto(sockfd, to_send, t_len, 0, (struct sockaddr*)&clsock, sizeof(clsock)) ) {
         perror("sendto");
         pthread_exit(nullptr);
     }
@@ -577,7 +631,8 @@ void* fnc_client_dispatcher(void*) {
         struct clparam* cparam = new struct clparam;
         cparam->serv_sock = server_sockfd;
         buffer_change_endian(buf, len);
-        cparam->param = new char[strlen(buf) + 1]; sprintf(cparam->param,"%s",buf);
+        cparam->param = new char[len + 1]; memcpy(cparam->param, buf, len); cparam->param[len] = '\0';
+        cparam->param_len = len;
         cparam->sock = new sockaddr_in; bcopy(&client_sockaddr,cparam->sock, length);
         pthread_t tid;
         if ( 0 > pthread_create(&tid, nullptr, fnc_treat_client, (void*)cparam) ) {
