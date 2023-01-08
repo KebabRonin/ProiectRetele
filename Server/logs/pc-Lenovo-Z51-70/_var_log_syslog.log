@@ -229,4 +229,1228 @@
 	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
 	{"type":"string","name":"OPTION","value":"requested_domain_name"},
 	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R011",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:18"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"ADDRESS","value":"fe80::a59e:fdbd:e3c2:584a"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:18"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"activated"},
+	{"type":"string","name":"NEW_STATE","value":"unavailable"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R011",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:18"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"ADDRESS","value":"192.168.100.27"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"}
+]},
+{"rule":"R001",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:18"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"}
+]},
+{"rule":"R002",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:18"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OLD_STATE","value":"bound"},
+	{"type":"string","name":"NEW_STATE","value":"done"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:18"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"STATE","value":"DISCONNECTED"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:18"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"p2p-dev-wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"disconnected"},
+	{"type":"string","name":"NEW_STATE","value":"unavailable"},
+	{"type":"string","name":"REASON","value":"supplicant-failed"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:19"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"p2p-dev-wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"unavailable"},
+	{"type":"string","name":"NEW_STATE","value":"disconnected"},
+	{"type":"string","name":"REASON","value":"supplicant-available"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:19"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"unavailable"},
+	{"type":"string","name":"NEW_STATE","value":"disconnected"},
+	{"type":"string","name":"REASON","value":"supplicant-available"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R005",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"CONN_NAME","value":"Orange-yeRJ-5G"},
+	{"type":"string","name":"ID","value":"b7729f2a-aa6d-4aed-bb74-6bff1e473817"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"disconnected"},
+	{"type":"string","name":"NEW_STATE","value":"prepare"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"STATE","value":"CONNECTING"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"prepare"},
+	{"type":"string","name":"NEW_STATE","value":"config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"config"},
+	{"type":"string","name":"NEW_STATE","value":"need-auth"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"need-auth"},
+	{"type":"string","name":"NEW_STATE","value":"prepare"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"prepare"},
+	{"type":"string","name":"NEW_STATE","value":"config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"config"},
+	{"type":"string","name":"NEW_STATE","value":"ip-config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R004",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"dhcp_lease_time"},
+	{"type":"string","name":"OPTION_VALUE","value":"259200"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"domain_name_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"expiry"},
+	{"type":"string","name":"OPTION_VALUE","value":"1673443762"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"ip_address"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.27"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_broadcast_address"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_name"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_name_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_search"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_host_name"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_interface_mtu"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_ms_classless_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_nis_domain"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_nis_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_ntp_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_rfc3442_classless_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_root_path"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_routers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_subnet_mask"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_time_offset"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_wpad"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"routers"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"subnet_mask"},
+	{"type":"string","name":"OPTION_VALUE","value":"255.255.255.0"}
+]},
+{"rule":"R002",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OLD_STATE","value":"unknown"},
+	{"type":"string","name":"NEW_STATE","value":"bound"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"ip-config"},
+	{"type":"string","name":"NEW_STATE","value":"ip-check"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"ip-check"},
+	{"type":"string","name":"NEW_STATE","value":"secondaries"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"secondaries"},
+	{"type":"string","name":"NEW_STATE","value":"activated"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"STATE","value":"CONNECTED_LOCAL"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"STATE","value":"CONNECTED_SITE"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"NAME","value":"Orange-yeRJ-5G"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"PROTOCOLS","value":"IPv4 routing and DNS"}
+]},
+{"rule":"R006",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:22"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"STATE","value":"CONNECTED_GLOBAL"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:26"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"activated"},
+	{"type":"string","name":"NEW_STATE","value":"unavailable"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R011",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:26"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"ADDRESS","value":"fe80::a59e:fdbd:e3c2:584a"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"}
+]},
+{"rule":"R011",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:26"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"ADDRESS","value":"192.168.100.27"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"}
+]},
+{"rule":"R001",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:26"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"}
+]},
+{"rule":"R002",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:26"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OLD_STATE","value":"bound"},
+	{"type":"string","name":"NEW_STATE","value":"done"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:26"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"STATE","value":"DISCONNECTED"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:26"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"p2p-dev-wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"disconnected"},
+	{"type":"string","name":"NEW_STATE","value":"unavailable"},
+	{"type":"string","name":"REASON","value":"supplicant-failed"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:27"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"p2p-dev-wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"unavailable"},
+	{"type":"string","name":"NEW_STATE","value":"disconnected"},
+	{"type":"string","name":"REASON","value":"supplicant-available"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:27"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"unavailable"},
+	{"type":"string","name":"NEW_STATE","value":"disconnected"},
+	{"type":"string","name":"REASON","value":"supplicant-available"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R005",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"CONN_NAME","value":"Orange-yeRJ-5G"},
+	{"type":"string","name":"ID","value":"b7729f2a-aa6d-4aed-bb74-6bff1e473817"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"disconnected"},
+	{"type":"string","name":"NEW_STATE","value":"prepare"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"STATE","value":"CONNECTING"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"prepare"},
+	{"type":"string","name":"NEW_STATE","value":"config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"config"},
+	{"type":"string","name":"NEW_STATE","value":"need-auth"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"need-auth"},
+	{"type":"string","name":"NEW_STATE","value":"prepare"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"prepare"},
+	{"type":"string","name":"NEW_STATE","value":"config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"config"},
+	{"type":"string","name":"NEW_STATE","value":"ip-config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R004",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"dhcp_lease_time"},
+	{"type":"string","name":"OPTION_VALUE","value":"259200"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"domain_name_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"expiry"},
+	{"type":"string","name":"OPTION_VALUE","value":"1673443770"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"ip_address"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.27"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_broadcast_address"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_name"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_name_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_search"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_host_name"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_interface_mtu"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_ms_classless_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_nis_domain"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_nis_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_ntp_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_rfc3442_classless_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_root_path"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_routers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_subnet_mask"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_time_offset"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_wpad"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"routers"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"subnet_mask"},
+	{"type":"string","name":"OPTION_VALUE","value":"255.255.255.0"}
+]},
+{"rule":"R002",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OLD_STATE","value":"unknown"},
+	{"type":"string","name":"NEW_STATE","value":"bound"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"ip-config"},
+	{"type":"string","name":"NEW_STATE","value":"ip-check"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"ip-check"},
+	{"type":"string","name":"NEW_STATE","value":"secondaries"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"secondaries"},
+	{"type":"string","name":"NEW_STATE","value":"activated"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"STATE","value":"CONNECTED_LOCAL"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"STATE","value":"CONNECTED_SITE"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"NAME","value":"Orange-yeRJ-5G"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"PROTOCOLS","value":"IPv4 routing and DNS"}
+]},
+{"rule":"R006",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:30"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"STATE","value":"CONNECTED_GLOBAL"}
+]},
+{"rule":"R011",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:49"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"ADDRESS","value":"fe80::a59e:fdbd:e3c2:584a"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"}
+]},
+{"rule":"R011",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:49"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"ADDRESS","value":"192.168.100.27"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:49"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"activated"},
+	{"type":"string","name":"NEW_STATE","value":"unavailable"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R001",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:49"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"}
+]},
+{"rule":"R002",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:49"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OLD_STATE","value":"bound"},
+	{"type":"string","name":"NEW_STATE","value":"done"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:49"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"STATE","value":"DISCONNECTED"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:49"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"p2p-dev-wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"disconnected"},
+	{"type":"string","name":"NEW_STATE","value":"unavailable"},
+	{"type":"string","name":"REASON","value":"supplicant-failed"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:50"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"p2p-dev-wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"unavailable"},
+	{"type":"string","name":"NEW_STATE","value":"disconnected"},
+	{"type":"string","name":"REASON","value":"supplicant-available"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:50"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"unavailable"},
+	{"type":"string","name":"NEW_STATE","value":"disconnected"},
+	{"type":"string","name":"REASON","value":"supplicant-available"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R005",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"CONN_NAME","value":"Orange-yeRJ-5G"},
+	{"type":"string","name":"ID","value":"b7729f2a-aa6d-4aed-bb74-6bff1e473817"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"disconnected"},
+	{"type":"string","name":"NEW_STATE","value":"prepare"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"STATE","value":"CONNECTING"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"prepare"},
+	{"type":"string","name":"NEW_STATE","value":"config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"config"},
+	{"type":"string","name":"NEW_STATE","value":"need-auth"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"need-auth"},
+	{"type":"string","name":"NEW_STATE","value":"prepare"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"prepare"},
+	{"type":"string","name":"NEW_STATE","value":"config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"config"},
+	{"type":"string","name":"NEW_STATE","value":"ip-config"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R004",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"dhcp_lease_time"},
+	{"type":"string","name":"OPTION_VALUE","value":"259200"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"domain_name_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"expiry"},
+	{"type":"string","name":"OPTION_VALUE","value":"1673443793"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"ip_address"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.27"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_broadcast_address"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_name"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_name_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_domain_search"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_host_name"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_interface_mtu"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_ms_classless_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_nis_domain"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_nis_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_ntp_servers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_rfc3442_classless_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_root_path"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_routers"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_static_routes"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_subnet_mask"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_time_offset"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"requested_wpad"},
+	{"type":"string","name":"OPTION_VALUE","value":"1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"routers"},
+	{"type":"string","name":"OPTION_VALUE","value":"192.168.100.1"}
+]},
+{"rule":"R003",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OPTION","value":"subnet_mask"},
+	{"type":"string","name":"OPTION_VALUE","value":"255.255.255.0"}
+]},
+{"rule":"R002",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"OLD_STATE","value":"unknown"},
+	{"type":"string","name":"NEW_STATE","value":"bound"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"ip-config"},
+	{"type":"string","name":"NEW_STATE","value":"ip-check"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"ip-check"},
+	{"type":"string","name":"NEW_STATE","value":"secondaries"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R007",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"ORIGINAL_STATE","value":"secondaries"},
+	{"type":"string","name":"NEW_STATE","value":"activated"},
+	{"type":"string","name":"REASON","value":"none"},
+	{"type":"string","name":"IFACE_STATE","value":"managed"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"STATE","value":"CONNECTED_LOCAL"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"STATE","value":"CONNECTED_SITE"}
+]},
+{"rule":"R009",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"NAME","value":"Orange-yeRJ-5G"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"},
+	{"type":"string","name":"PROTOCOLS","value":"IPv4 routing and DNS"}
+]},
+{"rule":"R006",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:53"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"INTERFACE","value":"wlp3s0"}
+]},
+{"rule":"R008",
+"args":[
+	{"type":"date","name":"__LOG_TIMESTAMP","value":"01 08 15:29:55"},
+	{"type":"string","name":"PC_NAME","value":"pc-Lenovo-Z51-70"},
+	{"type":"string","name":"STATE","value":"CONNECTED_GLOBAL"}
 ]}

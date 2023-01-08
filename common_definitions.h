@@ -2,6 +2,7 @@
 #define MSG_MAX_SIZE 1024
 #define ENTRIESPERPAGE 10
 #define MSG_HEADER_SIZE 0
+#define MAX_CLIENT_REQ_NO 500
 #define AGENT_CONTROL_PORT 2078
 #define AGENT_TRANSFER_PORT 2079
 #define CLIENT_PORT 2048
@@ -45,7 +46,7 @@ void buffer_change_endian(char* buffer, unsigned long length) {
 int recv_fixed_length(const int fd, char* message, const unsigned int length, int flags) {
 
     unsigned int read_bytes, total_read_bytes = 0;
-    bzero(message, length + 1);
+    bzero(message, length);
 
     while(total_read_bytes < length) {
         read_bytes = recv(fd, message + total_read_bytes, length - total_read_bytes, flags );

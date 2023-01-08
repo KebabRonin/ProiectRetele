@@ -18,7 +18,7 @@
 
 static const char* server_address;
 
-bool get_request(char* request, char response[MSG_MAX_SIZE]) {
+bool get_request(char* request, char response[MSG_MAX_SIZE+1]) {
     unsigned int retry_counter = 0;
     int len_send = strlen(request);
     int len;
@@ -33,7 +33,7 @@ bool get_request(char* request, char response[MSG_MAX_SIZE]) {
 Retry_get_request:
 	retry_counter+=1;
 	if(retry_counter >= 5) {
-        printf("\n");
+        //printf("\n");
 		return false;
 	}
     int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
@@ -53,17 +53,17 @@ Retry_get_request:
 
 
     bool recieved_response = false;
-    bzero(response, MSG_MAX_SIZE);
+    bzero(response, MSG_MAX_SIZE+1);
     
-    while(!recieved_response) {
+    while(!recieved_response && retry_counter < 5) {
         if (sendto(sockfd, request, len_send, 0, (struct sockaddr*)&server_sockaddr, sizeof(server_sockaddr)) < 0) {
             perror("sendto");
             close(sockfd);
             goto Retry_get_request;
         }
-        printf("."); fflush(stdout);
+        //printf("."); fflush(stdout);
         sleep(1);
-        if( 0 > (len = recv(sockfd, response, MSG_MAX_SIZE, MSG_DONTWAIT))) {
+        if( 0 > (len = recv(sockfd, response, MSG_MAX_SIZE+1, MSG_DONTWAIT))) {
             if(errno == EAGAIN || errno == EWOULDBLOCK)
                ;
             else {
@@ -76,27 +76,26 @@ Retry_get_request:
             buffer_change_endian(response, len);
             recieved_response = true;
         }
+        retry_counter+=1;
     }
-#ifdef cl_debug    
-    if(*((pthread_t*)response) == pthread_self()) {
-        printf(COLOR_CL_DEB); 
-        printf("am primit mesajul meu!\n");
-        printf(COLOR_OFF);
-        fflush(stdout);
+    if(retry_counter >= 5) {
+        return false;
     }
-#endif
     strcpy(response, response);
     close(sockfd);
     return true;
 }
 
 void wid_agent_list() {
-    char response[MSG_MAX_SIZE];
-    char request[MSG_MAX_SIZE];
+    char response[MSG_MAX_SIZE+1];
+    char request[MSG_MAX_SIZE+1];
     request[0] = CLMSG_AGLIST; 
     
     request[1] = '\0';
-    get_request(request, response);
+    if ( false == get_request(request, response) ) {
+        printf("Error getting request\n");
+        return;
+    }
 
     
 
@@ -121,12 +120,15 @@ void wid_agent_list() {
 }
 
 void wid_agent_properties(const char* id) {
-    char response[MSG_MAX_SIZE];
-    char request[MSG_MAX_SIZE];
+    char response[MSG_MAX_SIZE+1];
+    char request[MSG_MAX_SIZE+1];
     request[0] = CLMSG_AGPROP;
     
     sprintf(request+1, "%s", id);
-    get_request(request, response);
+    if ( false == get_request(request, response) ) {
+        printf("Error getting request\n");
+        return;
+    }
 
     
     printf("%s\n",response);
@@ -134,12 +136,15 @@ void wid_agent_properties(const char* id) {
 }
 
 void wid_restart(const char* id) {
-    char response[MSG_MAX_SIZE];
-    char request[MSG_MAX_SIZE];
+    char response[MSG_MAX_SIZE+1];
+    char request[MSG_MAX_SIZE+1];
     request[0] = CLMSG_AG_RESTART;
     
     sprintf(request+ 1, "%s", id);
-    get_request(request, response);
+    if ( false == get_request(request, response) ) {
+        printf("Error getting request\n");
+        return;
+    }
 
     
     printf("%s\n",response);
@@ -147,12 +152,15 @@ void wid_restart(const char* id) {
 }
 
 void wid_agent_add_is(const char* id, const char* path) {
-    char response[MSG_MAX_SIZE];
-    char request[MSG_MAX_SIZE];
+    char response[MSG_MAX_SIZE+1];
+    char request[MSG_MAX_SIZE+1];
     request[0] = CLMSG_ADDSRC;
     
     sprintf(request+1, "%s\n%s", id, path);
-    get_request(request, response);
+    if ( false == get_request(request, response) ) {
+        printf("Error getting request\n");
+        return;
+    }
 
     
     printf("%s\n",response);
@@ -160,14 +168,17 @@ void wid_agent_add_is(const char* id, const char* path) {
 }
 
 void wid_agent_add_rule(const char* id, const char* path, const char* rule_name, const char* rule) {
-    char response[MSG_MAX_SIZE];
-    char request[MSG_MAX_SIZE];
+    char response[MSG_MAX_SIZE+1];
+    char request[MSG_MAX_SIZE+1];
     request[0] = CLMSG_ADDRLE;
     
     if(MSG_MAX_SIZE < sprintf(request+1, "%s\n%s\n%s|%s", id, path, rule_name, rule))
         printf("WARNING: message too long!\n");
     else
-        get_request(request, response);
+    if ( false == get_request(request, response) ) {
+        printf("Error getting request\n");
+        return;
+    }
 
     
     printf("%s\n",response);
@@ -175,18 +186,22 @@ void wid_agent_add_rule(const char* id, const char* path, const char* rule_name,
 }
 
 void wid_agent_c_query(char* output, const char* id, const char* path, const char* conditions) {
-    char response[MSG_MAX_SIZE];
-    char request[MSG_MAX_SIZE];
+    char response[MSG_MAX_SIZE+1];
+    char request[MSG_MAX_SIZE+1];
     request[0] = CLMSG_COUNT_QUERY;
     
     
     if(MSG_MAX_SIZE < sprintf(request+1, "%s\n%s\n%s", id, path, conditions))
         printf("WARNING: message too long!\n");
     else
-        get_request(request, response);
+    if ( false == get_request(request, response) ) {
+        printf("Error getting request\n");
+        if(output != nullptr) sprintf(output, "Error: Couldn't get request");
+        return;
+    }
 
     
-    if(output != 0) {
+    if(output != nullptr) {
         sprintf(output,"%s",response);
     }
 }
@@ -195,13 +210,12 @@ struct cqargs{const char* id; const char* path; char* _date_stuff; const char* g
 
 void* fnc_graph_th_query(void* p) {
     struct cqargs* args = (struct cqargs*) p;
-    char conditions[MSG_MAX_SIZE];
-    char response[MSG_MAX_SIZE]; bzero(response, MSG_MAX_SIZE);
+    char conditions[MSG_MAX_SIZE+1];
+    char response[MSG_MAX_SIZE+1]; bzero(response, MSG_MAX_SIZE+1);
     sprintf(conditions, "%s%s", args->glob_conditions, args->_date_stuff);
-    delete (args->_date_stuff);
+    delete[] (args->_date_stuff);
     wid_agent_c_query(response, args->id, args->path, conditions);
     if(atoi(response) == 0 && response[0] != '0') {
-        printf("\n%s\n", response);
         return nullptr;
     }
     return new int(atoi(response));
@@ -237,7 +251,7 @@ void wid_graph(const char* id, const char* path, const char* samples_text, const
     double interval = difftime(time2,time1);
     interval /= samples;
 
-    char aug_cond[MSG_MAX_SIZE];
+    char aug_cond[MSG_MAX_SIZE+1];
     sprintf(aug_cond,"%s", conditions);
     char* date_stuff = aug_cond + strlen(conditions);
     int counts[samples]; bzero(counts, samples * sizeof(int));
@@ -250,6 +264,7 @@ void wid_graph(const char* id, const char* path, const char* samples_text, const
     pthread_t cqtid[2*samples]; memset(cqtid, 0, samples * sizeof(pthread_t));
     
     int i;
+    bool had_err = false;
     for( i = 0 ; i < samples; ++i ) {
         
         if(i == samples - 1) t1 = time1;
@@ -296,7 +311,7 @@ void wid_graph(const char* id, const char* path, const char* samples_text, const
     if (i == samples) {
         i -= 1;
     }
-    for ( int j = 2*i+1; j >= 0; --j ) {
+    for ( int j = 0; j < 2*i+1; ++j ) {
         int* val = nullptr;
         if ( -1 == pthread_join(cqtid[j], (void**) &val) ) {
             perror("pthread_join");
@@ -305,6 +320,10 @@ void wid_graph(const char* id, const char* path, const char* samples_text, const
             if(val != nullptr) {
                 counts[j/2] += *val;
                 delete val;
+            }
+            else {
+                had_err = true;
+                counts[j/2] = -10;
             }
         }
     }
@@ -316,9 +335,12 @@ void wid_graph(const char* id, const char* path, const char* samples_text, const
         printf("%d>",counts[i]);
     }
     printf("\n");
+    if (had_err == true) {
+        printf("There were some errors\n");
+    }
 
     const int height = 10;
-    const double unit = ((double)maxval/height);
+    const double unit = ((double)maxval/height) > 0 ? ((double)maxval/height) : 1;
     const double epsilon = (double)1/2;
     for(int j = height; j >= 0; --j) {
         printf(":");
@@ -339,13 +361,16 @@ void wid_graph(const char* id, const char* path, const char* samples_text, const
 }
 
 void wid_agent_rm_rule(const char* id, const char* path, const char* rule_name) {
-    char response[MSG_MAX_SIZE];
-    char request[MSG_MAX_SIZE];
+    char response[MSG_MAX_SIZE+1];
+    char request[MSG_MAX_SIZE+1];
     request[0] = CLMSG_RMVRLE;
     
     
     sprintf(request + 1, "%s\n%s\n%s", id, path, rule_name);
-    get_request(request, response);
+    if ( false == get_request(request, response) ) {
+        printf("Error getting request\n");
+        return;
+    }
 
     
     printf("%s\n",response);
@@ -353,12 +378,15 @@ void wid_agent_rm_rule(const char* id, const char* path, const char* rule_name) 
 }
 
 void wid_agent_howmany(const char* id, const char* path) {
-    char response[MSG_MAX_SIZE];
-    char request[MSG_MAX_SIZE];
+    char response[MSG_MAX_SIZE+1];
+    char request[MSG_MAX_SIZE+1];
     request[0] = CLMSG_AG_HOWMANY_RULEPAGES;
         
     sprintf(request+1, "%s\n%s", id, path);
-    get_request(request, response);
+    if ( false == get_request(request, response) ) {
+        printf("Error getting request\n");
+        return;
+    }
 
     if (atoi(response) != 0) {
         printf("Agent has %d rule pages\n", atoi(response));
@@ -370,12 +398,15 @@ void wid_agent_howmany(const char* id, const char* path) {
 }
 
 void wid_agent_rulenames(const char* id, const char* path, const char* page_nr) {
-    char response[MSG_MAX_SIZE];
-    char request[MSG_MAX_SIZE];
+    char response[MSG_MAX_SIZE+1];
+    char request[MSG_MAX_SIZE+1];
     request[0] = CLMSG_AG_LIST_RULEPAGE;
 
     sprintf(request+1, "%s\n%s\n%s", id, path, page_nr);
-    get_request(request, response);
+    if ( false == get_request(request, response) ) {
+        printf("Error getting request\n");
+        return;
+    }
 
     
     printf("Rules on page %s: %s\n", page_nr, response);
@@ -383,12 +414,15 @@ void wid_agent_rulenames(const char* id, const char* path, const char* page_nr) 
 }
 
 void wid_agent_showrule(const char* id, const char* path, const char* rule_name) {
-    char response[MSG_MAX_SIZE];
-    char request[MSG_MAX_SIZE];
+    char response[MSG_MAX_SIZE+1];
+    char request[MSG_MAX_SIZE+1];
     request[0] = CLMSG_AG_SHOW_RULE;
     
     sprintf(request+1, "%s\n%s\n%s", id, path, rule_name);
-    get_request(request, response);
+    if ( false == get_request(request, response) ) {
+        printf("Error getting request\n");
+        return;
+    }
 
     
     printf("Rule %s: %s\n", rule_name, response);
@@ -396,12 +430,15 @@ void wid_agent_showrule(const char* id, const char* path, const char* rule_name)
 }
 
 void wid_agent_lsinfo(const char* id) {
-    char response[MSG_MAX_SIZE];
-    char request[MSG_MAX_SIZE];
+    char response[MSG_MAX_SIZE+1];
+    char request[MSG_MAX_SIZE+1];
     request[0] = CLMSG_AG_LIST_SOURCES;
     
     sprintf(request+1, "%s", id);
-    get_request(request, response);
+    if ( false == get_request(request, response) ) {
+        printf("Error getting request\n");
+        return;
+    }
 
     
     printf("%s\n", response);
@@ -418,7 +455,7 @@ void help() {
     printf(MYCOLOR "list" COLOR_OFF " - list all agents\n");
     printf(MYCOLOR "run <file-name>" COLOR_OFF " - run <file-name> as script in client terminal\n");
     printf(MYCOLOR "prop <agent-name>" COLOR_OFF " - show info on <agent-name>\n");
-    printf(MYCOLOR "lsinfo <agent-name>" COLOR_OFF " - show active info sources of <>agent-name>\n");
+    printf(MYCOLOR "lsinfo <agent-name>" COLOR_OFF " - show active info sources of <agent-name>\n");
     printf(MYCOLOR "restart <agent-name>" COLOR_OFF " -\n");
     printf(MYCOLOR "howmany <agent-name> <path>" COLOR_OFF " - show number of rule pages (there are %d rules/page)\n", ENTRIESPERPAGE);
     printf(MYCOLOR "add-source <agent-name> <path>" COLOR_OFF " - add file from <path> to the info sources of <agent-name>\n");
@@ -621,7 +658,7 @@ int main(int argc, char* argv[]) {
             }
             else if(strcmp(args[0], "lsinfo") == 0) {
                 if(nr_args < 2) {
-                    printf("\nUsage: lsinfo <agent-name>" COLOR_OFF " - show active info sources of <>agent-name>\n");
+                    printf("\nUsage: lsinfo <agent-name>" COLOR_OFF " - show active info sources of <agent-name>\n");
                 }
                 else {
                     printf("===============\n");
@@ -636,7 +673,7 @@ int main(int argc, char* argv[]) {
                 }
                 else {
                     printf("===============\n");
-                    char response[MSG_MAX_SIZE];
+                    char response[MSG_MAX_SIZE+1];
                     wid_agent_c_query(response, args[1], args[2], args[3]);
                     if(atoi(response) == 0 && response[0] != '0') {
                         printf("%s\n", response);

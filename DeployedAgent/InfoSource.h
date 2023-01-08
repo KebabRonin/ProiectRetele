@@ -42,7 +42,7 @@ bool read_fmt_entry(int fd, char* message) {
     //am citit inainte o parte din urmatorul mesaj
     if ( nullptr != ( p = strchr(message, '\n') ) ) {
         size_t len =  strlen(p+1);
-        strcpy(message, p+1);
+        bcopy(message, p+1, len);
         bzero(message + len, MSG_MAX_SIZE - len);
     }
     else {
@@ -54,7 +54,7 @@ bool read_fmt_entry(int fd, char* message) {
 
     while( nullptr == ( p = strchr(message, '\n') ) ) {
 
-        read_now = read(fd, message + already_read, MSG_MAX_SIZE - already_read - 1);
+        read_now = read(fd, message + already_read, MSG_MAX_SIZE - already_read);
         
         if (read_now < 0) {
             perror("Reading");
@@ -66,7 +66,7 @@ bool read_fmt_entry(int fd, char* message) {
         
         already_read += read_now;
 
-        if(already_read >= MSG_MAX_SIZE) {
+        if(already_read > MSG_MAX_SIZE) {
             printf("Message too long!\n%ld,%s\n",strlen(message), message);
             return false;
         }
@@ -82,7 +82,7 @@ bool InfoSource::read_entry(int fd, char* message) {
     //am citit inainte o parte din urmatorul mesaj
     if ( nullptr != ( p = strchr(message, '\n') ) ) {
         size_t len =  strlen(p+1);
-        strcpy(message, p+1);
+        bcopy(message, p+1, len);
         bzero(message + len, MSG_MAX_SIZE - len);
     }
 
@@ -91,7 +91,7 @@ bool InfoSource::read_entry(int fd, char* message) {
 
     while( nullptr == ( p = strchr(message, '\n') ) ) {
 
-        read_now = read(fd, message + already_read, MSG_MAX_SIZE - already_read - 1);
+        read_now = read(fd, message + already_read, MSG_MAX_SIZE - already_read);
         
         if (read_now < 0) {
             perror("Reading");
@@ -103,7 +103,7 @@ bool InfoSource::read_entry(int fd, char* message) {
         
         already_read += read_now;
 
-        if(already_read >= MSG_MAX_SIZE) {
+        if(already_read > MSG_MAX_SIZE) {
             printf("Message too long!\n%ld,%s\n",strlen(message), message);
             return false;
         }
@@ -122,7 +122,7 @@ int InfoSource::parse_entry(const char* message, char* parsed_message) {
     }
 
 
-    bzero(parsed_message, MSG_MAX_SIZE);
+    bzero(parsed_message, MSG_MAX_SIZE+1);
     strcpy(parsed_message,this->path);
     for ( int i = 0; parsed_message[i] != '\0'; ++i) {
         if (parsed_message[i] == '/') {
@@ -131,7 +131,7 @@ int InfoSource::parse_entry(const char* message, char* parsed_message) {
     }
     strcat(parsed_message, "\t"); ///! change \t to \0 in Agent.h too!!!
 
-    char name[MSG_MAX_SIZE];
+    char name[MSG_MAX_SIZE+1];
     sprintf(name, "%s.fmt", path);
     for ( int i = 0; name[i] != '\0'; ++i) {
         if (name[i] == '/') {
@@ -150,8 +150,8 @@ int InfoSource::parse_entry(const char* message, char* parsed_message) {
 
 
     int rule_nr = 0;
-    char rule[MSG_MAX_SIZE]; bzero(rule, MSG_MAX_SIZE);
-    char jsoned_msg[MSG_MAX_SIZE];
+    char rule[MSG_MAX_SIZE+1]; bzero(rule, MSG_MAX_SIZE+1);
+    char jsoned_msg[MSG_MAX_SIZE+1];
     if (false == read_fmt_entry(fmtfd, rule)) {
         close(fmtfd);
         return -1;
@@ -163,7 +163,7 @@ int InfoSource::parse_entry(const char* message, char* parsed_message) {
 
     while(!could_parse && strlen(rule) > 0) {
         ++rule_nr;
-        bzero(jsoned_msg, MSG_MAX_SIZE);
+        bzero(jsoned_msg, MSG_MAX_SIZE+1);
         int parser_at = 0, jsoned_at = 0;
         bool escaped_ch = false;
 
@@ -193,7 +193,7 @@ int InfoSource::parse_entry(const char* message, char* parsed_message) {
         
         //the actual parser
 
-        for (int i = len + 1; i <= bound && jsoned_at <= MSG_MAX_SIZE; ++i) {
+        for (int i = len + 1; i <= bound && jsoned_at < MSG_MAX_SIZE; ++i) {
             if (escaped_ch) {
                 if (rule[i] == '\0' || rule[i] == '\n') {
                     goto NewEntry;
@@ -547,7 +547,7 @@ int InfoSource::parse_entry(const char* message, char* parsed_message) {
             }
         }
 
-        if (jsoned_at > MSG_MAX_SIZE) {
+        if (jsoned_at >= MSG_MAX_SIZE) {
             printf("Sending Json would overflow MSG_MAX_SIZE, so I won't send it.\n");
             could_parse = false;
         }
@@ -591,7 +591,7 @@ void InfoSource::unregister() {
 
 bool InfoSource::has_rule(const char* rule_name) {
 
-    char name[MSG_MAX_SIZE];
+    char name[MSG_MAX_SIZE+1];
     sprintf(name, "%s.fmt", path);
     for ( int i = 0; name[i] != '\0'; ++i) {
         if (name[i] == '/') {
@@ -605,7 +605,7 @@ bool InfoSource::has_rule(const char* rule_name) {
         return false;
     }
 
-    char rule[MSG_MAX_SIZE]; bzero(rule, MSG_MAX_SIZE);
+    char rule[MSG_MAX_SIZE+1]; bzero(rule, sizeof(rule));
 
     if (false == read_fmt_entry(fd, rule)) {
         close(fd);
@@ -630,7 +630,7 @@ bool InfoSource::has_rule(const char* rule_name) {
 
 bool InfoSource::add_rule(char* rule) {
 
-    char name[MSG_MAX_SIZE];
+    char name[MSG_MAX_SIZE+1];
     sprintf(name, "%s.fmt", path);
     for ( int i = 0; name[i] != '\0'; ++i) {
         if (name[i] == '/') {
@@ -683,9 +683,9 @@ bool InfoSource::add_rule(char* rule) {
 void* fnc_monitor_infosource(void* p) {
     InfoSource* self = (InfoSource*) p;
     
-    char message[MSG_MAX_SIZE], parsed_message[MSG_MAX_SIZE];
+    char message[MSG_MAX_SIZE+1], parsed_message[MSG_MAX_SIZE+1];
 
-    bzero(message,MSG_MAX_SIZE);
+    bzero(message,sizeof(message));
 
     printf("Reading log...\n");
 
@@ -743,7 +743,7 @@ InfoSource* createIS(const char* mypath) {
     lseek(logfd,0,SEEK_END);
 
 
-    char name[MSG_MAX_SIZE];
+    char name[MSG_MAX_SIZE+1];
     sprintf(name, "%s.fmt", mypath);
     for ( int i = 0; name[i] != '\0'; ++i) {
         if (name[i] == '/') {

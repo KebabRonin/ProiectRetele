@@ -82,6 +82,5 @@ int main() {
             create_agent_dispatcher (&client_tid, nullptr);
         }
     }
-    pause();
     return 0;
 }

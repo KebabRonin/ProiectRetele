@@ -6,7 +6,7 @@
             "command": "/usr/bin/g++",
             "args": [
                 "-pthread",
-                "-ljsoncpp",
+                "-fsanitize=address",
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",
@@ -28,7 +28,7 @@
             "command": "/usr/bin/g++",
             "args": [
                 "-pthread",
-                "-ljsoncpp",
+                "-fsanitize=address",
                 "-fdiagnostics-color=always",
                 "-g",
                 "${file}",

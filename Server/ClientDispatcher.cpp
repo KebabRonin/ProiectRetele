@@ -23,6 +23,8 @@
 extern pthread_mutex_t agent_list_lock;
 extern std::vector<struct Agent*> agent_list;
 
+pthread_mutex_t req_count_mutex = PTHREAD_MUTEX_INITIALIZER;
+static unsigned long req_count = 0;
 struct clparam{
     int serv_sock;
     int param_len;
@@ -54,20 +56,25 @@ int init_server_to_port_UDP (int port) {
     return server_sockfd;
 }
 
-void get_all_agents(char* buf) {
+bool get_all_agents(char* buf) {
     bzero(buf, MSG_MAX_SIZE);
     int pipefd[2], pid;
-    pipe(pipefd);
+    if ( -1 == pipe(pipefd)) {
+        perror("pipe");
+        return false;
+    }
     
     switch(pid = fork()) {
         case -1:
             perror("fork");
-            pthread_exit(nullptr);
+            close(pipefd[0]);
+            close(pipefd[1]);
+            return false;
         case 0: {
             close(pipefd[0]);
             int fd;
 
-            if ( 0 > access("aglist_script", F_OK)) {
+            if ( -1 == access("aglist_script", F_OK)) {
                 while(1) {
                     fd = open("aglist_script", O_CREAT | O_TRUNC | O_WRONLY, 0750);
                     if(fd < 0 ) {
@@ -76,7 +83,7 @@ void get_all_agents(char* buf) {
                         }
                         else {
                             perror("open");
-                            pthread_exit(nullptr);
+                            exit(2);
                         }
                     }
                     break;
@@ -84,51 +91,65 @@ void get_all_agents(char* buf) {
                 int len =  strlen("ls -l logs/ | grep ^d | awk \'{print $9}\'");
                 if( 0 > write(fd, "ls -l logs/ | grep ^d | awk \'{print $9}\'", len)) {
                     perror("write");
-                    pthread_exit(nullptr);
+                    close(fd);
+                    exit(2);
                 }
                 if( 0 > close (fd)) {
                     perror("close");
-                    pthread_exit(nullptr);
+                    exit(2);
                 }
             }
 
 
             if (dup2(pipefd[1], 1) == -1) {
                 perror("dup2");
-                pthread_exit(nullptr);
+                exit(2);
             }
             execlp("./aglist_script","aglist_script", nullptr);
             perror("execlp");
-            if(errno == ETXTBSY) 
-            pthread_exit(nullptr);
+            exit(3);
         }
         default:
             close(pipefd[1]);
-            if ( 0 > waitpid(pid, nullptr, 0)) {
+            int stat = 0;
+            if ( 0 > waitpid(pid, &stat, 0)) {
                 perror("waitpid");
-                pthread_exit(nullptr);
+                close(pipefd[0]);
+                return false;
+            }
+            if (stat != 0) {
+                printf("aglist_script failed\n");
+                close(pipefd[0]);
+                return false;
             }
     }
     if ( 0 > read(pipefd[0],buf, MSG_MAX_SIZE)) {
         perror("reading ag list from script");
+        close(pipefd[0]);
+        return false;
     }
     close(pipefd[0]);
+    return true;
 }
 
 void* fnc_treat_client(void* p) {
+    pthread_mutex_lock(&req_count_mutex);
+    req_count++;
+    pthread_mutex_unlock(&req_count_mutex);
+
     pthread_detach(pthread_self());
     struct clparam *cparam = (clparam*)p;
     int sockfd = cparam->serv_sock;
-    char msg[MSG_MAX_SIZE];
+    char msg[MSG_MAX_SIZE+1];
     bzero(msg,MSG_MAX_SIZE);
     memcpy(msg, cparam->param, cparam->param_len); delete[] cparam->param;
     
-    struct sockaddr_in clsock = *cparam->sock; delete[] cparam->sock;
+    struct sockaddr_in clsock = *cparam->sock; delete cparam->sock;
     delete cparam;
     
     char type = msg[0];
     char* clreq = msg + 1;
-    char to_send[MSG_MAX_SIZE];
+    char to_send[MSG_MAX_SIZE+1];
 
 #ifdef cl_debug
     printf(COLOR_CL_DEB);
@@ -147,26 +168,30 @@ void* fnc_treat_client(void* p) {
             printf("AGLIST\n");
             printf(COLOR_OFF);fflush(stdout);
 #endif
-            char buf[MSG_MAX_SIZE];
+            char buf[MSG_MAX_SIZE+1];
 
-            get_all_agents(buf);
+            if (false == get_all_agents(buf) ) {
+                sprintf(response,"Error: get_all_agents failed");
+                goto send_response;
+            }
 
             char* p = strtok(buf, "\n");
 
             while(p != nullptr) {
                 strcat(response,p);
-                pthread_mutex_lock(&agent_list_lock);
+                //pthread_mutex_lock(&agent_list_lock);
                 for(auto i : agent_list) {
                     if(strcmp(p,i->id) == 0)
                         strcat(response,"(*)");
                 }
-                pthread_mutex_unlock(&agent_list_lock);
+                //pthread_mutex_unlock(&agent_list_lock);
                 strcat(response,"\n");
                 p = strtok(nullptr, "\n");
             }
             
             if(strlen(response) == 0) {
                 sprintf(response, "No agents");
+                goto send_response;
             }
             break;
         }
@@ -176,9 +201,12 @@ void* fnc_treat_client(void* p) {
             printf("AGPROP\n");
             printf(COLOR_OFF);fflush(stdout);
 #endif
-            char buf[MSG_MAX_SIZE];
+            char buf[MSG_MAX_SIZE+1];
 
-            get_all_agents(buf);
+            if (false == get_all_agents(buf) ) {
+                sprintf(response,"Error: get_all_agents failed");
+                goto send_response;
+            }
 
             char* p = strtok(buf, "\n");
 
@@ -190,11 +218,11 @@ void* fnc_treat_client(void* p) {
                     if (infofd < 0) {
                         perror("open");
                         sprintf(response,"Unable to open info");
-                        break;
+                        goto send_response;
                     }
                     if (0 > read(infofd, response, MSG_MAX_SIZE)) {
                         sprintf(response, "Error reading");
-                        break;
+                        goto send_response;
                     }
                     close(infofd);
                     break;
@@ -204,6 +232,7 @@ void* fnc_treat_client(void* p) {
                
             if(strlen(response) == 0) {
                 sprintf(response, "Unknown agent");
+                goto send_response;
             }
 
             break;
@@ -219,14 +248,14 @@ void* fnc_treat_client(void* p) {
             char* my_path = strchr(ag_name, '\n');
             if (my_path == nullptr) {
                 sprintf(response, "Can't find argument: Path");
-                break;
+                goto send_response;
             }
             my_path[0] = '\0';
             my_path += 1;
             char* my_cond = strchr(my_path, '\n');
             if (my_cond == nullptr) {
                 sprintf(response, "Can't find argument: Conditions");
-                break;
+                goto send_response;
             }
             my_cond[0] = '\0';
             my_cond += 1;
@@ -294,7 +323,7 @@ void* fnc_treat_client(void* p) {
 
             if(nr_cond == 0) {
                 sprintf(response, "Invalid conditions: no conditions");
-                break;
+                goto send_response;
             }
 
 #ifdef cl_debug
@@ -307,27 +336,32 @@ void* fnc_treat_client(void* p) {
 #endif
 
 
-            char buf[MSG_MAX_SIZE];
+            char buf[MSG_MAX_SIZE+1];
 
-            get_all_agents(buf);
+            if (false == get_all_agents(buf) ) {
+                sprintf(response,"Error: get_all_agents failed");
+                goto send_response;
+            }
 
             {
-                char* p = strtok(buf, "\n");
+                char* p = strstr(buf, "\n");
+                char* prev = buf;
 
                 while(p != nullptr) {
-                    if(strcmp(p , ag_name) == 0) {
+                    p[0] = '\0';
+                    if(strcmp(prev , ag_name) == 0) {
                         break;
                     }
-                    p = strtok(nullptr, "\n");
+                    prev = p + 1;
+                    p = strstr(prev, "\n");
                 }
-
-                if( p == nullptr) {
+                if(strcmp(prev , ag_name) != 0) {
                     sprintf(response, "Unknown agent");
-                    break;
+                    goto send_response;
                 }   
             }
 
-            char name[MSG_MAX_SIZE];
+            char name[MSG_MAX_SIZE+1];
             sprintf(name, "%s%s/%s.log", LOG_PATH, ag_name, my_path);
 
             for ( int i = strlen(LOG_PATH) + strlen(ag_name) + 1; name[i] != '\0'; ++i) {
@@ -340,17 +374,17 @@ void* fnc_treat_client(void* p) {
             if (fd == -1) {
                 perror("open");
                 sprintf(response, "Error: opening log file");
-                break;
+                goto send_response;
             }
 
-            char buffer[MSG_MAX_SIZE]; bzero(buffer, sizeof(buffer));
+            char buffer[MSG_MAX_SIZE+1]; bzero(buffer, sizeof(buffer));
             int count = 0;
             do {
                 
                 {
                     int err;
                     int len = strlen(buffer);
-                    if( 0 >= (err = read(fd, buffer + len, MSG_MAX_SIZE - strlen(buffer)))) {
+                    if( 0 >= (err = read(fd, buffer + len, MSG_MAX_SIZE - len))) {
                         
                         if (err == 0) {
                             if(strlen(buffer) == 0) {
@@ -399,8 +433,6 @@ void* fnc_treat_client(void* p) {
                             printf(COLOR_OFF);
                             fflush(stdout);                     
 #endif
-                            //sprintf(response, "Database compromised");
-                            //goto send_response;
                             goto unmatch;
                         }
                         possible_match += strlen("rule\":\"");
@@ -413,8 +445,6 @@ void* fnc_treat_client(void* p) {
                             printf(COLOR_OFF);
                             fflush(stdout);                     
 #endif
-                            //sprintf(response, "Database compromised");
-                            //goto send_response;
                             goto unmatch;
                         }
                         ending[0] = '\0';
@@ -460,8 +490,6 @@ void* fnc_treat_client(void* p) {
                                     printf(COLOR_OFF);
                                     fflush(stdout);                     
 #endif
-                                    //sprintf(response, "Database compromised");
-                                    //goto send_response;
                                     goto unmatch;
                                 }
                                 ending[0] = '\0';
@@ -539,7 +567,7 @@ match:              ;
                 }
 
                 bzero(buffer, strlen(buffer));
-                strcpy(buffer, next_entry);
+                sprintf(buffer, "%s", next_entry);
 
             }while(strlen(buffer) > 0);
 
@@ -572,16 +600,16 @@ match:              ;
 
             Agent* my_agent = nullptr;
 
-            pthread_mutex_lock(&agent_list_lock);
+            //pthread_mutex_lock(&agent_list_lock);
             for(auto i : agent_list) {
                 if (0 == strcmp(i->id, my_id)) {
                     my_agent = i;
                 }
             }
-            pthread_mutex_unlock(&agent_list_lock);
+            //pthread_mutex_unlock(&agent_list_lock);
 
             if (my_agent == nullptr) {
-                strcpy(response, "Error : Agent is not online");
+                sprintf(response, "Error : Agent is not online");
                 break;
             }
 
@@ -602,10 +630,10 @@ match:              ;
             do {
                 tries+=1;
                 sleep(1);
-            }while(strlen(myReq.rsp) == 0 && tries < 5);
+            }while(strlen(myReq.rsp) == 0 && tries < 4);
             
-            if(tries >= 5) {
-                printf("Error: Request timed out");
+            if(tries >= 4) {
+                printf("Error: Request timed out\n");
             }
 #ifdef ag_debug
             printf(COLOR_AG_DEB);
@@ -635,9 +663,18 @@ send_response:
     buffer_change_endian(to_send, t_len);
     if ( t_len > 0 && 0 > sendto(sockfd, to_send, t_len, 0, (struct sockaddr*)&clsock, sizeof(clsock)) ) {
         perror("sendto");
+        pthread_mutex_lock(&req_count_mutex);
+        req_count--;
+        pthread_mutex_unlock(&req_count_mutex);
         pthread_exit(nullptr);
     }
+
     
+    
+    pthread_mutex_lock(&req_count_mutex);
+    req_count--;
+    pthread_mutex_unlock(&req_count_mutex);
+
     pthread_exit(nullptr);
 }
 
@@ -655,7 +692,7 @@ void* fnc_client_dispatcher(void*) {
     FD_ZERO(&actfds);
     FD_SET(server_sockfd,&actfds);
 
-    char buf[MSG_MAX_SIZE];
+    char buf[MSG_MAX_SIZE+1];
     int len;
 
     while(1) {
@@ -670,6 +707,9 @@ void* fnc_client_dispatcher(void*) {
             perror("recv_from");
             continue;
         }
+        if(req_count > MAX_CLIENT_REQ_NO) {
+            continue;
+        }
         struct clparam* cparam = new struct clparam;
         cparam->serv_sock = server_sockfd;
         buffer_change_endian(buf, len);
@@ -679,7 +719,9 @@ void* fnc_client_dispatcher(void*) {
         pthread_t tid;
         if ( 0 > pthread_create(&tid, nullptr, fnc_treat_client, (void*)cparam) ) {
             perror("pthread_create");
-            pthread_exit(nullptr);
+            delete cparam->sock;
+            delete[] cparam->param;
+            delete cparam;
         }
     }
     return nullptr;

@@ -145,7 +145,7 @@ bool init_transfer_connection(const char* ip) {
 
 bool login() {
 
-    char conn_info[MSG_MAX_SIZE]; bzero(conn_info, sizeof(conn_info));
+    char conn_info[MSG_MAX_SIZE+1]; bzero(conn_info, sizeof(conn_info));
 
     int infofd = open("agent.info",O_RDONLY, 0);
 
@@ -215,9 +215,9 @@ void init_agent_info() {
 std::vector<InfoSource*> sources;
 
 bool send_ack(pthread_t request_ID, const char* info, const unsigned int info_size) {
-    char ack[MSG_MAX_SIZE]; bzero(ack,sizeof(ack));
+    char ack[MSG_MAX_SIZE+1]; bzero(ack,sizeof(ack));
 
-    if (info_size + 3 > MSG_MAX_SIZE) {
+    if (info_size + 1 + sizeof(pthread_t) > MSG_MAX_SIZE) {
         printf("WARNING: ack info overflows MSG_MAX_SIZE\n");
     }
 
@@ -238,7 +238,7 @@ bool send_ack(pthread_t request_ID, const char* info, const unsigned int info_si
 bool treat (char * command) {
     ///@!
     pthread_t request_ID = (*((pthread_t*) (command + 1)));
-    char response[MSG_MAX_SIZE]; bzero(response, sizeof(response));
+    char response[MSG_MAX_SIZE+1]; bzero(response, sizeof(response));
     char* params = command + 1 + sizeof(request_ID);
 #ifdef cl_debug
     printf(COLOR_CL_DEB);
@@ -332,7 +332,7 @@ bool treat (char * command) {
                 break;
             }
 
-            char name[MSG_MAX_SIZE];
+            char name[MSG_MAX_SIZE+1];
             sprintf(name, "%s.fmt", my_is->path);
             for ( int i = 0; name[i] != '\0'; ++i) {
                 if (name[i] == '/') {
@@ -357,7 +357,7 @@ bool treat (char * command) {
                 break;
             }
 
-            char rule[MSG_MAX_SIZE]; bzero(rule, MSG_MAX_SIZE);
+            char rule[MSG_MAX_SIZE+1]; bzero(rule, sizeof(rule));
             bool first_time = true;
             bool found = false;
 
@@ -473,7 +473,7 @@ bool treat (char * command) {
                 break;
             }
 
-            char name[MSG_MAX_SIZE];
+            char name[MSG_MAX_SIZE+1];
             sprintf(name, "%s.fmt", my_is->path);
             for ( int i = 0; name[i] != '\0'; ++i) {
                 if (name[i] == '/') {
@@ -487,7 +487,7 @@ bool treat (char * command) {
                 break;
             }
 
-            char entry[MSG_MAX_SIZE]; bzero(entry, MSG_MAX_SIZE);
+            char entry[MSG_MAX_SIZE+1]; bzero(entry, sizeof(entry));
             int nr_entries = 0;
 
             if (false == read_fmt_entry(fd, entry)) {
@@ -547,7 +547,7 @@ bool treat (char * command) {
                 break;
             }
 
-            char name[MSG_MAX_SIZE];
+            char name[MSG_MAX_SIZE+1];
             sprintf(name, "%s.fmt", my_is->path);
             for ( int i = 0; name[i] != '\0'; ++i) {
                 if (name[i] == '/') {
@@ -561,7 +561,7 @@ bool treat (char * command) {
                 break;
             }
 
-            char entry[MSG_MAX_SIZE]; bzero(entry, MSG_MAX_SIZE);
+            char entry[MSG_MAX_SIZE+1]; bzero(entry, sizeof(entry));
             int nr_entries = 0;
 
             if (false == read_fmt_entry(fd, entry)) {
@@ -628,7 +628,7 @@ bool treat (char * command) {
                 break;
             }
 
-            char name[MSG_MAX_SIZE];
+            char name[MSG_MAX_SIZE+1];
             sprintf(name, "%s.fmt", my_is->path);
             for ( int i = 0; name[i] != '\0'; ++i) {
                 if (name[i] == '/') {
@@ -642,7 +642,7 @@ bool treat (char * command) {
                 break;
             }
 
-            char entry[MSG_MAX_SIZE]; bzero(entry, MSG_MAX_SIZE);
+            char entry[MSG_MAX_SIZE+1]; bzero(entry, sizeof(entry));
             int nr_entries = 0;
 
             if (false == read_fmt_entry(fd, entry)) {
@@ -667,7 +667,7 @@ bool treat (char * command) {
                 p[0] = '\0';
                 
                 if( 0 == strcmp(entry, my_entry)) {
-                    strcpy(response, p + 1);
+                    sprintf(response, "%s", p + 1);
                     break;
                 }
                 
@@ -732,7 +732,7 @@ Retry:
 
     printf("Listening for commands...\n");
 
-    char command[MSG_MAX_SIZE];
+    char command[MSG_MAX_SIZE+1];
 
     fd_set actfds,readfds;
 

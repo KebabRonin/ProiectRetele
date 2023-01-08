@@ -41,7 +41,7 @@ struct Agent {
 extern std::vector<Agent*> agent_list;
 
 void Agent::send_request(pthread_t tid, char type, const char* params, unsigned int len) {
-    char message[MSG_MAX_SIZE]; bzero(message, MSG_MAX_SIZE);
+    char message[MSG_MAX_SIZE+1]; bzero(message, MSG_MAX_SIZE);
     message[0] = type;
     ///@!
     memcpy(message + 1, &tid, sizeof(pthread_t));
@@ -57,7 +57,7 @@ void Agent::send_request(pthread_t tid, char type, const char* params, unsigned 
 }
 
 bool Agent::login() {
-    char conn_info[MSG_MAX_SIZE]; bzero(conn_info, sizeof(conn_info));
+    char conn_info[MSG_MAX_SIZE+1]; bzero(conn_info, sizeof(conn_info));
 
     if ( false == recv_varmsg(agent_control_sd, conn_info, MSG_NOSIGNAL)) {
         return false;
@@ -75,12 +75,12 @@ bool Agent::login() {
     if (access(log_path, F_OK) != 0) {
         if(mkdir(log_path,0750) < 0 ) {
             perror("Making path to log");
-            exit(4);
+            return false;
         }
     }
     else if (access(log_path, W_OK | X_OK) < 0) {
         perror("Not enough permissions");
-        exit(4);
+        return false;
     }
 
     strcat(log_path, "/info");
@@ -89,7 +89,7 @@ bool Agent::login() {
     
     if (infofd < 0) {
         perror("open");
-        exit(4);
+        return false;
     }
 
     int already_written = 0;
@@ -97,7 +97,8 @@ bool Agent::login() {
         int wr = write(infofd, conn_info + already_written, strlen(conn_info) - already_written);
         if (wr <= 0) {
             perror("write");
-            exit(4);
+            close(infofd);
+            return false;
         }
         already_written += wr;
     }
@@ -149,7 +150,7 @@ void* fnc_agent_control_listener(void* p) {
     FD_SET(myAgent->agent_control_sd, &actfd);
 
 
-    char   message[MSG_MAX_SIZE];
+    char   message[MSG_MAX_SIZE+1];
     int len;
 
     timeval time;
@@ -197,9 +198,10 @@ void* fnc_agent_transfer_listener(void* p) {
     int log_path_base_len = strlen(log_path);
     int len;
     
-    char   message[MSG_MAX_SIZE];
-    bzero( message, sizeof(message) );
+    char   message[MSG_MAX_SIZE+1];
+
     while(1) {
+        bzero( message, sizeof(message) );
         if( false == ( len = recv_varmsg(myAgent->agent_transfer_sd,message, MSG_NOSIGNAL))) {
 #ifdef ag_debug
             printf(COLOR_AG_DEB);
@@ -225,23 +227,22 @@ void* fnc_agent_transfer_listener(void* p) {
             int logfd = open(log_path,O_WRONLY | O_APPEND | O_CREAT, 0750); //u+rwx g+rx g-w o-rwx
             if (logfd < 0) {
                 perror("Opening log");
-                bzero( message, sizeof(message) );
                 continue;
             }
 
             if (!first_time) {
-                write(logfd, ",\n", strlen(",\n"));
+                if ( 0 > write(logfd, ",\n", strlen(",\n")) ) {
+                    perror("write");
+                }
             }
 
-            write(logfd,p+1,strlen(p+1));
-
+            if ( 0 > write(logfd,p+1,strlen(p+1))) {
+                perror("write");
+            }
             close(logfd);
-
-            bzero( message, sizeof(message) );
         }
     }
 
-    //delete myAgent;
     printf("WARNING:" COLOR_AGNAME " %s " COLOR_OFF "Transfer thread exited\n", myAgent->id);
     myAgent->agent_transfer_sd = -1;
     return nullptr;
