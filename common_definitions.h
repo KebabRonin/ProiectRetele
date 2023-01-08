@@ -21,7 +21,7 @@
 #define LOG_PATH "logs/"
 
 //#define cl_debug 0
-#define ag_debug 0
+//#define ag_debug 0
 #define COLOR_OFF   "\e[m"
 #define COLOR_AG_DEB "\033[1;30m"
 #define COLOR_CL_DEB "\033[1;32m"

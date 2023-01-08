@@ -1,1 +1,1 @@
-graph kebab-B360M-DS3H /var/log/syslog 10 01_07_22:53:00 01_07_22:55:50 `
+c-query kebab-B360M-DS3H /var/log/syslog `rule="R010"&PROTOCOL>"x"

@@ -18,16 +18,13 @@
 
 static const char* server_address;
 
-struct msg{pthread_t tid; char* response;};
-static std::list<struct msg*> waiting_messages;
-
 bool get_request(char* request, char response[MSG_MAX_SIZE]) {
     unsigned int retry_counter = 0;
-    int len_send = 1 + sizeof(pthread_t) + strlen(request + 1 + sizeof(pthread_t));
+    int len_send = strlen(request);
     int len;
 #ifdef cl_debug
     printf(COLOR_CL_DEB); 
-    printf("Sending :%s:\n",request + 1 + sizeof(pthread_t));
+    printf("Sending :%s:\n",request);
     printf(COLOR_OFF);
     fflush(stdout);
 #endif
@@ -88,7 +85,7 @@ Retry_get_request:
         fflush(stdout);
     }
 #endif
-    strcpy(response, response + sizeof(pthread_t));
+    strcpy(response, response);
     close(sockfd);
     return true;
 }
@@ -97,8 +94,8 @@ void wid_agent_list() {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_AGLIST; 
-    *((pthread_t*)(request+1)) = pthread_self(); 
-    request[sizeof(pthread_t) + 1] = '\0';
+    
+    request[1] = '\0';
     get_request(request, response);
 
     
@@ -127,8 +124,8 @@ void wid_agent_properties(const char* id) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_AGPROP;
-    *((pthread_t*)(request+1)) = pthread_self();
-    sprintf(request+sizeof(pthread_t) + 1, "%s", id);
+    
+    sprintf(request+1, "%s", id);
     get_request(request, response);
 
     
@@ -140,8 +137,8 @@ void wid_restart(const char* id) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_AG_RESTART;
-    *((pthread_t*)(request+1)) = pthread_self();
-    sprintf(request+sizeof(pthread_t) + 1, "%s", id);
+    
+    sprintf(request+ 1, "%s", id);
     get_request(request, response);
 
     
@@ -153,8 +150,8 @@ void wid_agent_add_is(const char* id, const char* path) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_ADDSRC;
-    *((pthread_t*)(request+1)) = pthread_self(); 
-    sprintf(request+sizeof(pthread_t) + 1, "%s\n%s", id, path);
+    
+    sprintf(request+1, "%s\n%s", id, path);
     get_request(request, response);
 
     
@@ -166,8 +163,8 @@ void wid_agent_add_rule(const char* id, const char* path, const char* rule_name,
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_ADDRLE;
-    *((pthread_t*)(request+1)) = pthread_self();
-    if(MSG_MAX_SIZE < sprintf(request+sizeof(pthread_t) + 1, "%s\n%s\n%s|%s", id, path, rule_name, rule))
+    
+    if(MSG_MAX_SIZE < sprintf(request+1, "%s\n%s\n%s|%s", id, path, rule_name, rule))
         printf("WARNING: message too long!\n");
     else
         get_request(request, response);
@@ -181,9 +178,9 @@ void wid_agent_c_query(char* output, const char* id, const char* path, const cha
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_COUNT_QUERY;
-    *((pthread_t*)(request+1)) = pthread_self(); 
     
-    if(MSG_MAX_SIZE < sprintf(request+sizeof(pthread_t) + 1, "%s\n%s\n%s", id, path, conditions))
+    
+    if(MSG_MAX_SIZE < sprintf(request+1, "%s\n%s\n%s", id, path, conditions))
         printf("WARNING: message too long!\n");
     else
         get_request(request, response);
@@ -192,6 +189,22 @@ void wid_agent_c_query(char* output, const char* id, const char* path, const cha
     if(output != 0) {
         sprintf(output,"%s",response);
     }
+}
+
+struct cqargs{const char* id; const char* path; char* _date_stuff; const char* glob_conditions;};
+
+void* fnc_graph_th_query(void* p) {
+    struct cqargs* args = (struct cqargs*) p;
+    char conditions[MSG_MAX_SIZE];
+    char response[MSG_MAX_SIZE]; bzero(response, MSG_MAX_SIZE);
+    sprintf(conditions, "%s%s", args->glob_conditions, args->_date_stuff);
+    delete (args->_date_stuff);
+    wid_agent_c_query(response, args->id, args->path, conditions);
+    if(atoi(response) == 0 && response[0] != '0') {
+        printf("\n%s\n", response);
+        return nullptr;
+    }
+    return new int(atoi(response));
 }
 
 void wid_graph(const char* id, const char* path, const char* samples_text, const char* data1, const char* data2, const char* conditions) {
@@ -227,12 +240,17 @@ void wid_graph(const char* id, const char* path, const char* samples_text, const
     char aug_cond[MSG_MAX_SIZE];
     sprintf(aug_cond,"%s", conditions);
     char* date_stuff = aug_cond + strlen(conditions);
-    int counts[samples];
+    int counts[samples]; bzero(counts, samples * sizeof(int));
     time_t t1, t2 = time2;
     char _date1[20], _date2[20];
     struct tm* for_text;
-    printf("      sample requested"); fflush(stdout);
-    for(int i = 0 ; i < samples; ++i) {
+
+    struct cqargs args = {id, path, 0, conditions};
+    struct cqargs my_args[2*samples]; bzero(my_args, 2 * samples * sizeof(args));
+    pthread_t cqtid[2*samples]; memset(cqtid, 0, samples * sizeof(pthread_t));
+    
+    int i;
+    for( i = 0 ; i < samples; ++i ) {
         
         if(i == samples - 1) t1 = time1;
         else t1 = t2 - (long) interval;
@@ -240,33 +258,55 @@ void wid_graph(const char* id, const char* path, const char* samples_text, const
         for_text = localtime(&t1);
         if (0 == strftime(_date1, 16, "%m %d %H:%M:%S", for_text)) {
             printf("Error\n");
-            return;
+            break;
         }
         for_text = localtime(&t2);
         if (0 == strftime(_date2, 16, "%m %d %H:%M:%S", for_text)) {
             printf("Error\n");
-            return;
+            break;
         }
         sprintf(date_stuff,"&__LOG_TIMESTAMP>\"%s\"&__LOG_TIMESTAMP<\"%s\"",_date1, _date2);
-        printf("\r\r\r%03d", i+1); fflush(stdout);
 
-        char response[MSG_MAX_SIZE];
-        wid_agent_c_query(response, id, path, aug_cond);
-        if(atoi(response) == 0 && response[0] != '0') {
-            printf("\n%s\n", response);
-            return;
+        {
+            my_args[2*i] = args;
+            my_args[2*i]._date_stuff =  new char[strlen(date_stuff)+1];
+            strncpy(((my_args[2*i])._date_stuff), date_stuff, strlen(date_stuff)+1);
+            
+            if( 0 > pthread_create(&(cqtid[2*i]), 0, fnc_graph_th_query, &my_args[2*i])) {
+                perror("creating pthread ");
+                break;
+            }
         }
-        counts[samples-1-i] = atoi(response);
 
         sprintf(date_stuff,"&__LOG_TIMESTAMP=\"%s\"",_date1);
-        wid_agent_c_query(response, id, path, aug_cond);
-        if(atoi(response) == 0 && response[0] != '0') {
-            printf("\n%s\n", response);
-            return;
+        
+        {
+            my_args[2*i+1] = args;
+            my_args[2*i+1]._date_stuff = new char[strlen(date_stuff)+1];
+            sprintf(((my_args[2*i+1])._date_stuff), "%s", date_stuff);
+            
+            if( 0 > pthread_create(&(cqtid[2*i+1]), 0, fnc_graph_th_query, &my_args[2*i+1])) {
+                perror("creating pthread ");
+                break;
+            }
         }
-        counts[samples-1-i] += atoi(response);
 
         t2 = t1;      
+    }
+    if (i == samples) {
+        i -= 1;
+    }
+    for ( int j = 2*i+1; j >= 0; --j ) {
+        int* val = nullptr;
+        if ( -1 == pthread_join(cqtid[j], (void**) &val) ) {
+            perror("pthread_join");
+        }
+        else {
+            if(val != nullptr) {
+                counts[j/2] += *val;
+                delete val;
+            }
+        }
     }
 
     int maxval = 0;
@@ -302,9 +342,9 @@ void wid_agent_rm_rule(const char* id, const char* path, const char* rule_name) 
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_RMVRLE;
-    *((pthread_t*)(request+1)) = pthread_self(); 
     
-    sprintf(request+sizeof(pthread_t) + 1, "%s\n%s\n%s", id, path, rule_name);
+    
+    sprintf(request + 1, "%s\n%s\n%s", id, path, rule_name);
     get_request(request, response);
 
     
@@ -316,8 +356,8 @@ void wid_agent_howmany(const char* id, const char* path) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_AG_HOWMANY_RULEPAGES;
-    *((pthread_t*)(request+1)) = pthread_self();     
-    sprintf(request+sizeof(pthread_t) + 1, "%s\n%s", id, path);
+        
+    sprintf(request+1, "%s\n%s", id, path);
     get_request(request, response);
 
     if (atoi(response) != 0) {
@@ -333,8 +373,8 @@ void wid_agent_rulenames(const char* id, const char* path, const char* page_nr) 
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_AG_LIST_RULEPAGE;
-    *((pthread_t*)(request+1)) = pthread_self();
-    sprintf(request+sizeof(pthread_t) + 1, "%s\n%s\n%s", id, path, page_nr);
+
+    sprintf(request+1, "%s\n%s\n%s", id, path, page_nr);
     get_request(request, response);
 
     
@@ -346,8 +386,8 @@ void wid_agent_showrule(const char* id, const char* path, const char* rule_name)
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_AG_SHOW_RULE;
-    *((pthread_t*)(request+1)) = pthread_self(); 
-    sprintf(request+sizeof(pthread_t) + 1, "%s\n%s\n%s", id, path, rule_name);
+    
+    sprintf(request+1, "%s\n%s\n%s", id, path, rule_name);
     get_request(request, response);
 
     
@@ -359,8 +399,8 @@ void wid_agent_lsinfo(const char* id) {
     char response[MSG_MAX_SIZE];
     char request[MSG_MAX_SIZE];
     request[0] = CLMSG_AG_LIST_SOURCES;
-    *((pthread_t*)(request+1)) = pthread_self(); 
-    sprintf(request+sizeof(pthread_t) + 1, "%s", id);
+    
+    sprintf(request+1, "%s", id);
     get_request(request, response);
 
     

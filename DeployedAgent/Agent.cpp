@@ -114,7 +114,7 @@ bool init_transfer_connection(const char* ip) {
             close(transfer_sd);
             return false;
         }
-        printf("%ld s %ld ms time left\n",time.tv_sec, time.tv_usec);
+        printf("Recieved ack, with %ld s %ld ms time left till timeout\n",time.tv_sec, time.tv_usec);
         if (FD_ISSET(control_sd, &readfd)) {
             
             char ack = '\0';
@@ -240,11 +240,11 @@ bool treat (char * command) {
     pthread_t request_ID = (*((pthread_t*) (command + 1)));
     char response[MSG_MAX_SIZE]; bzero(response, sizeof(response));
     char* params = command + 1 + sizeof(request_ID);
-    #ifdef cl_debug
+#ifdef cl_debug
     printf(COLOR_CL_DEB);
     printf("ClReq Recieved:%s:\n",params);
     printf(COLOR_OFF); fflush(stdout);
-    #endif
+#endif
     char* p = strtok(params, "\n");
     while(p != nullptr) {
         p = strtok(NULL, "\n");
@@ -253,12 +253,14 @@ bool treat (char * command) {
         case CLMSG_ADDSRC: {
                 InfoSource* to_add = createIS(params);
                 bool found = false;
+                pthread_mutex_lock(&sources_mutex);
                 for (auto i : sources) {
                     if (i == to_add) {
                         found = true;
                         break;
                     }
                 }
+                pthread_mutex_unlock(&sources_mutex);
                 if (found) {
                     strcpy(response,"Success");
                 }
@@ -270,12 +272,14 @@ bool treat (char * command) {
         case CLMSG_ADDRLE: {
             InfoSource* my_is = nullptr;
 
+            pthread_mutex_lock(&sources_mutex);
             for(auto i : sources) {
                 if(0 == strcmp(i->path, params)) {
                     my_is = i;
                     break;
                 }
             }
+            pthread_mutex_unlock(&sources_mutex);
 
             if (my_is == nullptr) {
                 strcpy(response, "Error: Unknown InfoSource");
@@ -308,12 +312,14 @@ bool treat (char * command) {
         case CLMSG_RMVRLE: {
             InfoSource* my_is = nullptr;
 
+            pthread_mutex_lock(&sources_mutex);
             for(auto i : sources) {
                 if(0 == strcmp(i->path, params)) {
                     my_is = i;
                     break;
                 }
             }
+            pthread_mutex_unlock(&sources_mutex);
 
             if (my_is == nullptr) {
                 strcpy(response, "Error: Unknown InfoSource");
@@ -355,7 +361,10 @@ bool treat (char * command) {
             bool first_time = true;
             bool found = false;
 
-            read_fmt_entry(old_fd, rule);
+            if (false == read_fmt_entry(old_fd, rule)) {
+                sprintf(response, "Error: reading fmt file");
+                goto after_treat;
+            }
 
             while(strlen(rule) > 0) {
                 char* ending = strchr(rule, '\n');
@@ -396,7 +405,10 @@ bool treat (char * command) {
                     ending[0] = '\n';
                 }
 
-                read_fmt_entry(old_fd, rule);
+                if (false == read_fmt_entry(old_fd, rule)) {
+                    sprintf(response, "Error: reading fmt file");
+                    goto after_treat;
+                }
             }
 
             close(old_fd);
@@ -436,21 +448,25 @@ bool treat (char * command) {
             break;
         }
         case CLMSG_AG_LIST_SOURCES: {
+            pthread_mutex_lock(&sources_mutex);
             for(auto i : sources) {
                 strcat(response, i->path);
                 strcat(response, "\n");
             }
+            pthread_mutex_unlock(&sources_mutex);
             break;
         }  
         case CLMSG_AG_HOWMANY_RULEPAGES: {
             InfoSource* my_is = nullptr;
 
+            pthread_mutex_lock(&sources_mutex);
             for(auto i : sources) {
                 if(0 == strcmp(i->path, params)) {
                     my_is = i;
                     break;
                 }
             }
+            pthread_mutex_unlock(&sources_mutex);
 
             if (my_is == nullptr) {
                 strcpy(response, "Error: Unknown InfoSource");
@@ -474,7 +490,10 @@ bool treat (char * command) {
             char entry[MSG_MAX_SIZE]; bzero(entry, MSG_MAX_SIZE);
             int nr_entries = 0;
 
-            read_fmt_entry(fd, entry);
+            if (false == read_fmt_entry(fd, entry)) {
+                sprintf(response, "Error: reading fmt file");
+                goto after_treat;
+            }
 
             while(strlen(entry) > 0) {
                 nr_entries += 1;
@@ -494,7 +513,10 @@ bool treat (char * command) {
                     ending[0] = '\n';
                 }
 
-                read_fmt_entry(fd, entry);
+                if (false == read_fmt_entry(fd, entry)) {
+                    sprintf(response, "Error: reading fmt file");
+                    goto after_treat;
+                }
             }
             close(fd);
 
@@ -505,12 +527,14 @@ bool treat (char * command) {
         case CLMSG_AG_LIST_RULEPAGE: {
             InfoSource* my_is = nullptr;
 
+            pthread_mutex_lock(&sources_mutex);
             for(auto i : sources) {
                 if(0 == strcmp(i->path, params)) {
                     my_is = i;
                     break;
                 }
             }
+            pthread_mutex_unlock(&sources_mutex);
 
             if (my_is == nullptr) {
                 strcpy(response, "Error: Unknown InfoSource");
@@ -540,7 +564,10 @@ bool treat (char * command) {
             char entry[MSG_MAX_SIZE]; bzero(entry, MSG_MAX_SIZE);
             int nr_entries = 0;
 
-            read_fmt_entry(fd, entry);
+            if (false == read_fmt_entry(fd, entry)) {
+                sprintf(response, "Error: reading fmt file");
+                goto after_treat;
+            }
 
             while(strlen(entry) > 0 && (nr_entries/ENTRIESPERPAGE) + 1 <= page + 1) {
                 nr_entries += 1;
@@ -566,14 +593,17 @@ bool treat (char * command) {
                         ending[0] = '\n';
                     }
                 }
-                read_fmt_entry(fd, entry);
+                if (false == read_fmt_entry(fd, entry)) {
+                    sprintf(response, "Error: reading fmt file");
+                    goto after_treat;
+                }
             }
             close(fd);
             if(strlen(response) > 0) {
                 response[strlen(response) - 1] = '\0';
             }
             else {
-                strcpy(response, "Error: Invalid page");
+                sprintf(response, "Error: Invalid page");
             }
 
 
@@ -582,12 +612,14 @@ bool treat (char * command) {
         case CLMSG_AG_SHOW_RULE: {
             InfoSource* my_is = nullptr;
 
+            pthread_mutex_lock(&sources_mutex);
             for(auto i : sources) {
                 if(0 == strcmp(i->path, params)) {
                     my_is = i;
                     break;
                 }
             }
+            pthread_mutex_unlock(&sources_mutex);
 
             char* my_entry = params + strlen(params) + 1;
 
@@ -613,7 +645,10 @@ bool treat (char * command) {
             char entry[MSG_MAX_SIZE]; bzero(entry, MSG_MAX_SIZE);
             int nr_entries = 0;
 
-            read_fmt_entry(fd, entry);
+            if (false == read_fmt_entry(fd, entry)) {
+                sprintf(response, "Error: reading fmt file");
+                goto after_treat;
+            }
 
             while(strlen(entry) > 0) {
                 nr_entries += 1;
@@ -642,7 +677,10 @@ bool treat (char * command) {
                     ending[0] = '\n';
                 }
 
-                read_fmt_entry(fd, entry);
+                if (false == read_fmt_entry(fd, entry)) {
+                    sprintf(response, "Error: reading fmt file");
+                    goto after_treat;
+                }
             }
             close(fd);
 
@@ -742,7 +780,15 @@ Retry:
     while(sources.size() > 0) {
         (*sources.begin())->unregister();
     }
-    sleep(5);
+    if(keep_on_keeping_on == false) {
+        printf("Recieved restart request..\n");
+        sleep(5);
+        close(control_sd);
+        close(transfer_sd);
+        printf("Restarting..\n");
+        goto Retry;
+    }
+        
     close(control_sd);
     close(transfer_sd);
 

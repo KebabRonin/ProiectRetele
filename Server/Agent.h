@@ -156,9 +156,7 @@ void* fnc_agent_control_listener(void* p) {
     while(1) {
         time.tv_sec = 10;
         time.tv_usec = 0;
-        if(myAgent->agent_transfer_sd == -1) {
-            break;
-        }
+        
         memcpy(&readfd, &actfd, sizeof(actfd));
 
         int retval = select(myAgent->agent_control_sd + 1, &readfd, nullptr, nullptr, &time);
@@ -183,6 +181,9 @@ fflush(stdout);
         }
         buffer_change_endian(message, len);
         treat(message);
+        if(myAgent->agent_transfer_sd == -1) {
+            break;
+        }
     }
 
     delete myAgent;

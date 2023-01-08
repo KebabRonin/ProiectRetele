@@ -11488,7 +11488,7 @@
 	{"type":"string","name":"PC_NAME","value":"kebab-B360M-DS3H"},
 	{"type":"string","name":"USB_NAME","value":"1-2"},
 	{"type":"number","name":"DEVICE_NR","value":"3"},
-	{"type":"string","name":"PROTOCOL","value":"xhci_hcd"}
+	{"type":"string","name":"PROTOCOL","value":"a"}
 ]},
 {"rule":"R010",
 "args":[

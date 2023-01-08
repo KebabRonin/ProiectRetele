@@ -8,14 +8,14 @@ extern int control_sd, transfer_sd;
 
 struct InfoSource {
     pthread_t tid;
-    const char* path;
+    char* path;
     int logfd;
 
     pthread_mutex_t rules_file_mutex = PTHREAD_MUTEX_INITIALIZER;
     
-    void read_entry(int fd, char* message);
-    bool parse_entry(const char* message, char* parsed_message);
-    void send_entry(int sockfd, char* message);
+    bool read_entry(int fd, char* message);
+    int parse_entry(const char* message, char* parsed_message);
+    bool send_entry(int sockfd, char* message);
     void unregister();
 
     bool has_rule(const char* rule_name);
@@ -25,7 +25,10 @@ struct InfoSource {
 
     ~InfoSource();
 private: 
-    InfoSource(const char* mypath, int mylogfd) : path(mypath), logfd(mylogfd) {}
+    InfoSource(const char* mypath, int mylogfd) : logfd(mylogfd) {
+        path = new char[strlen(mypath)+1];
+        strncpy(path,mypath, strlen(mypath)+1);
+    }
 };
 
 #include <vector>
@@ -33,7 +36,7 @@ extern std::vector<InfoSource*> sources;
 
 struct arg{int logfd; InfoSource* self;};
 
-void read_fmt_entry(int fd, char* message) {
+bool read_fmt_entry(int fd, char* message) {
     char* p;
     
     //am citit inainte o parte din urmatorul mesaj
@@ -55,7 +58,7 @@ void read_fmt_entry(int fd, char* message) {
         
         if (read_now < 0) {
             perror("Reading");
-            exit(1);
+            return false;
         }
         else if (read_now == 0) {
             break;
@@ -65,13 +68,15 @@ void read_fmt_entry(int fd, char* message) {
 
         if(already_read >= MSG_MAX_SIZE) {
             printf("Message too long!\n%ld,%s\n",strlen(message), message);
-            exit(1);
+            return false;
         }
         message[already_read] = '\0';
     }
+
+    return true;
 }
 
-void InfoSource::read_entry(int fd, char* message) {
+bool InfoSource::read_entry(int fd, char* message) {
     char* p;
     
     //am citit inainte o parte din urmatorul mesaj
@@ -90,7 +95,7 @@ void InfoSource::read_entry(int fd, char* message) {
         
         if (read_now < 0) {
             perror("Reading");
-            exit(1);
+            return false;
         }
         else if (read_now == 0) {
             sleep(1);
@@ -100,13 +105,14 @@ void InfoSource::read_entry(int fd, char* message) {
 
         if(already_read >= MSG_MAX_SIZE) {
             printf("Message too long!\n%ld,%s\n",strlen(message), message);
-            exit(1);
+            return false;
         }
         message[already_read] = '\0';
     }
+    return true;
 }
 
-bool InfoSource::parse_entry(const char* message, char* parsed_message) {
+int InfoSource::parse_entry(const char* message, char* parsed_message) {
     int len;
     if ( strchr(message, '\n') == nullptr ) {
         len = strlen(message);
@@ -139,14 +145,17 @@ bool InfoSource::parse_entry(const char* message, char* parsed_message) {
     if (fmtfd < 0) {
         pthread_mutex_unlock(&rules_file_mutex);
         perror("open");
-        exit(3);
+        return -1;
     }
 
 
     int rule_nr = 0;
     char rule[MSG_MAX_SIZE]; bzero(rule, MSG_MAX_SIZE);
     char jsoned_msg[MSG_MAX_SIZE];
-    read_fmt_entry(fmtfd, rule);
+    if (false == read_fmt_entry(fmtfd, rule)) {
+        close(fmtfd);
+        return -1;
+    }
 
     bool could_parse = false;
 
@@ -543,7 +552,10 @@ bool InfoSource::parse_entry(const char* message, char* parsed_message) {
             could_parse = false;
         }
 NewEntry:
-        read_fmt_entry(fmtfd, rule);
+        if (false == read_fmt_entry(fmtfd, rule)) {
+            close(fmtfd);
+            return -1;
+        };
     }
 
     pthread_mutex_unlock(&rules_file_mutex);
@@ -553,15 +565,15 @@ NewEntry:
     return could_parse;
 }
 
-void InfoSource::send_entry(int sockfd, char* message) {
+bool InfoSource::send_entry(int sockfd, char* message) {
     pthread_mutex_lock(&transfer_sock_mutex);
     if (send_varmsg(sockfd, message, strlen(message), MSG_NOSIGNAL) == false) {
         pthread_mutex_unlock(&transfer_sock_mutex);
         perror("Sending message");
-        this->unregister();
-        pthread_exit(nullptr);
+        return false;
     }
     pthread_mutex_unlock(&transfer_sock_mutex);
+    return true;
 }
 
 void InfoSource::unregister() {
@@ -595,14 +607,20 @@ bool InfoSource::has_rule(const char* rule_name) {
 
     char rule[MSG_MAX_SIZE]; bzero(rule, MSG_MAX_SIZE);
 
-    read_fmt_entry(fd, rule);
+    if (false == read_fmt_entry(fd, rule)) {
+        close(fd);
+        return false;
+    }
 
     while(strlen(rule) > 0) {
         if(strstr(rule, rule_name) == rule && rule[strlen(rule_name)] == '|') {
             close(fd);
             return true;
         }
-        read_fmt_entry(fd, rule);
+        if (false == read_fmt_entry(fd, rule)) {
+            close(fd);
+            return false;
+        }
     }
 
     close(fd);
@@ -672,23 +690,34 @@ void* fnc_monitor_infosource(void* p) {
     printf("Reading log...\n");
 
     while(1) {
-        self->read_entry(self->logfd, message);
+        if(false == self->read_entry(self->logfd, message)) {
+            self->unregister();
+            pthread_exit(nullptr);
+        }
         #ifdef ag_debug
             char* p = strchr(message, '\n');
             if (p != nullptr) p[0] = '\0';
             printf(COLOR_LOG "Read : %s..\n" COLOR_OFF, message);
             if (p != nullptr) p[0] = '\n';
         #endif
-        
-        if (true == self->parse_entry(message, parsed_message) ) {
+        int ret_state = self->parse_entry(message, parsed_message);
+        if (true ==  ret_state) {
             buffer_change_endian(parsed_message, strlen(parsed_message));
-            self->send_entry(transfer_sd,parsed_message);
+            if(false == self->send_entry(transfer_sd,parsed_message)) {
+                self->unregister();
+                return nullptr;
+            }
             //printf("Am trimis\n");
         }
-        else {
-            //printf("N-am trimis:%s\n",parsed_message);
-
+        else if (-1 == ret_state){
+            self->unregister();
+            return nullptr;
         }
+#ifdef ag_debug
+        else if (false == ret_state){
+            printf("N-am trimis:%s\n",parsed_message);
+        }
+#endif
     }
     self->unregister();
     return nullptr;
@@ -696,11 +725,15 @@ void* fnc_monitor_infosource(void* p) {
 
 InfoSource* createIS(const char* mypath) {
     printf("Adding %s..\n",mypath);
+    pthread_mutex_lock(&sources_mutex);
     for(auto i : sources) {
         if (0 == strcmp(i->path,mypath)) {
+            printf("Source already active\n");
+            pthread_mutex_unlock(&sources_mutex);
             return nullptr;
         }
     }
+    pthread_mutex_unlock(&sources_mutex);
 
     int logfd = open(mypath,O_RDONLY);
     if (logfd < 0) {
@@ -760,5 +793,8 @@ InfoSource::~InfoSource() {
     else {
         printf("pthread joined\n"/*, *(int*)retval*/);
     }
+    
     close(logfd);
+    printf("InfoSource %s destroyed\n", this->path);
+    delete[] path;
 }

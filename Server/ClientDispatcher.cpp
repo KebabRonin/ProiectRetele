@@ -65,17 +65,41 @@ void get_all_agents(char* buf) {
             pthread_exit(nullptr);
         case 0: {
             close(pipefd[0]);
+            int fd;
 
-            int fd = open("aglist_script", O_CREAT | O_TRUNC | O_WRONLY, 0750);
-            write(fd, "ls -l logs/ | grep ^d | awk \'{print $9}\'", strlen("ls -l logs/ | grep ^d | awk \'{print $9}\'"));
-            close (fd);
+            if ( 0 > access("aglist_script", F_OK)) {
+                while(1) {
+                    fd = open("aglist_script", O_CREAT | O_TRUNC | O_WRONLY, 0750);
+                    if(fd < 0 ) {
+                        if(errno = ETXTBSY) {
+                            continue;
+                        }
+                        else {
+                            perror("open");
+                            pthread_exit(nullptr);
+                        }
+                    }
+                    break;
+                }
+                int len =  strlen("ls -l logs/ | grep ^d | awk \'{print $9}\'");
+                if( 0 > write(fd, "ls -l logs/ | grep ^d | awk \'{print $9}\'", len)) {
+                    perror("write");
+                    pthread_exit(nullptr);
+                }
+                if( 0 > close (fd)) {
+                    perror("close");
+                    pthread_exit(nullptr);
+                }
+            }
+
 
             if (dup2(pipefd[1], 1) == -1) {
                 perror("dup2");
-                exit(2);
+                pthread_exit(nullptr);
             }
             execlp("./aglist_script","aglist_script", nullptr);
             perror("execlp");
+            if(errno == ETXTBSY) 
             pthread_exit(nullptr);
         }
         default:
@@ -103,19 +127,17 @@ void* fnc_treat_client(void* p) {
     delete cparam;
     
     char type = msg[0];
-    pthread_t msg_id = *((pthread_t*)(msg + 1));
-    char* clreq = msg + 1 + sizeof(pthread_t);
+    char* clreq = msg + 1;
     char to_send[MSG_MAX_SIZE];
 
 #ifdef cl_debug
     printf(COLOR_CL_DEB);
-    printf("ClReq Recieved:%s:from th %ld\n", clreq, msg_id);
+    printf("ClReq Recieved:%s:\n", clreq);
     printf(COLOR_OFF); fflush(stdout);
 #endif
 
-    memcpy(to_send, &msg_id, sizeof(pthread_t));
-    char* response = to_send + sizeof(pthread_t);
-    bzero(response, MSG_MAX_SIZE - sizeof(pthread_t));
+    char* response = to_send;
+    bzero(response, MSG_MAX_SIZE);
 
     
     switch (type) {
@@ -223,8 +245,9 @@ void* fnc_treat_client(void* p) {
                     if(p[0] == '&') {
                         p += 1;
                     }
+                    
                     conditions[nr_cond].name = p;
-                        if ( nullptr != (p = strchr(conditions[nr_cond].name,'='))) {
+                    if ( nullptr != (p = strchr(conditions[nr_cond].name,'='))) {
                         conditions[nr_cond].op = '=';
                         p[0] = '\0';
                         p += 1;
@@ -246,6 +269,11 @@ void* fnc_treat_client(void* p) {
                     }
                     else {
                         sprintf(response, "Invalid condition: Missing operator(=,!,>,<)");
+                        goto send_response;
+                    }
+
+                    if(strlen(conditions[nr_cond].name) == 0) {
+                        sprintf(response, "Invalid condition: Empty value name");
                         goto send_response;
                     }
                     
@@ -437,7 +465,8 @@ void* fnc_treat_client(void* p) {
                                     goto unmatch;
                                 }
                                 ending[0] = '\0';
-                                if(possible_match - strlen("number\",\"name\":\"") > buffer && strstr(possible_match - strlen("number\",\"name\":\""), "number") == possible_match - strlen("number\",\"name\":\"")) {
+                                unsigned int offset = strlen("number\",\"name\":\"") + strlen(conditions[i].name) + strlen("\",\"value\":\"");
+                                if(possible_match - offset > buffer && strstr((possible_match - offset), "number") == possible_match - offset) {
                                     switch(conditions[i].op) {
                                     case '=':
                                         if(atoi(conditions[i].value) == atoi(possible_match)) {
@@ -452,13 +481,13 @@ void* fnc_treat_client(void* p) {
                                         }
                                         break;
                                     case '<':
-                                        if(atoi(conditions[i].value) < atoi(possible_match)) {
+                                        if(atoi(possible_match) < atoi(conditions[i].value)) {
                                             ending[0] = '\"';
                                             goto match;
                                         }
                                         break;
                                     case '>':
-                                        if(atoi(conditions[i].value) > atoi(possible_match)) {
+                                        if(atoi(possible_match) > atoi(conditions[i].value)) {
                                             ending[0] = '\"';
                                             goto match;
                                         }
@@ -568,11 +597,16 @@ match:              ;
             my_agent->send_request(pthread_self(), type, next_params, next_params == nullptr ? 0 : strlen(next_params));
             
             //wait for response
-            
+            int tries = 0;
+
             do {
+                tries+=1;
                 sleep(1);
-            }while(strlen(myReq.rsp) == 0);
+            }while(strlen(myReq.rsp) == 0 && tries < 5);
             
+            if(tries >= 5) {
+                printf("Error: Request timed out");
+            }
 #ifdef ag_debug
             printf(COLOR_AG_DEB);
             printf("request!\n");
@@ -584,14 +618,22 @@ match:              ;
         }
     }
 send_response:
-#ifdef cl_debug
-    printf(COLOR_CL_DEB);
-    printf("Sending to client:%s:\n",response);
-    printf(COLOR_OFF);fflush(stdout);
-#endif
-    int t_len = sizeof(pthread_t) + strlen(response);
+
+    int t_len = strlen(response);
+    #ifdef cl_debug
+    if(t_len > 0) {
+        printf(COLOR_CL_DEB);
+        printf("Sending to client:%s:\n",response);
+        printf(COLOR_OFF);fflush(stdout);
+    }
+    else {
+        printf(COLOR_CL_DEB);
+        printf("Response was empty, I don't send anything\n");
+        printf(COLOR_OFF);fflush(stdout);
+    }
+    #endif
     buffer_change_endian(to_send, t_len);
-    if ( 0 > sendto(sockfd, to_send, t_len, 0, (struct sockaddr*)&clsock, sizeof(clsock)) ) {
+    if ( t_len > 0 && 0 > sendto(sockfd, to_send, t_len, 0, (struct sockaddr*)&clsock, sizeof(clsock)) ) {
         perror("sendto");
         pthread_exit(nullptr);
     }
@@ -606,7 +648,7 @@ void* fnc_client_dispatcher(void*) {
     int server_sockfd = init_server_to_port_UDP(CLIENT_PORT);
     if(server_sockfd == -1) {
         printf("Error initialising client port\n");
-        exit(3);
+        pthread_exit(nullptr);
     }
     fd_set actfds,readfds;
 
@@ -622,7 +664,7 @@ void* fnc_client_dispatcher(void*) {
         bcopy ((char *) &actfds, (char *) &readfds, sizeof (readfds));
         if (select(server_sockfd+1, &readfds, nullptr, nullptr, nullptr) < 0) {
             perror("select()");
-            exit(3);
+            pthread_exit(nullptr);
         }
         if( 0 > (len = recvfrom(server_sockfd,buf,MSG_MAX_SIZE, 0,(sockaddr*) &client_sockaddr,(socklen_t*) &length))) {
             perror("recv_from");
@@ -637,7 +679,7 @@ void* fnc_client_dispatcher(void*) {
         pthread_t tid;
         if ( 0 > pthread_create(&tid, nullptr, fnc_treat_client, (void*)cparam) ) {
             perror("pthread_create");
-            exit(3);
+            pthread_exit(nullptr);
         }
     }
     return nullptr;
