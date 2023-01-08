@@ -27,7 +27,8 @@ struct InfoSource {
 private: 
     InfoSource(const char* mypath, int mylogfd) : logfd(mylogfd) {
         path = new char[strlen(mypath)+1];
-        strncpy(path,mypath, strlen(mypath)+1);
+        bzero(path, strlen(mypath) + 1);
+        strncpy(path,mypath, strlen(mypath));
     }
 };
 
@@ -42,7 +43,7 @@ bool read_fmt_entry(int fd, char* message) {
     //am citit inainte o parte din urmatorul mesaj
     if ( nullptr != ( p = strchr(message, '\n') ) ) {
         size_t len =  strlen(p+1);
-        bcopy(message, p+1, len);
+        sprintf(message, "%s", p+1);
         bzero(message + len, MSG_MAX_SIZE - len);
     }
     else {
@@ -579,10 +580,11 @@ bool InfoSource::send_entry(int sockfd, char* message) {
 void InfoSource::unregister() {
     int nr_ord = 0;
     pthread_mutex_lock(&sources_mutex);
+    st:
     for (auto i : sources) {
         if ( i == this) {
             sources.erase(sources.begin() + nr_ord);
-            break;
+            goto st;
         }
     }
     pthread_mutex_unlock(&sources_mutex);
@@ -691,8 +693,8 @@ void* fnc_monitor_infosource(void* p) {
 
     while(1) {
         if(false == self->read_entry(self->logfd, message)) {
-            self->unregister();
-            pthread_exit(nullptr);
+            printf("%s > Error reading from log.", self->path);
+            continue;
         }
         #ifdef ag_debug
             char* p = strchr(message, '\n');
@@ -704,14 +706,14 @@ void* fnc_monitor_infosource(void* p) {
         if (true ==  ret_state) {
             buffer_change_endian(parsed_message, strlen(parsed_message));
             if(false == self->send_entry(transfer_sd,parsed_message)) {
-                self->unregister();
-                return nullptr;
+                printf("%s > Error sending log.", self->path);
+                continue;
             }
             //printf("Am trimis\n");
         }
         else if (-1 == ret_state){
-            self->unregister();
-            return nullptr;
+            printf("%s > Error parsing log.", self->path);
+            continue;
         }
 #ifdef ag_debug
         else if (false == ret_state){
@@ -777,21 +779,27 @@ InfoSource* createIS(const char* mypath) {
 InfoSource::~InfoSource() {
     void* retval = nullptr;
     int err;
-    if( pthread_self() != this->tid && 0 != (err = pthread_tryjoin_np(tid,&retval)) ) {
-        if(err == EBUSY) {
-            if( 0 != (err = pthread_cancel(tid)) ) {
-                perror("pthread_cancel()");
+    if( pthread_self() != this->tid) {
+        if( 0 != (err = pthread_tryjoin_np(tid,&retval)) ) {
+            if(err == EBUSY) {
+                if( 0 != (err = pthread_cancel(tid)) ) {
+                    perror("pthread_cancel()");
+                }
+                if(  0 != (err = pthread_join(tid, &retval)) ) {
+                    perror("pthread_join()");
+                }
             }
-            if(  0 != (err = pthread_join(tid, &retval)) ) {
-                perror("pthread_join()");
+            else {
+                perror("pthread_tryjoin()");
             }
         }
         else {
-            perror("pthread_tryjoin()");
+            printf("pthread joined\n"/*, *(int*)retval*/);
         }
     }
     else {
-        printf("pthread joined\n"/*, *(int*)retval*/);
+        pthread_detach(pthread_self());
+
     }
     
     close(logfd);

@@ -32,16 +32,12 @@ bool get_request(char* request, char response[MSG_MAX_SIZE+1]) {
 
 Retry_get_request:
 	retry_counter+=1;
-	if(retry_counter >= 5) {
-        //printf("\n");
-		return false;
-	}
+
     int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
     if ( -1 == sockfd ) {
         perror("socket()");
         goto Retry_get_request;
     }
-    //fcntl(sockfd, F_SETFL, fcntl(sockfd, F_GETFL, 0) | O_NONBLOCK);
 
     struct sockaddr_in server_sockaddr;
     bzero(&server_sockaddr, sizeof(server_sockaddr));
@@ -93,7 +89,7 @@ void wid_agent_list() {
     
     request[1] = '\0';
     if ( false == get_request(request, response) ) {
-        printf("Error getting request\n");
+        printf("Error getting request. Is server down?\n");
         return;
     }
 
@@ -221,7 +217,7 @@ void* fnc_graph_th_query(void* p) {
     return new int(atoi(response));
 }
 
-void wid_graph(const char* id, const char* path, const char* samples_text, const char* data1, const char* data2, const char* conditions) {
+void wid_graph(const char* id, const char* path, const char* samples_text, char* data1, char* data2, const char* conditions) {
     int samples = atoi(samples_text);
     time_t time1, time2;
     tm time;
@@ -250,6 +246,14 @@ void wid_graph(const char* id, const char* path, const char* samples_text, const
 
     double interval = difftime(time2,time1);
     interval /= samples;
+    if(interval > 0) {
+        //interval *= -1;
+        time_t temp;
+        temp = time1;
+        time1 = time2;
+        time2 = temp;
+    }
+    printf("interval:%f\n", interval);
 
     char aug_cond[MSG_MAX_SIZE+1];
     sprintf(aug_cond,"%s", conditions);
@@ -268,7 +272,7 @@ void wid_graph(const char* id, const char* path, const char* samples_text, const
     for( i = 0 ; i < samples; ++i ) {
         
         if(i == samples - 1) t1 = time1;
-        else t1 = t2 - (long) interval;
+        else t1 = t2 + (long) interval;
 
         for_text = localtime(&t1);
         if (0 == strftime(_date1, 16, "%m %d %H:%M:%S", for_text)) {
@@ -280,7 +284,7 @@ void wid_graph(const char* id, const char* path, const char* samples_text, const
             printf("Error\n");
             break;
         }
-        sprintf(date_stuff,"&__LOG_TIMESTAMP>\"%s\"&__LOG_TIMESTAMP<\"%s\"",_date1, _date2);
+        sprintf(date_stuff,"&__LOG_TIMESTAMP>\"%s\"&__LOG_TIMESTAMP<\"%s\"",_date2, _date1);
 
         {
             my_args[2*i] = args;
@@ -293,7 +297,7 @@ void wid_graph(const char* id, const char* path, const char* samples_text, const
             }
         }
 
-        sprintf(date_stuff,"&__LOG_TIMESTAMP=\"%s\"",_date1);
+        sprintf(date_stuff,"&__LOG_TIMESTAMP=\"%s\"",_date2);
         
         {
             my_args[2*i+1] = args;
@@ -481,7 +485,7 @@ int main(int argc, char* argv[]) {
 
     help();
 
-    char buffer[300]; bzero(buffer, 300);
+    char buffer[300+1]; bzero(buffer, 300+1);
     int already_read = 0, read_now;
 
     char* p;
@@ -533,7 +537,7 @@ int main(int argc, char* argv[]) {
             char* args[10];
             int nr_args = 0;
 
-            while( tok != nullptr) {
+            while( tok != nullptr && nr_args < 10) {
 
                 tok = strchr(tok, ' ');
                 if(tok != nullptr) {
@@ -714,8 +718,6 @@ int main(int argc, char* argv[]) {
             for( int i = 0; i <= strlen(p); ++i) {
                 buffer[i] = p[i];
             }
-
-            //sprintf(buffer, "%s", p+1);
         }
     }
 }

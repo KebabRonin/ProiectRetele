@@ -1,0 +1,25 @@
+add-source kebab-B360M-DS3H /var/log/syslog
+add-rule kebab-B360M-DS3H /var/log/syslog\
+R001 `\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] dhcp4 (\s:"INTERFACE"): canceled DHCP transaction
+add-rule kebab-B360M-DS3H /var/log/syslog\
+R002 `\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] dhcp4 (\s:"INTERFACE"): state changed \s:"OLD_STATE" -> \s:"NEW_STATE"
+add-rule kebab-B360M-DS3H /var/log/syslog\
+R003 `\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] dhcp4 (\s:"INTERFACE"): option \s:"OPTION"\ => '\s:"OPTION_VALUE"'
+add-rule kebab-B360M-DS3H /var/log/syslog\
+R004 `\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] dhcp4 (\s:"INTERFACE"): activation: beginning transaction (timeout in \n:"_" seconds)
+add-rule kebab-B360M-DS3H /var/log/syslog\
+R005 `\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] device (\s:"INTERFACE"): Activation: starting connection '\s:"CONN_NAME"' (\s:"ID")
+add-rule kebab-B360M-DS3H /var/log/syslog\
+R006 `\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] device (\s:"INTERFACE"): Activation: successful, device activated.
+add-rule kebab-B360M-DS3H /var/log/syslog\
+R007 `\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] device (\s:"INTERFACE"): state change: \s:"ORIGINAL_STATE" -> \s:"NEW_STATE" (reason '\s:"REASON"', sys-iface-state: '\s:"IFACE_STATE"')
+add-rule kebab-B360M-DS3H /var/log/syslog\
+R008 `\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] manager: NetworkManager state is now \s:"STATE"
+add-rule kebab-B360M-DS3H /var/log/syslog\
+R009 `\d:"__LOG_TIMESTAMP" \s:"PC_NAME" NetworkManager[\n:"_"]: <info>\ [\ \n:"_".\n:"_"] policy: set '\s:"NAME"' (\s:"INTERFACE") as default for \s:"PROTOCOLS"
+add-rule kebab-B360M-DS3H /var/log/syslog\
+R010 `\d:"__LOG_TIMESTAMP" \s:"PC_NAME" kernel: [\ \n:"_".\n:"_"] usb \s:"USB_NAME": reset high-speed USB device number \n:"DEVICE_NR" using \s:"PROTOCOL"
+add-rule kebab-B360M-DS3H /var/log/syslog\
+R011 `\d:"__LOG_TIMESTAMP" \s:"PC_NAME" avahi-daemon[\n:"_"]: Withdrawing address record for \s:"ADDRESS" on \s:"INTERFACE".
+rulenames kebab-B360M-DS3H /var/log/syslog 1
+rulenames kebab-B360M-DS3H /var/log/syslog 2

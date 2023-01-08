@@ -76,6 +76,7 @@ bool init_control_connection(const char* ip) {
 
 bool init_transfer_connection(const char* ip) {
 
+    int retries = 0;
     struct sockaddr_in server_sockaddr; 
     bzero(&server_sockaddr, sizeof(server_sockaddr));
 
@@ -89,7 +90,7 @@ bool init_transfer_connection(const char* ip) {
 
     timeval time;
 
-    while (1) {
+    while (retries < 10) {
         printf("Initialising transfer conn..\n");
 
         transfer_sd = socket(AF_INET, SOCK_STREAM, 0);
@@ -129,7 +130,7 @@ bool init_transfer_connection(const char* ip) {
                 break;
             }
             else {
-                printf("recieved unknown ack!!\n");
+                printf("Recieved unknown ack!!\n");
                 close(transfer_sd);
                 return false;
             }
@@ -137,7 +138,7 @@ bool init_transfer_connection(const char* ip) {
         else {
             close(transfer_sd);
         }
-        
+        retries += 1;
     }
 
     return true;
@@ -188,7 +189,7 @@ CommRetry:
 }
 
 void init_agent_info() {
-    int infofd = open("agent.info",O_WRONLY | O_CREAT, 0750);
+    int infofd = open("agent.info",O_WRONLY | O_CREAT | O_TRUNC, 0750);
     int pid;
     switch(pid = fork()) {
         case -1:
@@ -542,7 +543,7 @@ bool treat (char * command) {
             }
 
             int page = atoi(params + strlen(params) + 1);
-            if (page == 0) {
+            if (page <= 0) {
                 strcpy(response,"Invalid page");
                 break;
             }

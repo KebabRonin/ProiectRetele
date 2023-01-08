@@ -29,7 +29,6 @@ Request* get_Request(pthread_t tid) {
 pthread_mutex_t clreq_mutex = PTHREAD_MUTEX_INITIALIZER;
 
 void register_Request(Request*myReq) {
-    printf("There are %d waiting requests\n", (int)requests_list.size());
     pthread_mutex_lock(&clreq_mutex);
     requests_list.push_back(myReq);
     pthread_mutex_unlock(&clreq_mutex);
