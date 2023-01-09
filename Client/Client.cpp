@@ -247,13 +247,15 @@ void wid_graph(const char* id, const char* path, const char* samples_text, char*
     double interval = difftime(time2,time1);
     interval /= samples;
     if(interval > 0) {
-        //interval *= -1;
         time_t temp;
         temp = time1;
         time1 = time2;
         time2 = temp;
     }
-    printf("interval:%f\n", interval);
+    else {
+        interval *= -1;
+    }
+    printf("Sample interval is:%fs\n", interval);
 
     char aug_cond[MSG_MAX_SIZE+1];
     sprintf(aug_cond,"%s", conditions);

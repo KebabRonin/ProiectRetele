@@ -201,6 +201,7 @@ void init_agent_info() {
             perror("execlp");
             exit(3);
     }
+    close(infofd);
 
     int stat;
     if ( -1 == waitpid(pid, &stat, 0) ) {
@@ -493,6 +494,7 @@ bool treat (char * command) {
 
             if (false == read_fmt_entry(fd, entry)) {
                 sprintf(response, "Error: reading fmt file");
+                close(fd);
                 goto after_treat;
             }
 
@@ -516,6 +518,7 @@ bool treat (char * command) {
 
                 if (false == read_fmt_entry(fd, entry)) {
                     sprintf(response, "Error: reading fmt file");
+                    close(fd);
                     goto after_treat;
                 }
             }
@@ -567,6 +570,7 @@ bool treat (char * command) {
 
             if (false == read_fmt_entry(fd, entry)) {
                 sprintf(response, "Error: reading fmt file");
+                close(fd);
                 goto after_treat;
             }
 
@@ -596,6 +600,7 @@ bool treat (char * command) {
                 }
                 if (false == read_fmt_entry(fd, entry)) {
                     sprintf(response, "Error: reading fmt file");
+                    close(fd);
                     goto after_treat;
                 }
             }
@@ -648,6 +653,7 @@ bool treat (char * command) {
 
             if (false == read_fmt_entry(fd, entry)) {
                 sprintf(response, "Error: reading fmt file");
+                close(fd);
                 goto after_treat;
             }
 
@@ -680,6 +686,7 @@ bool treat (char * command) {
 
                 if (false == read_fmt_entry(fd, entry)) {
                     sprintf(response, "Error: reading fmt file");
+                    close(fd);
                     goto after_treat;
                 }
             }

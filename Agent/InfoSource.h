@@ -558,7 +558,7 @@ NewEntry:
             return -1;
         };
     }
-
+    close(fmtfd);
     pthread_mutex_unlock(&rules_file_mutex);
 
     strcat(parsed_message, jsoned_msg);
@@ -665,6 +665,7 @@ bool InfoSource::add_rule(char* rule) {
         if ( 0 > write(fd, "\n", strlen("\n")) ) {
             pthread_mutex_unlock(&rules_file_mutex);
             perror("write");
+            close(fd);
             return false;
         }
     }
@@ -672,6 +673,7 @@ bool InfoSource::add_rule(char* rule) {
     if ( 0 > write(fd, rule, strlen(rule)) ) {
         pthread_mutex_unlock(&rules_file_mutex);
         perror("write");
+        close(fd);
         return false;
     }
 
@@ -755,6 +757,7 @@ InfoSource* createIS(const char* mypath) {
 
     int rulesfd = 0;
     if((rulesfd = open(name, O_RDWR | O_CREAT, 0750)) < 0) {
+        close(logfd);
         return nullptr;
     }
     close(rulesfd);
@@ -764,6 +767,7 @@ InfoSource* createIS(const char* mypath) {
 
     if( 0 != pthread_create(&tid, nullptr, fnc_monitor_infosource, (void*)myIS)) {
         perror("Failed to make Info Source Monitor");
+        close(logfd);
         exit(1);
     }
 

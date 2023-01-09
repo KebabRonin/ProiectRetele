@@ -119,15 +119,6 @@ void treat(const char* message) {
             else {
                 printf("%s\n",message + 1 + sizeof(pthread_t));
             }
-        /*    switch(message[1]) {
-                case AGMSG_NEW_IS:
-                    if(message[2] == 0) {
-                        //error
-                    }
-                    break;
-                default:
-                    printf("Unknown command ack\n");
-            }*/
             break;
         }
         case AGMSG_HEARTBEAT:
