@@ -244,8 +244,9 @@ void wid_graph(const char* id, const char* path, const char* samples_text, char*
         return;
     }
 
-    double interval = difftime(time2,time1);
-    interval /= samples;
+    double rest, interval_float, interval, total_interval = difftime(time2,time1);
+    if(samples > 0) interval = total_interval / (samples);
+    else interval = total_interval;
     if(interval > 0) {
         time_t temp;
         temp = time1;
@@ -255,7 +256,9 @@ void wid_graph(const char* id, const char* path, const char* samples_text, char*
     else {
         interval *= -1;
     }
-    printf("Sample interval is:%fs\n", interval);
+    interval_float = interval - (int)interval;
+    printf("Time per sample interval is:%fs\n", interval);
+    interval = (int) interval;
 
     char aug_cond[MSG_MAX_SIZE+1];
     sprintf(aug_cond,"%s", conditions);
@@ -273,9 +276,13 @@ void wid_graph(const char* id, const char* path, const char* samples_text, char*
     bool had_err = false;
     for( i = 0 ; i < samples; ++i ) {
         
-        if(i == samples - 1) t1 = time1;
-        else t1 = t2 + (long) interval;
-
+        
+        
+        t1 = t2 + (long) interval + (long) rest;
+        if(i == samples && rest > 0) t1 += 1;
+        if (rest >= 1) rest -= (int) rest;
+        rest += interval_float;
+    
         for_text = localtime(&t1);
         if (0 == strftime(_date1, 16, "%m %d %H:%M:%S", for_text)) {
             printf("Error\n");
@@ -287,7 +294,6 @@ void wid_graph(const char* id, const char* path, const char* samples_text, char*
             break;
         }
         sprintf(date_stuff,"&__LOG_TIMESTAMP>\"%s\"&__LOG_TIMESTAMP<\"%s\"",_date2, _date1);
-
         {
             my_args[2*i] = args;
             my_args[2*i]._date_stuff =  new char[strlen(date_stuff)+1];
@@ -314,10 +320,10 @@ void wid_graph(const char* id, const char* path, const char* samples_text, char*
 
         t2 = t1;      
     }
-    if (i == samples) {
+    if (samples >= 1 && i == samples) {
         i -= 1;
     }
-    for ( int j = 0; j < 2*i+1; ++j ) {
+    for ( int j = 0; j <= 2*i+1; ++j ) {
         int* val = nullptr;
         if ( -1 == pthread_join(cqtid[j], (void**) &val) ) {
             perror("pthread_join");
